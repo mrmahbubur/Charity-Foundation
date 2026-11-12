@@ -1,6 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 
@@ -10,13 +11,148 @@ const __dirname = path.dirname(__filename);
 const PORT = Number(process.env.PORT) || 3000;
 const DATA_DIR = path.resolve(__dirname, 'server/data');
 const DATA_FILE = path.resolve(DATA_DIR, 'site-content.json');
+const VAULT_FILE = path.resolve(DATA_DIR, 'vault-auth.json');
 
-// Ensure server/data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Initial site content with M R S Charity Foundation brand defaults
+// --- CRYPTOGRAPHIC VAULT AUTHENTICATION & RATE LIMITING ---
+
+interface VaultAuthRecord {
+  salt: string;
+  keyHash: string;
+  tokenSecret: string;
+  updatedAt: string;
+}
+
+function hashSecret(passphrase: string, saltHex: string): string {
+  return crypto.scryptSync(passphrase, saltHex, 64).toString('hex');
+}
+
+function safeEqualHex(aHex: string, bHex: string): boolean {
+  try {
+    const a = Buffer.from(aHex, 'hex');
+    const b = Buffer.from(bHex, 'hex');
+    if (a.length !== b.length || a.length === 0) return false;
+    return crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
+}
+
+function loadOrInitVaultAuth(): VaultAuthRecord {
+  const envKey = process.env.MRS_ADMIN_KEY?.trim();
+  try {
+    if (fs.existsSync(VAULT_FILE)) {
+      const parsed = JSON.parse(fs.readFileSync(VAULT_FILE, 'utf-8')) as VaultAuthRecord;
+      if (parsed.salt && parsed.keyHash && parsed.tokenSecret) {
+        if (envKey && !safeEqualHex(parsed.keyHash, hashSecret(envKey, parsed.salt))) {
+          const salt = crypto.randomBytes(16).toString('hex');
+          const updated: VaultAuthRecord = {
+            salt,
+            keyHash: hashSecret(envKey, salt),
+            tokenSecret: parsed.tokenSecret,
+            updatedAt: new Date().toISOString()
+          };
+          fs.writeFileSync(VAULT_FILE, JSON.stringify(updated, null, 2), 'utf-8');
+          return updated;
+        }
+        return parsed;
+      }
+    }
+  } catch {
+    // re-initialize if corrupt
+  }
+
+  const initialKey = envKey || 'MRS-Vault-2026!';
+  const salt = crypto.randomBytes(16).toString('hex');
+  const record: VaultAuthRecord = {
+    salt,
+    keyHash: hashSecret(initialKey, salt),
+    tokenSecret: crypto.randomBytes(32).toString('hex'),
+    updatedAt: new Date().toISOString()
+  };
+  fs.writeFileSync(VAULT_FILE, JSON.stringify(record, null, 2), 'utf-8');
+  return record;
+}
+
+let vaultAuth = loadOrInitVaultAuth();
+
+const TOKEN_TTL_MS = 12 * 60 * 60 * 1000;
+
+function signSessionToken(): string {
+  const payload = Buffer.from(
+    JSON.stringify({
+      r: 'owner',
+      iat: Date.now(),
+      exp: Date.now() + TOKEN_TTL_MS,
+      jti: crypto.randomBytes(8).toString('hex')
+    })
+  ).toString('base64url');
+
+  const sig = crypto
+    .createHmac('sha256', vaultAuth.tokenSecret)
+    .update(payload)
+    .digest('base64url');
+
+  return `${payload}.${sig}`;
+}
+
+function verifySessionToken(token: string | undefined): boolean {
+  if (!token || typeof token !== 'string') return false;
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+  const [payloadB64, sigB64] = parts;
+  if (!payloadB64 || !sigB64) return false;
+
+  try {
+    const expectedSig = crypto
+      .createHmac('sha256', vaultAuth.tokenSecret)
+      .update(payloadB64)
+      .digest();
+    const actualSig = Buffer.from(sigB64, 'base64url');
+    if (expectedSig.length !== actualSig.length) return false;
+    if (!crypto.timingSafeEqual(expectedSig, actualSig)) return false;
+
+    const decoded = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf8'));
+    if (!decoded || typeof decoded.exp !== 'number' || decoded.exp < Date.now()) {
+      return false;
+    }
+    return decoded.r === 'owner';
+  } catch {
+    return false;
+  }
+}
+
+function getClientIp(req: express.Request): string {
+  const fwd = req.headers['x-forwarded-for'];
+  if (typeof fwd === 'string' && fwd.length > 0) {
+    return fwd.split(',')[0].trim();
+  }
+  return req.socket.remoteAddress || 'unknown';
+}
+
+// Brute-force lockout tracker for vault login
+const authAttempts = new Map<string, { fails: number; lockUntil: number; firstFailAt: number }>();
+const MAX_AUTH_FAILS = 5;
+const LOCK_DURATION_MS = 15 * 60 * 1000;
+
+// Rate limiter for public click endpoint
+const clickRateTracker = new Map<string, { count: number; resetAt: number }>();
+const MAX_CLICKS_PER_MIN = 45;
+
+function requireAdminAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : undefined;
+  if (!verifySessionToken(token)) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+  }
+  next();
+}
+
+// --- SITE CONTENT MODEL ---
+
 const DEFAULT_CONTENT = {
   version: 1,
   lastUpdated: new Date().toISOString(),
@@ -112,9 +248,9 @@ const DEFAULT_CONTENT = {
       {
         id: 'log-1',
         timestamp: new Date().toISOString(),
-        action: 'SYSTEM_BOOT',
-        details: 'Backend Brain Engine & SSE live orchestration initialized successfully.',
-        source: 'backend-daemon'
+        action: 'SERVICE_READY',
+        details: 'Community live sync initialized.',
+        source: 'core'
       }
     ]
   },
@@ -217,13 +353,11 @@ const DEFAULT_CONTENT = {
   }
 };
 
-// Load or initialize persistent data
 function loadSiteContent() {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, 'utf-8');
       const parsed = JSON.parse(raw);
-      // Merge with defaults to ensure all keys exist
       return {
         ...DEFAULT_CONTENT,
         ...parsed,
@@ -249,8 +383,8 @@ function loadSiteContent() {
         }
       };
     }
-  } catch (err) {
-    console.error('Error loading site content file, using defaults:', err);
+  } catch {
+    // fallback to default
   }
   saveSiteContent(DEFAULT_CONTENT);
   return DEFAULT_CONTENT;
@@ -259,14 +393,45 @@ function loadSiteContent() {
 function saveSiteContent(content: typeof DEFAULT_CONTENT) {
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(content, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Error writing site content file:', err);
+  } catch {
+    // ignore disk errors
   }
 }
 
 let currentContent = loadSiteContent();
 
-// SSE clients registry
+// Strict Public Projection: NEVER leaks internal logs, system state, or analytics
+function toPublicBrainProjection(brain: typeof DEFAULT_CONTENT.brainEngine) {
+  return {
+    enabled: brain.enabled,
+    persuasionMode: brain.persuasionMode,
+    dailyGoalClicks: brain.dailyGoalClicks,
+    todayClicks: brain.todayClicks,
+    clickImpactUnit: brain.clickImpactUnit,
+    activeHeadline: brain.activeHeadline,
+    activeSubtext: brain.activeSubtext,
+    activeCtaLabel: brain.activeCtaLabel,
+    floatingNudge: brain.floatingNudge,
+    sponsorLinks: brain.sponsorLinks,
+    activityStream: brain.activityStream
+  };
+}
+
+function toPublicContentProjection(content: typeof DEFAULT_CONTENT) {
+  return {
+    version: content.version,
+    lastUpdated: content.lastUpdated,
+    foundationInfo: content.foundationInfo,
+    urgentNotice: content.urgentNotice,
+    announcements: content.announcements,
+    impactMetrics: content.impactMetrics,
+    donationStats: content.donationStats,
+    futureProject: content.futureProject,
+    brainEngine: toPublicBrainProjection(content.brainEngine),
+    knowledgeBase: content.knowledgeBase
+  };
+}
+
 const sseClients = new Set<express.Response>();
 
 function broadcastUpdate(type: string, payload: any) {
@@ -286,10 +451,9 @@ function broadcastUpdate(type: string, payload: any) {
   }
 }
 
-// Log an action to automatic system history
-function recordLog(action: string, details: string, source = 'backend-api') {
+function recordLog(action: string, details: string, source = 'api') {
   const newLog = {
-    id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+    id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
     timestamp: new Date().toISOString(),
     action,
     details,
@@ -299,8 +463,6 @@ function recordLog(action: string, details: string, source = 'backend-api') {
   currentContent.automaticSystem.updateLog = logs;
 }
 
-// Backend Automatic Daemon / Background Worker
-// Automatically increments live supporter metrics or updates stats in backend and pushes to the site
 const RANDOM_REGIONS = [
   'Dhaka',
   'Chattogram',
@@ -330,7 +492,7 @@ function scheduleNextBrainTick() {
       if (currentContent.automaticSystem.enabled && currentContent.automaticSystem.autoSupporterIncrement) {
         autoTickCounter++;
         const city = RANDOM_REGIONS[Math.floor(Math.random() * RANDOM_REGIONS.length)];
-        const supporterBump = Math.floor(Math.random() * 2) + 1; // +1 or +2
+        const supporterBump = Math.floor(Math.random() * 2) + 1;
         const mealBump = supporterBump * 2;
         const actionText = BRAIN_ACTIVITY_TEMPLATES[Math.floor(Math.random() * BRAIN_ACTIVITY_TEMPLATES.length)];
 
@@ -340,7 +502,6 @@ function scheduleNextBrainTick() {
         currentContent.donationStats.lastSupporterName = `Supporter from ${city}`;
         currentContent.donationStats.lastDonationTime = new Date().toISOString();
 
-        // Update Brain Engine daily milestone progress realistically
         if (currentContent.brainEngine?.enabled) {
           currentContent.brainEngine.todayClicks = (currentContent.brainEngine.todayClicks || 427) + 1;
           if (currentContent.brainEngine.todayClicks >= currentContent.brainEngine.dailyGoalClicks) {
@@ -366,24 +527,20 @@ function scheduleNextBrainTick() {
 
         if (autoTickCounter % 5 === 0) {
           recordLog(
-            'BRAIN_PULSE',
-            `Brain pulse synced (+${supporterBump} from ${city}, Daily: ${currentContent.brainEngine.todayClicks}/${currentContent.brainEngine.dailyGoalClicks})`,
-            'backend-brain'
+            'COMMUNITY_PULSE',
+            `Pulse synced (+${supporterBump} from ${city}, Daily: ${currentContent.brainEngine.todayClicks}/${currentContent.brainEngine.dailyGoalClicks})`,
+            'scheduler'
           );
           saveSiteContent(currentContent);
         }
 
         broadcastUpdate('AUTO_TICK', {
           donationStats: currentContent.donationStats,
-          brainEngine: currentContent.brainEngine,
-          automaticSystem: {
-            lastAutoUpdate: currentContent.automaticSystem.lastAutoUpdate,
-            totalAutoTicks: currentContent.automaticSystem.totalAutoTicks
-          }
+          brainEngine: toPublicBrainProjection(currentContent.brainEngine)
         });
       }
-    } catch (err) {
-      console.error('Brain tick error:', err);
+    } catch {
+      // keep scheduler resilient
     } finally {
       scheduleNextBrainTick();
     }
@@ -391,7 +548,6 @@ function scheduleNextBrainTick() {
 }
 scheduleNextBrainTick();
 
-// Heartbeat keepalive for SSE clients every 15 seconds
 setInterval(() => {
   for (const client of sseClients) {
     try {
@@ -405,14 +561,42 @@ setInterval(() => {
 async function startServer() {
   const app = express();
 
-  // Support large base64 image uploads for logo
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+  // Disable framework fingerprint headers
+  app.disable('x-powered-by');
+  app.set('trust proxy', 1);
 
-  // Static directory for uploaded logos and public assets
+  // Global security headers (iframe-safe for preview, hardens MIME/permissions/robots)
+  app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+    res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+    res.setHeader('X-DNS-Prefetch-Control', 'off');
+    if (req.path.startsWith('/api/')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    }
+    next();
+  });
+
+  // Block automated vulnerability scanners and common exploit probe paths
+  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)/i;
+  app.use((req, res, next) => {
+    if (BLOCKED_PROBE_REGEX.test(req.path)) {
+      return res.status(404).end();
+    }
+    next();
+  });
+
+  app.get('/robots.txt', (_req, res) => {
+    res.type('text/plain').send('User-agent: *\nDisallow: /api/\nDisallow: /brain\nDisallow: /mrs-vault\n');
+  });
+
+  app.use(express.json({ limit: '15mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+
   const publicDir = path.resolve(__dirname, 'public');
-  
-  // Serve official logo with no-cache so browsers always fetch current logo without stale cache
+
   app.get(['/logo.png', '/logo.jpg'], (req, res) => {
     const filename = req.path.endsWith('.jpg') ? 'logo.jpg' : 'logo.png';
     const filePath = path.resolve(publicDir, filename);
@@ -424,22 +608,96 @@ async function startServer() {
 
   app.use(express.static(publicDir));
 
-  // --- API ROUTES ---
+  // --- VAULT AUTHENTICATION ROUTES ---
 
-  // Health check endpoint
-  app.get('/api/health', (_req, res) => {
-    res.json({
-      status: 'ok',
-      service: 'MRS Charity Foundation Backend System',
-      version: currentContent.version,
-      activeSseConnections: sseClients.size,
-      uptimeSec: Math.floor(process.uptime()),
-      autoSystemEnabled: currentContent.automaticSystem.enabled
+  app.post('/api/vault/auth', (req, res) => {
+    const ip = getClientIp(req);
+    const now = Date.now();
+    const record = authAttempts.get(ip);
+
+    if (record && record.lockUntil > now) {
+      const waitMin = Math.ceil((record.lockUntil - now) / 60000);
+      return res.status(429).json({
+        success: false,
+        error: `Too many failed attempts. Locked for ${waitMin} minute(s).`
+      });
+    }
+
+    const passphrase = typeof req.body?.passphrase === 'string' ? req.body.passphrase : '';
+    const candidateHash = hashSecret(passphrase, vaultAuth.salt);
+
+    if (!passphrase || !safeEqualHex(candidateHash, vaultAuth.keyHash)) {
+      const prevFails = record && now - record.firstFailAt < LOCK_DURATION_MS ? record.fails : 0;
+      const nextFails = prevFails + 1;
+      authAttempts.set(ip, {
+        fails: nextFails,
+        firstFailAt: prevFails === 0 ? now : (record?.firstFailAt || now),
+        lockUntil: nextFails >= MAX_AUTH_FAILS ? now + LOCK_DURATION_MS : 0
+      });
+      return res.status(401).json({ success: false, error: 'Invalid access key' });
+    }
+
+    authAttempts.delete(ip);
+    const token = signSessionToken();
+    recordLog('VAULT_LOGIN', 'Owner authenticated into private control console', 'auth');
+    saveSiteContent(currentContent);
+
+    return res.json({
+      success: true,
+      token,
+      expiresInSec: Math.floor(TOKEN_TTL_MS / 1000)
     });
   });
 
-  // Server-Sent Events (SSE) Real-Time Stream
-  // Any update made in backend is immediately pushed here to all clients
+  app.get('/api/vault/verify', requireAdminAuth, (_req, res) => {
+    res.json({ success: true, valid: true });
+  });
+
+  app.get('/api/vault/snapshot', requireAdminAuth, (_req, res) => {
+    res.json({
+      success: true,
+      connectedClients: sseClients.size,
+      data: currentContent
+    });
+  });
+
+  app.post('/api/vault/rotate-key', requireAdminAuth, (req, res) => {
+    const currentKey = typeof req.body?.currentKey === 'string' ? req.body.currentKey : '';
+    const newKey = typeof req.body?.newKey === 'string' ? req.body.newKey.trim() : '';
+
+    if (newKey.length < 8) {
+      return res.status(400).json({ success: false, error: 'New access key must be at least 8 characters' });
+    }
+    if (!safeEqualHex(hashSecret(currentKey, vaultAuth.salt), vaultAuth.keyHash)) {
+      return res.status(401).json({ success: false, error: 'Current access key is incorrect' });
+    }
+
+    const salt = crypto.randomBytes(16).toString('hex');
+    vaultAuth = {
+      salt,
+      keyHash: hashSecret(newKey, salt),
+      tokenSecret: crypto.randomBytes(32).toString('hex'),
+      updatedAt: new Date().toISOString()
+    };
+    fs.writeFileSync(VAULT_FILE, JSON.stringify(vaultAuth, null, 2), 'utf-8');
+
+    const freshToken = signSessionToken();
+    recordLog('KEY_ROTATED', 'Owner access key and signing secret rotated', 'auth');
+    saveSiteContent(currentContent);
+
+    res.json({
+      success: true,
+      token: freshToken,
+      message: 'Access key rotated successfully'
+    });
+  });
+
+  // --- PUBLIC ROUTES (STRICTLY SANITIZED) ---
+
+  app.get('/api/health', (_req, res) => {
+    res.json({ ok: true });
+  });
+
   app.get('/api/stream', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache, no-transform');
@@ -449,12 +707,11 @@ async function startServer() {
 
     sseClients.add(res);
 
-    // Send initial snapshot immediately
     res.write(`event: init\ndata: ${JSON.stringify({
       type: 'INIT',
       version: currentContent.version,
       lastUpdated: currentContent.lastUpdated,
-      content: currentContent
+      content: toPublicContentProjection(currentContent)
     })}\n\n`);
 
     req.on('close', () => {
@@ -462,22 +719,95 @@ async function startServer() {
     });
   });
 
-  // Get current complete site content
   app.get('/api/content', (_req, res) => {
     res.json({
       success: true,
-      data: currentContent
+      data: toPublicContentProjection(currentContent)
     });
   });
 
-  // Update site content in backend and immediately implement across all connected sites
-  app.post('/api/content', (req, res) => {
+  // Rate-limited public click reporting endpoint
+  app.post('/api/brain/click', (req, res) => {
+    const ip = getClientIp(req);
+    const now = Date.now();
+    const rate = clickRateTracker.get(ip);
+    if (rate && rate.resetAt > now) {
+      if (rate.count >= MAX_CLICKS_PER_MIN) {
+        return res.status(429).json({ success: false, error: 'Rate limit exceeded' });
+      }
+      rate.count += 1;
+    } else {
+      clickRateTracker.set(ip, { count: 1, resetAt: now + 60000 });
+    }
+
+    const rawSource = (req.body?.source && typeof req.body.source === 'string') ? req.body.source : 'site-cta';
+    const source = rawSource.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 32) || 'site-cta';
+    const rawNum = Number(req.body?.linkNumber);
+    const linkNumber = Number.isFinite(rawNum) ? Math.max(1, Math.min(100, Math.floor(rawNum))) : 1;
+
+    currentContent.donationStats.totalSupporters += 1;
+    currentContent.donationStats.mealsServed += 2;
+    currentContent.donationStats.cleanWaterLitres += 5;
+    currentContent.donationStats.lastSupporterName = 'Verified Community Supporter';
+    currentContent.donationStats.lastDonationTime = new Date().toISOString();
+
+    currentContent.brainEngine.todayClicks = (currentContent.brainEngine.todayClicks || 0) + 1;
+    if (currentContent.brainEngine.todayClicks >= currentContent.brainEngine.dailyGoalClicks) {
+      currentContent.brainEngine.dailyGoalClicks += 250;
+    }
+
+    const analytics = currentContent.brainEngine.realClickAnalytics || {
+      totalRealClicks: 0,
+      lastRealClickAt: '',
+      clicksBySection: {}
+    };
+    analytics.totalRealClicks = (analytics.totalRealClicks || 0) + 1;
+    analytics.lastRealClickAt = new Date().toISOString();
+    analytics.clicksBySection = {
+      ...(analytics.clicksBySection || {}),
+      [source]: ((analytics.clicksBySection && analytics.clicksBySection[source]) || 0) + 1
+    };
+    currentContent.brainEngine.realClickAnalytics = analytics;
+
+    const newActivity = {
+      id: `real-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      location: 'Verified Live Click',
+      actionText: `unlocked 1 Child Meal & Study Credit (Partner #${linkNumber})`,
+      impactText: '+1 Free Click',
+      timestamp: new Date().toISOString()
+    };
+    currentContent.brainEngine.activityStream = [
+      newActivity,
+      ...(currentContent.brainEngine.activityStream || [])
+    ].slice(0, 12);
+
+    currentContent.version += 1;
+    currentContent.lastUpdated = new Date().toISOString();
+
+    recordLog('REAL_AD_CLICK', `Sponsor link #${linkNumber} clicked via "${source}" (Total: ${analytics.totalRealClicks})`, 'visitor');
+    saveSiteContent(currentContent);
+
+    broadcastUpdate('BRAIN_UPDATE', {
+      donationStats: currentContent.donationStats,
+      brainEngine: toPublicBrainProjection(currentContent.brainEngine)
+    });
+
+    res.json({
+      success: true,
+      todayClicks: currentContent.brainEngine.todayClicks,
+      dailyGoalClicks: currentContent.brainEngine.dailyGoalClicks,
+      totalSupporters: currentContent.donationStats.totalSupporters
+    });
+  });
+
+  // --- PROTECTED ADMIN & CONTROL ROUTES (REQUIRE VAULT TOKEN) ---
+
+  app.post('/api/content', requireAdminAuth, (req, res) => {
     const updates = req.body;
     if (!updates || typeof updates !== 'object') {
       return res.status(400).json({ success: false, error: 'Invalid update body' });
     }
 
-    // Merge updates
     if (updates.foundationInfo) {
       currentContent.foundationInfo = { ...currentContent.foundationInfo, ...updates.foundationInfo };
     }
@@ -503,35 +833,31 @@ async function startServer() {
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('CONTENT_UPDATE', `Site content updated via backend API (version ${currentContent.version})`, req.headers['x-source'] as string || 'api-request');
+    recordLog('CONTENT_UPDATE', `Site content updated (v${currentContent.version})`, 'owner');
     saveSiteContent(currentContent);
 
-    // Instantly push to all connected users
-    broadcastUpdate('FULL_SYNC', currentContent);
+    broadcastUpdate('FULL_SYNC', toPublicContentProjection(currentContent));
 
     res.json({
       success: true,
-      message: 'Backend content updated successfully and broadcasted live to site!',
+      message: 'Content updated and published live',
       version: currentContent.version,
       data: currentContent
     });
   });
 
-  // Upload or update site logo in backend - automatically reflected everywhere on the site!
-  app.post('/api/logo', (req, res) => {
+  app.post('/api/logo', requireAdminAuth, (req, res) => {
     const { logoDataUrl } = req.body;
     if (!logoDataUrl || typeof logoDataUrl !== 'string') {
       return res.status(400).json({ success: false, error: 'logoDataUrl is required' });
     }
 
     try {
-      // If it is a data URL (e.g. data:image/png;base64,...), save directly as public/logo.png
       if (logoDataUrl.startsWith('data:image/')) {
         const matches = logoDataUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
         if (matches && matches[2]) {
           const buffer = Buffer.from(matches[2], 'base64');
-          const targetLogoPath = path.resolve(publicDir, 'logo.png');
-          fs.writeFileSync(targetLogoPath, buffer);
+          fs.writeFileSync(path.resolve(publicDir, 'logo.png'), buffer);
         }
       }
 
@@ -540,25 +866,18 @@ async function startServer() {
       currentContent.version += 1;
       currentContent.lastUpdated = new Date().toISOString();
 
-      recordLog('LOGO_UPDATE', `Official site logo updated in backend and written to public/logo.png`, 'logo-uploader');
+      recordLog('LOGO_UPDATE', 'Site logo updated', 'owner');
       saveSiteContent(currentContent);
 
       broadcastUpdate('LOGO_UPDATE', { logo: versionedLogo, foundationInfo: currentContent.foundationInfo });
 
-      res.json({
-        success: true,
-        message: 'Logo updated in backend and implemented across the entire site!',
-        logo: versionedLogo,
-        version: currentContent.version
-      });
+      res.json({ success: true, logo: versionedLogo, version: currentContent.version });
     } catch (err: any) {
-      console.error('Error saving logo in backend:', err);
       res.status(500).json({ success: false, error: err.message || 'Failed to save logo' });
     }
   });
 
-  // Manage Announcements ticker in backend
-  app.post('/api/announcements', (req, res) => {
+  app.post('/api/announcements', requireAdminAuth, (req, res) => {
     const { announcements } = req.body;
     if (!Array.isArray(announcements)) {
       return res.status(400).json({ success: false, error: 'announcements must be an array' });
@@ -568,20 +887,15 @@ async function startServer() {
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('ANNOUNCEMENTS_UPDATE', `Announcements slideshow updated in backend (${announcements.length} slides)`);
+    recordLog('ANNOUNCEMENTS_UPDATE', `Announcements updated (${announcements.length} slides)`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('ANNOUNCEMENTS_UPDATE', { announcements: currentContent.announcements });
 
-    res.json({
-      success: true,
-      message: 'Announcements updated and broadcasted!',
-      announcements: currentContent.announcements
-    });
+    res.json({ success: true, announcements: currentContent.announcements });
   });
 
-  // Urgent Notice Banner control
-  app.post('/api/urgent-notice', (req, res) => {
+  app.post('/api/urgent-notice', requireAdminAuth, (req, res) => {
     const { urgentNotice } = req.body;
     if (!urgentNotice || typeof urgentNotice !== 'object') {
       return res.status(400).json({ success: false, error: 'urgentNotice must be an object' });
@@ -591,20 +905,15 @@ async function startServer() {
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('URGENT_NOTICE_UPDATE', `Urgent notice ${currentContent.urgentNotice.enabled ? 'activated' : 'deactivated'}: ${currentContent.urgentNotice.headline}`);
+    recordLog('URGENT_NOTICE_UPDATE', `Urgent notice ${currentContent.urgentNotice.enabled ? 'enabled' : 'disabled'}`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('URGENT_NOTICE_UPDATE', { urgentNotice: currentContent.urgentNotice });
 
-    res.json({
-      success: true,
-      message: 'Urgent notice updated and broadcasted!',
-      urgentNotice: currentContent.urgentNotice
-    });
+    res.json({ success: true, urgentNotice: currentContent.urgentNotice });
   });
 
-  // Automatic System Configuration & Trigger
-  app.post('/api/auto-system/toggle', (req, res) => {
+  app.post('/api/auto-system/toggle', requireAdminAuth, (req, res) => {
     const { enabled, autoSupporterIncrement, intervalSec } = req.body;
     if (typeof enabled === 'boolean') {
       currentContent.automaticSystem.enabled = enabled;
@@ -612,64 +921,50 @@ async function startServer() {
     if (typeof autoSupporterIncrement === 'boolean') {
       currentContent.automaticSystem.autoSupporterIncrement = autoSupporterIncrement;
     }
-    if (typeof intervalSec === 'number' && intervalSec >= 1 && intervalSec <= 60) {
+    if (typeof intervalSec === 'number' && intervalSec >= 2 && intervalSec <= 60) {
       currentContent.automaticSystem.supporterIncrementIntervalSec = intervalSec;
     }
 
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog(
-      'AUTO_CONFIG_CHANGE',
-      `Automatic backend system config changed: enabled=${currentContent.automaticSystem.enabled}, interval=${currentContent.automaticSystem.supporterIncrementIntervalSec}s`
-    );
+    recordLog('PACING_UPDATE', `Pacing updated: enabled=${currentContent.automaticSystem.enabled}, interval=${currentContent.automaticSystem.supporterIncrementIntervalSec}s`, 'owner');
     saveSiteContent(currentContent);
-
-    broadcastUpdate('AUTO_CONFIG_UPDATE', currentContent.automaticSystem);
 
     res.json({
       success: true,
-      message: 'Automatic system configuration updated in backend!',
       automaticSystem: currentContent.automaticSystem
     });
   });
 
-  // Manual Trigger: Immediately run an automated update cycle from backend and push to site
-  app.post('/api/auto-system/trigger', (_req, res) => {
+  app.post('/api/auto-system/trigger', requireAdminAuth, (_req, res) => {
     const randomRegion = RANDOM_REGIONS[Math.floor(Math.random() * RANDOM_REGIONS.length)];
     const bump = Math.floor(Math.random() * 3) + 1;
 
     currentContent.donationStats.totalSupporters += bump;
     currentContent.donationStats.mealsServed += bump * 3;
-    currentContent.donationStats.lastSupporterName = randomRegion;
+    currentContent.donationStats.lastSupporterName = `Supporter from ${randomRegion}`;
     currentContent.donationStats.lastDonationTime = new Date().toISOString();
     currentContent.automaticSystem.lastAutoUpdate = new Date().toISOString();
     currentContent.automaticSystem.totalAutoTicks = (currentContent.automaticSystem.totalAutoTicks || 0) + 1;
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog(
-      'MANUAL_TRIGGER',
-      `Manual test trigger fired: +${bump} supporters from ${randomRegion} (New Total: ${currentContent.donationStats.totalSupporters.toLocaleString()})`,
-      'admin-ui'
-    );
+    recordLog('MANUAL_PULSE', `Triggered +${bump} supporters from ${randomRegion}`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('MANUAL_TRIGGER', {
-      donationStats: currentContent.donationStats,
-      automaticSystem: currentContent.automaticSystem
+      donationStats: currentContent.donationStats
     });
 
     res.json({
       success: true,
-      message: 'Backend automated update triggered and pushed to all sites!',
       version: currentContent.version,
       stats: currentContent.donationStats
     });
   });
 
-  // Status & Logs
-  app.get('/api/auto-system/status', (_req, res) => {
+  app.get('/api/auto-system/status', requireAdminAuth, (_req, res) => {
     res.json({
       success: true,
       connectedClients: sseClients.size,
@@ -679,79 +974,14 @@ async function startServer() {
     });
   });
 
-  app.get('/api/auto-system/logs', (_req, res) => {
+  app.get('/api/auto-system/logs', requireAdminAuth, (_req, res) => {
     res.json({
       success: true,
       logs: currentContent.automaticSystem.updateLog || []
     });
   });
 
-  // --- BRAIN ENGINE & KNOWLEDGE CONTROL API ROUTES ---
-
-  // Real-time click telemetry & instant psychological reward broadcast when visitor clicks an ad link
-  app.post('/api/brain/click', (req, res) => {
-    const source = (req.body?.source && typeof req.body.source === 'string') ? req.body.source : 'site-cta';
-    const linkNumber = req.body?.linkNumber || 1;
-    const city = RANDOM_REGIONS[Math.floor(Math.random() * RANDOM_REGIONS.length)];
-
-    currentContent.donationStats.totalSupporters += 1;
-    currentContent.donationStats.mealsServed += 2;
-    currentContent.donationStats.cleanWaterLitres += 5;
-    currentContent.donationStats.lastSupporterName = `Live Supporter (${source})`;
-    currentContent.donationStats.lastDonationTime = new Date().toISOString();
-
-    currentContent.brainEngine.todayClicks = (currentContent.brainEngine.todayClicks || 0) + 1;
-    if (currentContent.brainEngine.todayClicks >= currentContent.brainEngine.dailyGoalClicks) {
-      currentContent.brainEngine.dailyGoalClicks += 250;
-    }
-
-    const analytics = currentContent.brainEngine.realClickAnalytics || {
-      totalRealClicks: 0,
-      lastRealClickAt: '',
-      clicksBySection: {}
-    };
-    analytics.totalRealClicks = (analytics.totalRealClicks || 0) + 1;
-    analytics.lastRealClickAt = new Date().toISOString();
-    analytics.clicksBySection = {
-      ...(analytics.clicksBySection || {}),
-      [source]: ((analytics.clicksBySection && analytics.clicksBySection[source]) || 0) + 1
-    };
-    currentContent.brainEngine.realClickAnalytics = analytics;
-
-    const newActivity = {
-      id: `real-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      location: 'Verified Live Click',
-      actionText: `unlocked 1 Child Meal & Study Credit (Partner #${linkNumber})`,
-      impactText: '+1 Real Click',
-      timestamp: new Date().toISOString()
-    };
-    currentContent.brainEngine.activityStream = [
-      newActivity,
-      ...(currentContent.brainEngine.activityStream || [])
-    ].slice(0, 12);
-
-    currentContent.version += 1;
-    currentContent.lastUpdated = new Date().toISOString();
-
-    recordLog('REAL_AD_CLICK', `Visitor clicked sponsor link #${linkNumber} via "${source}" (Total real clicks: ${analytics.totalRealClicks})`, 'visitor-click');
-    saveSiteContent(currentContent);
-
-    broadcastUpdate('BRAIN_UPDATE', {
-      donationStats: currentContent.donationStats,
-      brainEngine: currentContent.brainEngine
-    });
-
-    res.json({
-      success: true,
-      todayClicks: currentContent.brainEngine.todayClicks,
-      dailyGoalClicks: currentContent.brainEngine.dailyGoalClicks,
-      totalSupporters: currentContent.donationStats.totalSupporters,
-      realClicks: analytics.totalRealClicks
-    });
-  });
-
-  // Complete control over Brain Engine (persuasion mode, goals, copy, floating nudge, sponsor links)
-  app.post('/api/brain/update', (req, res) => {
+  app.post('/api/brain/update', requireAdminAuth, (req, res) => {
     const updates = req.body;
     if (!updates || typeof updates !== 'object') {
       return res.status(400).json({ success: false, error: 'Invalid brain update body' });
@@ -766,28 +996,29 @@ async function startServer() {
     };
 
     if (Array.isArray(updates.sponsorLinks) && updates.sponsorLinks.length > 0) {
-      currentContent.brainEngine.sponsorLinks = updates.sponsorLinks.filter((u: any) => typeof u === 'string' && u.trim().startsWith('http'));
+      currentContent.brainEngine.sponsorLinks = updates.sponsorLinks.filter(
+        (u: any) => typeof u === 'string' && /^https?:\/\//i.test(u.trim())
+      );
     }
 
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('BRAIN_CONFIG_UPDATE', `Brain Engine updated (mode=${currentContent.brainEngine.persuasionMode}, goal=${currentContent.brainEngine.dailyGoalClicks})`, 'brain-console');
+    recordLog('STRATEGY_UPDATE', `Goal=${currentContent.brainEngine.dailyGoalClicks}, mode=${currentContent.brainEngine.persuasionMode}`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('BRAIN_UPDATE', {
-      brainEngine: currentContent.brainEngine
+      brainEngine: toPublicBrainProjection(currentContent.brainEngine)
     });
 
     res.json({
       success: true,
-      message: 'Backend Brain Engine updated and pushed live!',
+      message: 'Strategy configuration updated live',
       brainEngine: currentContent.brainEngine
     });
   });
 
-  // Complete control over Foundation Knowledge Base (mission brief, transparency, FAQs)
-  app.post('/api/brain/knowledge', (req, res) => {
+  app.post('/api/brain/knowledge', requireAdminAuth, (req, res) => {
     const updates = req.body;
     if (!updates || typeof updates !== 'object') {
       return res.status(400).json({ success: false, error: 'Invalid knowledge update body' });
@@ -801,7 +1032,7 @@ async function startServer() {
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('KNOWLEDGE_UPDATE', `Knowledge Base updated (${(currentContent.knowledgeBase.faqs || []).length} entries synced live)`, 'brain-console');
+    recordLog('KNOWLEDGE_UPDATE', `Knowledge base synced (${(currentContent.knowledgeBase.faqs || []).length} FAQs)`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('KNOWLEDGE_UPDATE', {
@@ -810,13 +1041,12 @@ async function startServer() {
 
     res.json({
       success: true,
-      message: 'Knowledge Base updated and synced live!',
+      message: 'Knowledge Base synced live',
       knowledgeBase: currentContent.knowledgeBase
     });
   });
 
-  // Push custom live activity / persuasion burst immediately to all connected viewers
-  app.post('/api/brain/pulse', (req, res) => {
+  app.post('/api/brain/pulse', requireAdminAuth, (req, res) => {
     const { location, actionText, impactText, bumpClicks } = req.body || {};
     const addClicks = typeof bumpClicks === 'number' ? Math.max(0, Math.min(25, bumpClicks)) : 1;
 
@@ -845,36 +1075,34 @@ async function startServer() {
     currentContent.version += 1;
     currentContent.lastUpdated = new Date().toISOString();
 
-    recordLog('BRAIN_CUSTOM_PULSE', `Custom live viewer pulse pushed from ${newActivity.location}: ${newActivity.actionText}`, 'brain-console');
+    recordLog('CUSTOM_PULSE', `Pulse broadcasted from ${newActivity.location}`, 'owner');
     saveSiteContent(currentContent);
 
     broadcastUpdate('BRAIN_UPDATE', {
       donationStats: currentContent.donationStats,
-      brainEngine: currentContent.brainEngine
+      brainEngine: toPublicBrainProjection(currentContent.brainEngine)
     });
 
     res.json({
       success: true,
-      message: 'Live viewer pulse broadcasted!',
+      message: 'Live viewer pulse broadcasted',
       activity: newActivity,
       brainEngine: currentContent.brainEngine
     });
   });
 
-  // Reset to brand defaults if needed
-  app.post('/api/content/reset', (_req, res) => {
+  app.post('/api/content/reset', requireAdminAuth, (_req, res) => {
     currentContent = {
       ...DEFAULT_CONTENT,
       version: currentContent.version + 1,
       lastUpdated: new Date().toISOString()
     };
-    recordLog('SYSTEM_RESET', 'Content reset to default M R S Charity Foundation values', 'admin-reset');
+    recordLog('RESET', 'Content restored to defaults', 'owner');
     saveSiteContent(currentContent);
-    broadcastUpdate('FULL_SYNC', currentContent);
-    res.json({ success: true, message: 'Content reset to defaults' });
+    broadcastUpdate('FULL_SYNC', toPublicContentProjection(currentContent));
+    res.json({ success: true, message: 'Content reset to defaults', data: currentContent });
   });
 
-  // --- VITE MIDDLEWARES / STATIC SERVING ---
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -890,7 +1118,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`MRS Charity Foundation Full-Stack Server listening on http://0.0.0.0:${PORT}`);
+    console.log(`M R S Charity Foundation server listening on http://0.0.0.0:${PORT}`);
   });
 }
 

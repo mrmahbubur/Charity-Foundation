@@ -318,15 +318,118 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   }
 };
 
-// API Helpers
+const VAULT_TOKEN_KEY = 'mrs_vault_token';
+
+export function getVaultToken(): string | null {
+  try {
+    return sessionStorage.getItem(VAULT_TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setVaultToken(token: string): void {
+  try {
+    sessionStorage.setItem(VAULT_TOKEN_KEY, token);
+  } catch {
+    // ignore storage errors
+  }
+}
+
+export function clearVaultToken(): void {
+  try {
+    sessionStorage.removeItem(VAULT_TOKEN_KEY);
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getAuthHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  const token = getVaultToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...extra
+  };
+}
+
+function handleUnauthorized(res: Response): void {
+  if (res.status === 401) {
+    clearVaultToken();
+  }
+}
+
+export async function loginVault(passphrase: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch('/api/vault/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passphrase })
+    });
+    const json = await res.json();
+    if (res.ok && json.success && json.token) {
+      setVaultToken(json.token);
+      return { success: true };
+    }
+    return { success: false, error: json.error || 'Access denied' };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Verification failed' };
+  }
+}
+
+export async function verifyVaultSession(): Promise<boolean> {
+  const token = getVaultToken();
+  if (!token) return false;
+  try {
+    const res = await fetch('/api/vault/verify', {
+      headers: getAuthHeaders()
+    });
+    handleUnauthorized(res);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function fetchVaultSnapshot(): Promise<{ success: boolean; connectedClients?: number; data?: SiteContentState }> {
+  try {
+    const res = await fetch('/api/vault/snapshot', {
+      headers: getAuthHeaders()
+    });
+    handleUnauthorized(res);
+    if (!res.ok) return { success: false };
+    return await res.json();
+  } catch {
+    return { success: false };
+  }
+}
+
+export async function rotateVaultKey(currentKey: string, newKey: string): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await fetch('/api/vault/rotate-key', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ currentKey, newKey })
+    });
+    handleUnauthorized(res);
+    const json = await res.json();
+    if (res.ok && json.success && json.token) {
+      setVaultToken(json.token);
+    }
+    return json;
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Key rotation failed' };
+  }
+}
+
+// Public & Admin API Helpers
 export async function fetchBackendContent(): Promise<SiteContentState | null> {
   try {
     const res = await fetch('/api/content');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     return json.data;
-  } catch (err) {
-    console.warn('Could not fetch backend content:', err);
+  } catch {
     return null;
   }
 }
@@ -335,9 +438,10 @@ export async function sendBackendContentUpdate(updates: Partial<SiteContentState
   try {
     const res = await fetch('/api/content', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-source': 'admin-control-panel' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(updates)
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Network request failed' };
@@ -348,9 +452,10 @@ export async function sendBackendLogoUpdate(logoDataUrl: string): Promise<{ succ
   try {
     const res = await fetch('/api/logo', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ logoDataUrl })
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Logo update failed' };
@@ -361,8 +466,9 @@ export async function triggerBackendManualTick(): Promise<{ success: boolean; st
   try {
     const res = await fetch('/api/auto-system/trigger', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
+      headers: getAuthHeaders()
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Trigger failed' };
@@ -377,9 +483,10 @@ export async function toggleBackendAutoConfig(config: {
   try {
     const res = await fetch('/api/auto-system/toggle', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(config)
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Config update failed' };
@@ -388,7 +495,11 @@ export async function toggleBackendAutoConfig(config: {
 
 export async function resetBackendContentToDefaults(): Promise<boolean> {
   try {
-    const res = await fetch('/api/content/reset', { method: 'POST' });
+    const res = await fetch('/api/content/reset', {
+      method: 'POST',
+      headers: getAuthHeaders()
+    });
+    handleUnauthorized(res);
     return res.ok;
   } catch {
     return false;
@@ -401,12 +512,13 @@ export async function updateBrainEngine(
   try {
     const res = await fetch('/api/brain/update', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(updates)
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
-    return { success: false, error: err.message || 'Brain update failed' };
+    return { success: false, error: err.message || 'Update failed' };
   }
 }
 
@@ -416,9 +528,10 @@ export async function updateKnowledgeBase(
   try {
     const res = await fetch('/api/brain/knowledge', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(updates)
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Knowledge update failed' };
@@ -434,9 +547,10 @@ export async function triggerBrainPulse(payload: {
   try {
     const res = await fetch('/api/brain/pulse', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload)
     });
+    handleUnauthorized(res);
     return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Pulse trigger failed' };

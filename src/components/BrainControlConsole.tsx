@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useBackendSync } from '../context/BackendSyncContext';
 import { DEFAULT_SPONSOR_LINKS, resetSponsorLinkRotation } from '../services/adDonateService';
-import { BrainEngineConfig, KnowledgeBaseConfig, KnowledgeFaqItem } from '../services/backendSyncService';
+import {
+  BrainEngineConfig,
+  KnowledgeBaseConfig,
+  KnowledgeFaqItem,
+  loginVault,
+  verifyVaultSession,
+  clearVaultToken,
+  rotateVaultKey
+} from '../services/backendSyncService';
 import {
   Brain,
   BookOpen,
@@ -18,7 +26,11 @@ import {
   BarChart3,
   AlertTriangle,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Lock,
+  KeyRound,
+  LogOut,
+  ShieldAlert
 } from 'lucide-react';
 
 interface BrainControlConsoleProps {
@@ -71,8 +83,20 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
     updateContent,
     pushBrainPulse,
     toggleAutoSystem,
-    resetDefaults
+    resetDefaults,
+    refreshAdminSnapshot
   } = useBackendSync();
+
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passphraseInput, setPassphraseInput] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  // Key rotation state
+  const [currentKeyInput, setCurrentKeyInput] = useState('');
+  const [newKeyInput, setNewKeyInput] = useState('');
+  const [keyStatusMsg, setKeyStatusMsg] = useState<string | null>(null);
 
   const [activeTab, setActiveTab] = useState<ConsoleTab>('brain');
   const [statusBanner, setStatusBanner] = useState<string | null>(null);
@@ -94,6 +118,21 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
   const [pulseClicks, setPulseClicks] = useState(1);
 
   useEffect(() => {
+    let mounted = true;
+    verifyVaultSession().then(async (valid) => {
+      if (!mounted) return;
+      setIsAuthenticated(valid);
+      setAuthChecked(true);
+      if (valid) {
+        await refreshAdminSnapshot();
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [refreshAdminSnapshot]);
+
+  useEffect(() => {
     setBrainDraft(content.brainEngine);
     setKbDraft(content.knowledgeBase);
     if (content.brainEngine?.sponsorLinks?.length) {
@@ -103,6 +142,40 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
     setAutoEnabled(content.automaticSystem.enabled);
     setUrgentDraft(content.urgentNotice);
   }, [content.version]);
+
+  const handleVaultLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passphraseInput.trim() || isLoggingIn) return;
+    setIsLoggingIn(true);
+    setAuthError(null);
+    const res = await loginVault(passphraseInput.trim());
+    setIsLoggingIn(false);
+    if (res.success) {
+      setPassphraseInput('');
+      setIsAuthenticated(true);
+      await refreshAdminSnapshot();
+    } else {
+      setAuthError(res.error || 'Access denied');
+    }
+  };
+
+  const handleVaultLogout = () => {
+    clearVaultToken();
+    setIsAuthenticated(false);
+  };
+
+  const handleRotateKey = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setKeyStatusMsg(null);
+    const res = await rotateVaultKey(currentKeyInput, newKeyInput);
+    if (res.success) {
+      setCurrentKeyInput('');
+      setNewKeyInput('');
+      setKeyStatusMsg('Access key rotated cleanly across server vault.');
+    } else {
+      setKeyStatusMsg(res.error || 'Could not rotate access key.');
+    }
+  };
 
   const flashStatus = (msg: string) => {
     setStatusBanner(msg);
@@ -219,6 +292,76 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
     clicksBySection: {}
   };
 
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-200 flex items-center justify-center p-4">
+        <div className="text-xs text-slate-400 font-mono">Verifying secure session...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 font-sans">
+        <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-7 shadow-2xl space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 flex items-center justify-center text-emerald-400">
+              <Lock className="w-5 h-5" />
+            </div>
+            <button
+              onClick={onExit}
+              className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Return</span>
+            </button>
+          </div>
+
+          <div className="space-y-1">
+            <h1 className="font-display font-extrabold text-xl text-white">
+              Restricted Access Verification
+            </h1>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Enter your private owner access key to unlock foundation orchestration controls.
+            </p>
+          </div>
+
+          <form onSubmit={handleVaultLogin} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Owner Access Key
+              </label>
+              <input
+                type="password"
+                autoFocus
+                value={passphraseInput}
+                onChange={(e) => setPassphraseInput(e.target.value)}
+                placeholder="Enter private key..."
+                className="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl px-4 py-3 text-sm text-white outline-none"
+              />
+            </div>
+
+            {authError && (
+              <div className="bg-rose-950/70 border border-rose-500/40 text-rose-200 text-xs px-3 py-2 rounded-xl flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 text-white font-extrabold py-3 rounded-xl text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+            >
+              <KeyRound className="w-4 h-4" />
+              <span>{isLoggingIn ? 'Verifying...' : 'Unlock Controls'}</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
       {/* Top Console Bar */}
@@ -230,22 +373,29 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
             </div>
             <div>
               <h1 className="font-display font-extrabold text-lg sm:text-xl text-white flex items-center gap-2">
-                <span>M R S Backend Brain &amp; Knowledge Console</span>
+                <span>M R S Private Brain &amp; Knowledge Vault</span>
                 <span
                   className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
                     isConnected ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300'
                   }`}
                 >
-                  {isConnected ? 'Live SSE Connected' : 'Reconnecting'}
+                  {isConnected ? 'Encrypted Session · Live' : 'Reconnecting'}
                 </span>
               </h1>
               <p className="text-xs text-slate-400">
-                Full private orchestration for persuasion psychology, live community goals, knowledge FAQs &amp; ad rotation (v{version})
+                Owner console for persuasion strategy, daily goals, knowledge FAQs &amp; ad rotation (v{version})
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={handleVaultLogout}
+              className="bg-slate-800 hover:bg-rose-950/70 text-rose-300 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-slate-700 hover:border-rose-500/40 cursor-pointer transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Lock Vault</span>
+            </button>
             <button
               onClick={onExit}
               className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border border-slate-700 cursor-pointer transition-colors"
@@ -869,7 +1019,7 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
 
               <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-display font-bold text-sm text-white">Recent Brain Event Log</h3>
+                  <h3 className="font-display font-bold text-sm text-white">Recent Event Log</h3>
                   <button
                     onClick={resetDefaults}
                     className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer"
@@ -889,6 +1039,38 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
+                  <KeyRound className="w-4 h-4 text-amber-400" />
+                  <span>Vault Security &amp; Access Key Rotation</span>
+                </h3>
+                <form onSubmit={handleRotateKey} className="space-y-2.5">
+                  <input
+                    type="password"
+                    value={currentKeyInput}
+                    onChange={(e) => setCurrentKeyInput(e.target.value)}
+                    placeholder="Current access key"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"
+                  />
+                  <input
+                    type="password"
+                    value={newKeyInput}
+                    onChange={(e) => setNewKeyInput(e.target.value)}
+                    placeholder="New access key (min 8 characters)"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"
+                  />
+                  {keyStatusMsg && (
+                    <div className="text-xs text-amber-300 font-semibold">{keyStatusMsg}</div>
+                  )}
+                  <button
+                    type="submit"
+                    className="w-full bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold py-2 rounded-xl text-xs border border-slate-700 cursor-pointer"
+                  >
+                    Rotate Access Key
+                  </button>
+                </form>
               </div>
             </div>
           </div>

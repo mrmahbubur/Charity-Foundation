@@ -1,12 +1,17 @@
 import { ChildProfile, Campaign, ImpactStory, AuditItem, BlogPost } from '../types';
+import heroEducationImg from '../assets/images/hero_education_aid_1792141324122.jpg';
+import childScholarImg from '../assets/images/child_scholar_portrait_1792141324614.jpg';
+import foodReliefImg from '../assets/images/food_relief_pack_1792141324322.jpg';
+import cleanWaterImg from '../assets/images/clean_water_pump_1792141325779.jpg';
+import womenSewingImg from '../assets/images/women_vocational_sewing_1792141326227.jpg';
 
 export const SITE_LOGO = '/logo.png';
-export const HERO_IMAGE = '/src/assets/images/hero_education_aid_1792141324122.jpg';
-export const CHILD_PORTRAIT_IMAGE = '/src/assets/images/child_scholar_portrait_1792141324614.jpg';
-export const FOOD_RELIEF_IMAGE = '/src/assets/images/food_relief_pack_1792141324322.jpg';
-export const CLEAN_WATER_IMAGE = '/src/assets/images/clean_water_pump_1792141325779.jpg';
-export const WOMEN_EMPOWERMENT_IMAGE = '/src/assets/images/women_vocational_sewing_1792141326227.jpg';
-export const VOLUNTEER_RELIEF_IMAGE = FOOD_RELIEF_IMAGE;
+export const HERO_IMAGE = heroEducationImg;
+export const CHILD_PORTRAIT_IMAGE = childScholarImg;
+export const FOOD_RELIEF_IMAGE = foodReliefImg;
+export const CLEAN_WATER_IMAGE = cleanWaterImg;
+export const WOMEN_EMPOWERMENT_IMAGE = womenSewingImg;
+export const VOLUNTEER_RELIEF_IMAGE = foodReliefImg;
 
 export const FOUNDATION_INFO = {
   name: 'M R S Charity Foundation',

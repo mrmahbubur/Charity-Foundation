@@ -35,7 +35,7 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
 
   const handleSupportFutureProject = (e: React.MouseEvent) => {
     e.preventDefault();
-    openNextSponsorLink();
+    openNextSponsorLink('future-project');
     try {
       confetti({
         particleCount: 50,
@@ -141,7 +141,7 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
               Support the Future Project of M R S
             </h4>
             <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-              Every single click on our donate system opens a sponsor link in a new tab, generating ad revenue that goes directly into fulfilling these 6 foundational goals.
+              Every single click on our free support buttons opens a sponsor link in a new tab, generating partner funding that goes directly into fulfilling these 6 foundational goals.
             </p>
           </div>
 

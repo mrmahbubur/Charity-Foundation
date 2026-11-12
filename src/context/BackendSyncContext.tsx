@@ -5,6 +5,7 @@ import {
   BrainEngineConfig,
   KnowledgeBaseConfig,
   fetchBackendContent,
+  fetchVaultSnapshot,
   sendBackendContentUpdate,
   sendBackendLogoUpdate,
   triggerBackendManualTick,
@@ -30,6 +31,7 @@ interface BackendSyncContextValue {
   updateBrain: (updates: Partial<BrainEngineConfig>) => Promise<boolean>;
   updateKnowledge: (updates: Partial<KnowledgeBaseConfig>) => Promise<boolean>;
   pushBrainPulse: (payload: { location?: string; actionText?: string; impactText?: string; bumpClicks?: number }) => Promise<boolean>;
+  refreshAdminSnapshot: () => Promise<boolean>;
   reconnect: () => void;
   recentNotification: string | null;
 }
@@ -129,7 +131,8 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
                     ...payload.brainEngine,
                     floatingNudge: payload.brainEngine.floatingNudge
                       ? { ...prev.brainEngine.floatingNudge, ...payload.brainEngine.floatingNudge }
-                      : prev.brainEngine.floatingNudge
+                      : prev.brainEngine.floatingNudge,
+                    realClickAnalytics: payload.brainEngine.realClickAnalytics || prev.brainEngine.realClickAnalytics
                   }
                 : prev.brainEngine;
 
@@ -338,6 +341,15 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
     return false;
   };
 
+  const refreshAdminSnapshot = useCallback(async (): Promise<boolean> => {
+    const res = await fetchVaultSnapshot();
+    if (res.success && res.data) {
+      applyContentSnapshot(res.data);
+      return true;
+    }
+    return false;
+  }, [applyContentSnapshot]);
+
   return (
     <BackendSyncContext.Provider
       value={{
@@ -353,6 +365,7 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         updateBrain,
         updateKnowledge,
         pushBrainPulse,
+        refreshAdminSnapshot,
         reconnect: connectSSE,
         recentNotification
       }}
