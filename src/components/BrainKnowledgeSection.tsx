@@ -4,7 +4,7 @@ import { openNextSponsorLink } from '../services/adDonateService';
 import {
   BookOpen,
   ShieldCheck,
-  Sparkles,
+  HeartHandshake,
   ChevronDown,
   ChevronUp,
   Heart,
@@ -71,7 +71,7 @@ export const BrainKnowledgeSection: React.FC = () => {
 
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
             <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-              <Sparkles className="w-5 h-5" />
+              <HeartHandshake className="w-5 h-5" />
             </div>
             <h3 className="font-display font-bold text-lg text-slate-900">
               How Your Click Helps ($0 Cost)

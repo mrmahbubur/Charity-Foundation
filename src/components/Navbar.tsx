@@ -51,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     onOpenDonate();
   };
 
-  const activeLogo = content.foundationInfo.logo || '/logo.png';
+  const activeLogo = content.foundationInfo.logo === '/logo.png' ? './logo.png' : (content.foundationInfo.logo || './logo.png');
   const foundationName = content.foundationInfo.name || 'M R S Charity Foundation';
   const motto = content.foundationInfo.motto || 'Poverty Ends With Us';
   const secondaryMotto = content.foundationInfo.secondaryMotto || 'Humanity United Against Poverty';

@@ -139,7 +139,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   foundationInfo: {
     name: 'M R S Charity Foundation',
     shortName: 'M R S Foundation',
-    logo: '/logo.png',
+    logo: './logo.png',
     parentOrg: 'A Future Project of M R S',
     motto: 'Poverty Ends With Us',
     secondaryMotto: 'Humanity United Against Poverty',
@@ -426,9 +426,11 @@ export async function rotateVaultKey(currentKey: string, newKey: string): Promis
 export async function fetchBackendContent(): Promise<SiteContentState | null> {
   try {
     const res = await fetch('/api/content');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) return null;
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) return null;
     const json = await res.json();
-    return json.data;
+    return json?.data || null;
   } catch {
     return null;
   }

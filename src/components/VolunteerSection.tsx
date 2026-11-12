@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VOLUNTEER_RELIEF_IMAGE, FOUNDATION_INFO } from '../data/charityData';
 import { openNextSponsorLink } from '../services/adDonateService';
-import { Users, Heart, CheckCircle2, Shield, Sparkles, Send, ExternalLink } from 'lucide-react';
+import { Heart, CheckCircle2, Award, Send, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const VolunteerSection: React.FC = () => {
@@ -94,7 +94,7 @@ export const VolunteerSection: React.FC = () => {
               {submitted ? (
                 <div className="text-center py-8 space-y-6">
                   <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
-                    <Sparkles className="w-8 h-8" />
+                    <Award className="w-8 h-8" />
                   </div>
                   <div>
                     <h3 className="font-display font-extrabold text-2xl text-slate-900">

@@ -198,7 +198,7 @@
           <span>ONLINE CAMPAIGN</span>
         </div>
         <div id='mrsTickerBox'>
-          <div class='mrs-slide active'><strong>&#10024; ONLINE FUND MOBILIZATION:</strong> We are currently an online-based initiative gathering resources for an upcoming big project!</div>
+          <div class='mrs-slide active'><strong>&#9829; ONLINE FUND MOBILIZATION:</strong> We are currently an online-based initiative gathering resources for an upcoming big project!</div>
           <div class='mrs-slide'><strong>&#127890; NO MONEY NEEDED FROM YOU:</strong> Every free sponsor click generates direct funding to build our future charity foundation.</div>
           <div class='mrs-slide'><strong>&#10084; FUTURE GROUND OPERATIONS:</strong> Preparing rural primary schools, clean drinking water wells, and hunger relief centers.</div>
           <div class='mrs-slide'><strong>&#128104;&#8205;&#128105;&#8205;&#128103; JOIN OUR ONLINE MOVEMENT:</strong> Support without cost today and help launch a major humanitarian project by M R S.</div>
@@ -297,7 +297,7 @@
           <span style='font-size:12px;color:var(--muted);font-weight:600;'>Total Verified Supporters</span>
           <span class='mrs-kpi-val' id='mrsSupporterDisplay'>12,480</span>
         </div>
-        <button class='btn-act' onclick='handleFreeDonateClick();return false;'>&#10024; Click to Donate Now (Free)</button>
+        <button class='btn-act' onclick='handleFreeDonateClick();return false;'>&#9829; Click to Donate Now (Free)</button>
         <div style='font-size:11.5px;color:#64748B;text-align:center;margin-top:10px;'>&#10003; 10 Verified Ad Sponsors &#183; Instant tracking &#183; Unlimited clicks</div>
       </div>
     </div>
@@ -594,7 +594,7 @@
         <ul>
           <li><span style='color:#34D399;'>&#10003; Online Phase Active</span></li>
           <li><span style='color:#FEF08A;'>&#8987; Big Project in Development</span></li>
-          <li><span>&#10024; 100% Free Sponsor Clicks</span></li>
+          <li><span>&#9829; 100% Free Sponsor Clicks</span></li>
           <li><span>&#128101; Community Mobilization</span></li>
         </ul>
       </div>

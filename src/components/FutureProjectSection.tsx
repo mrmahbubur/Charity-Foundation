@@ -12,7 +12,7 @@ import {
   Scissors,
   Home,
   ShieldCheck,
-  Sparkles,
+  HeartHandshake,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -23,7 +23,7 @@ interface FutureProjectSectionProps {
 export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOpenDonate }) => {
   const { content } = useBackendSync();
   const info = content.foundationInfo;
-  const activeLogo = info.logo || '/logo.png';
+  const activeLogo = info.logo === '/logo.png' ? './logo.png' : (info.logo || './logo.png');
   const goalIcons = [
     BookOpen,
     Utensils,
@@ -89,7 +89,7 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
         {/* 6 Core Goals Grid from the Post */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {FOUNDATION_INFO.coreGoals.map((g, idx) => {
-            const Icon = goalIcons[idx] || Sparkles;
+            const Icon = goalIcons[idx] || HeartHandshake;
             return (
               <div
                 key={idx}
@@ -134,7 +134,7 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
         <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white p-6 sm:p-8 rounded-2xl border border-emerald-900 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1.5 text-center md:text-left">
             <div className="inline-flex items-center gap-1.5 text-xs text-amber-400 font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
+              <HeartHandshake className="w-3.5 h-3.5" />
               <span>Upcoming Humanitarian Initiative</span>
             </div>
             <h4 className="font-display font-bold text-xl sm:text-2xl text-white">

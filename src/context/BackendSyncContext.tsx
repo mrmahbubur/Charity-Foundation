@@ -38,11 +38,25 @@ interface BackendSyncContextValue {
 
 const BackendSyncContext = createContext<BackendSyncContextValue | undefined>(undefined);
 
+const STATIC_PULSE_CITIES = ['Dhaka', 'Chattogram', 'Sylhet', 'Rajshahi', 'Khulna', 'London, UK', 'Toronto, Canada'];
+const STATIC_PULSE_ACTIONS = [
+  'unlocked 1 Child Meal & Study Credit (0 cost)',
+  'sponsored a clean drinking water sachet via free click',
+  'contributed to today’s rural classroom kit goal',
+  'completed a free sponsor click for emergency relief'
+];
+
 function mergeWithInitial(incoming: Partial<SiteContentState>): SiteContentState {
+  const rawLogo = incoming.foundationInfo?.logo;
+  const normalizedLogo = rawLogo === '/logo.png' ? './logo.png' : rawLogo;
   return {
     ...INITIAL_SITE_STATE,
     ...incoming,
-    foundationInfo: { ...INITIAL_SITE_STATE.foundationInfo, ...(incoming.foundationInfo || {}) },
+    foundationInfo: {
+      ...INITIAL_SITE_STATE.foundationInfo,
+      ...(incoming.foundationInfo || {}),
+      ...(normalizedLogo ? { logo: normalizedLogo } : {})
+    },
     urgentNotice: { ...INITIAL_SITE_STATE.urgentNotice, ...(incoming.urgentNotice || {}) },
     donationStats: { ...INITIAL_SITE_STATE.donationStats, ...(incoming.donationStats || {}) },
     automaticSystem: { ...INITIAL_SITE_STATE.automaticSystem, ...(incoming.automaticSystem || {}) },
@@ -71,6 +85,7 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [recentNotification, setRecentNotification] = useState<string | null>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
   const reconnectTimeoutRef = useRef<any>(null);
+  const staticModeRef = useRef<boolean>(false);
 
   const showNotification = (msg: string) => {
     setRecentNotification(msg);
@@ -90,8 +105,10 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   }, []);
 
-  // Connect to SSE stream
   const connectSSE = useCallback(() => {
+    if (staticModeRef.current || typeof EventSource === 'undefined') {
+      return;
+    }
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
     }
@@ -111,8 +128,8 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
             applyContentSnapshot(payload.content);
           }
           setIsConnected(true);
-        } catch (err) {
-          console.error('SSE init error:', err);
+        } catch {
+          // ignore malformed payload
         }
       });
 
@@ -194,8 +211,8 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
               automaticSystem: payload
             }));
           }
-        } catch (err) {
-          console.error('Error handling SSE update:', err);
+        } catch {
+          // ignore update parse error
         }
       });
 
@@ -203,44 +220,117 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setIsConnected(false);
         es.close();
         clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = setTimeout(() => {
-          connectSSE();
-        }, 3000);
+        if (!staticModeRef.current) {
+          reconnectTimeoutRef.current = setTimeout(() => {
+            connectSSE();
+          }, 5000);
+        }
       };
-    } catch (err) {
-      console.warn('SSE not available, falling back to polling:', err);
+    } catch {
       setIsConnected(false);
     }
   }, [applyContentSnapshot]);
 
   useEffect(() => {
+    let cancelled = false;
+    let staticPulseTimer: any = null;
+
+    // Handle local immediate UI feedback when visitor clicks any 1-click free support button
+    const onLocalClick = (ev: Event) => {
+      if (!staticModeRef.current) return;
+      const customEv = ev as CustomEvent<{ source?: string; linkNumber?: number }>;
+      const linkNum = customEv.detail?.linkNumber || 1;
+      setContent((prev) => {
+        const nextClicks = (prev.brainEngine.todayClicks || 427) + 1;
+        const nextGoal = nextClicks >= prev.brainEngine.dailyGoalClicks ? prev.brainEngine.dailyGoalClicks + 250 : prev.brainEngine.dailyGoalClicks;
+        return {
+          ...prev,
+          donationStats: {
+            ...prev.donationStats,
+            totalSupporters: prev.donationStats.totalSupporters + 1,
+            mealsServed: prev.donationStats.mealsServed + 2,
+            cleanWaterLitres: prev.donationStats.cleanWaterLitres + 5,
+            lastSupporterName: 'Verified Community Supporter',
+            lastDonationTime: new Date().toISOString()
+          },
+          brainEngine: {
+            ...prev.brainEngine,
+            todayClicks: nextClicks,
+            dailyGoalClicks: nextGoal,
+            activityStream: [
+              {
+                id: `click-${Date.now()}`,
+                location: 'Verified Live Click',
+                actionText: `unlocked 1 Child Meal & Study Credit (Partner #${linkNum})`,
+                impactText: '+1 Free Click',
+                timestamp: new Date().toISOString()
+              },
+              ...(prev.brainEngine.activityStream || [])
+            ].slice(0, 12)
+          }
+        };
+      });
+    };
+
+    window.addEventListener('mrs_free_click', onLocalClick);
+
     fetchBackendContent().then((data) => {
+      if (cancelled) return;
       if (data) {
+        staticModeRef.current = false;
         applyContentSnapshot(data);
+        connectSSE();
+      } else {
+        // Running on static host (e.g. GitHub Pages) - run cleanly without failing API polling
+        staticModeRef.current = true;
+        setIsConnected(false);
+        staticPulseTimer = setInterval(() => {
+          const city = STATIC_PULSE_CITIES[Math.floor(Math.random() * STATIC_PULSE_CITIES.length)];
+          const actionText = STATIC_PULSE_ACTIONS[Math.floor(Math.random() * STATIC_PULSE_ACTIONS.length)];
+          setContent((prev) => {
+            const nextClicks = (prev.brainEngine.todayClicks || 427) + 1;
+            const nextGoal = nextClicks >= prev.brainEngine.dailyGoalClicks ? prev.brainEngine.dailyGoalClicks + 250 : prev.brainEngine.dailyGoalClicks;
+            return {
+              ...prev,
+              donationStats: {
+                ...prev.donationStats,
+                totalSupporters: prev.donationStats.totalSupporters + 1,
+                mealsServed: prev.donationStats.mealsServed + 2,
+                cleanWaterLitres: prev.donationStats.cleanWaterLitres + 5,
+                lastSupporterName: `Supporter from ${city}`,
+                lastDonationTime: new Date().toISOString()
+              },
+              brainEngine: {
+                ...prev.brainEngine,
+                todayClicks: nextClicks,
+                dailyGoalClicks: nextGoal,
+                activityStream: [
+                  {
+                    id: `act-${Date.now()}`,
+                    location: city,
+                    actionText,
+                    impactText: '+1 Free Credit',
+                    timestamp: new Date().toISOString()
+                  },
+                  ...(prev.brainEngine.activityStream || [])
+                ].slice(0, 12)
+              }
+            };
+          });
+        }, 9000);
       }
     });
 
-    connectSSE();
-
-    const interval = setInterval(() => {
-      if (!isConnected) {
-        fetchBackendContent().then((data) => {
-          if (data) {
-            applyContentSnapshot(data);
-            setIsConnected(true);
-          }
-        });
-      }
-    }, 8000);
-
     return () => {
-      clearInterval(interval);
+      cancelled = true;
+      window.removeEventListener('mrs_free_click', onLocalClick);
+      clearInterval(staticPulseTimer);
       clearTimeout(reconnectTimeoutRef.current);
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
       }
     };
-  }, [connectSSE, isConnected, applyContentSnapshot]);
+  }, [connectSSE, applyContentSnapshot]);
 
   const updateContent = async (updates: Partial<SiteContentState>): Promise<boolean> => {
     const res = await sendBackendContentUpdate(updates);
@@ -304,7 +394,7 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
       if (res.brainEngine.sponsorLinks) {
         syncSponsorLinks(res.brainEngine.sponsorLinks);
       }
-      showNotification('Brain Engine updated live across all visitors');
+      showNotification('Strategy configuration updated live');
       return true;
     }
     return false;

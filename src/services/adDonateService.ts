@@ -127,7 +127,14 @@ export function openNextSponsorLink(source = 'site-cta'): { url: string; linkNum
   anchor.click();
   document.body.removeChild(anchor);
 
-  // Report live click asynchronously to backend Brain Engine
+  // Notify local UI state immediately (ensures seamless live feedback on static hosts too)
+  try {
+    window.dispatchEvent(new CustomEvent('mrs_free_click', { detail: { source, linkNumber: index + 1 } }));
+  } catch {
+    // ignore event error
+  }
+
+  // Report live click asynchronously when backend server is active
   try {
     fetch('/api/brain/click', {
       method: 'POST',

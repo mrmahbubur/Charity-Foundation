@@ -1,7 +1,7 @@
 import React from 'react';
 import { CAMPAIGNS, FOUNDATION_INFO } from '../data/charityData';
 import { openNextSponsorLink } from '../services/adDonateService';
-import { Heart, ExternalLink, Sparkles } from 'lucide-react';
+import { Heart, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ProgramsSectionProps {

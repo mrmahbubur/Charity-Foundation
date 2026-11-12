@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CHILDREN_PROFILES, FOUNDATION_INFO } from '../data/charityData';
 import { ChildProfile } from '../types';
 import { openNextSponsorLink } from '../services/adDonateService';
-import { Heart, BookOpen, MapPin, Sparkles, ExternalLink, Zap } from 'lucide-react';
+import { Heart, BookOpen, MapPin, GraduationCap, ExternalLink, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface SponsorChildSectionProps {
@@ -54,7 +54,7 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
         {/* What Sponsorship Covers - 4 Column Feature Box */}
         <div className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 mb-12 shadow-sm">
           <h3 className="font-display font-bold text-lg text-slate-900 mb-6 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-amber-600" />
+            <GraduationCap className="w-5 h-5 text-amber-600" />
             <span>How Your Free Ad Clicks Fund Student Welfare</span>
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

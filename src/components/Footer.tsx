@@ -11,7 +11,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
   const { content } = useBackendSync();
   const info = content.foundationInfo;
-  const activeLogo = info.logo || '/logo.png';
+  const activeLogo = info.logo === '/logo.png' ? './logo.png' : (info.logo || './logo.png');
 
   const handleFooterDonate = (e: React.MouseEvent) => {
     e.preventDefault();

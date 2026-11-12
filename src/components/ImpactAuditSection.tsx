@@ -1,7 +1,7 @@
 import React from 'react';
 import { FINANCIAL_AUDIT, FOUNDATION_INFO } from '../data/charityData';
 import { openNextSponsorLink, DONATE_SPONSOR_LINKS } from '../services/adDonateService';
-import { ShieldCheck, Heart, Sparkles, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Heart, ExternalLink, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const ImpactAuditSection: React.FC = () => {

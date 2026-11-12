@@ -159,7 +159,7 @@ const DEFAULT_CONTENT = {
   foundationInfo: {
     name: 'M R S Charity Foundation',
     shortName: 'M R S Foundation',
-    logo: '/logo.png',
+    logo: './logo.png',
     parentOrg: 'A Future Project of M R S',
     motto: 'Poverty Ends With Us',
     secondaryMotto: 'Humanity United Against Poverty',
@@ -861,7 +861,7 @@ async function startServer() {
         }
       }
 
-      const versionedLogo = `/logo.png?v=${Date.now()}`;
+      const versionedLogo = `./logo.png?v=${Date.now()}`;
       currentContent.foundationInfo.logo = versionedLogo;
       currentContent.version += 1;
       currentContent.lastUpdated = new Date().toISOString();

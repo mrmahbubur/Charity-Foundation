@@ -5,7 +5,7 @@ import foodReliefImg from '../assets/images/food_relief_pack_1792141324322.jpg';
 import cleanWaterImg from '../assets/images/clean_water_pump_1792141325779.jpg';
 import womenSewingImg from '../assets/images/women_vocational_sewing_1792141326227.jpg';
 
-export const SITE_LOGO = '/logo.png';
+export const SITE_LOGO = './logo.png';
 export const HERO_IMAGE = heroEducationImg;
 export const CHILD_PORTRAIT_IMAGE = childScholarImg;
 export const FOOD_RELIEF_IMAGE = foodReliefImg;

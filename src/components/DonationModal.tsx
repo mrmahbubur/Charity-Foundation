@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { openNextSponsorLink, getNextDonateLink, getTotalFreeClicks, getSponsorLinks } from '../services/adDonateService';
 import { FOUNDATION_INFO } from '../data/charityData';
 import { useSiteLogo } from '../services/logoService';
-import { X, Heart, Sparkles, ExternalLink, CheckCircle2, ShieldCheck, Zap, RefreshCw, FileText } from 'lucide-react';
+import { X, Heart, HeartHandshake, ExternalLink, CheckCircle2, Zap, RefreshCw } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface DonationModalProps {
@@ -71,7 +71,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </div>
 
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <HeartHandshake className="w-3.5 h-3.5 text-amber-600" />
               <span>100% Free Click-to-Donate</span>
             </div>
 

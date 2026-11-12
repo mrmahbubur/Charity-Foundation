@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChildProfile } from '../types';
 import { FOUNDATION_INFO } from '../data/charityData';
 import { openNextSponsorLink } from '../services/adDonateService';
-import { X, Heart, ShieldCheck, Check, Sparkles, MapPin, ExternalLink, Zap } from 'lucide-react';
+import { X, Heart, Award, GraduationCap, MapPin, ExternalLink, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface SponsorChildModalProps {
@@ -52,7 +52,7 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
           <div className="space-y-6">
             <div className="text-center space-y-1">
               <span className="text-xs uppercase font-extrabold text-amber-700 bg-amber-100 px-3 py-0.5 rounded-full inline-flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-amber-600" />
+                <GraduationCap className="w-3 h-3 text-amber-600" />
                 <span>100% Free Sponsorship</span>
               </span>
               <h3 className="font-display font-extrabold text-2xl text-slate-900">
@@ -115,7 +115,7 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
           /* Sponsorship Welcome Confirmation */
           <div className="space-y-6 text-center animate-fade-in">
             <div className="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto">
-              <Sparkles className="w-8 h-8" />
+              <Award className="w-8 h-8" />
             </div>
 
             <div>

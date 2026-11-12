@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSupporterCount } from '../hooks/useSupporterCount';
 import { useBackendSync } from '../context/BackendSyncContext';
 import { openNextSponsorLink, getSponsorLinks } from '../services/adDonateService';
-import { Heart, ChevronDown, ChevronUp, Users, ExternalLink, CheckCircle2, Sparkles } from 'lucide-react';
+import { Heart, ChevronDown, ChevronUp, Users, ExternalLink, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const LiveSupporterWidget: React.FC = () => {
@@ -139,7 +139,7 @@ export const LiveSupporterWidget: React.FC = () => {
                   : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-700/30 hover:-translate-y-0.5'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+              <Heart className="w-3.5 h-3.5 fill-amber-300 text-amber-300 shrink-0" />
               <span>1-Click Free Support (No Cost)</span>
               <ExternalLink className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
             </button>

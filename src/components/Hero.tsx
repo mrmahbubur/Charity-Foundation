@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HERO_IMAGE } from '../data/charityData';
 import { openNextSponsorLink } from '../services/adDonateService';
 import { useBackendSync } from '../context/BackendSyncContext';
-import { Heart, BookOpen, ShieldCheck, ExternalLink, Sparkles, Stethoscope, Gift, AlertTriangle, Zap, CheckCircle2, Target, Activity } from 'lucide-react';
+import { Heart, BookOpen, ShieldCheck, ExternalLink, GraduationCap, Stethoscope, Gift, AlertTriangle, Zap, CheckCircle2, Target, Activity } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface HeroProps {
@@ -30,7 +30,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
     onOpenDonate();
   };
 
-  const activeLogo = content.foundationInfo.logo || '/logo.png';
+  const activeLogo = content.foundationInfo.logo === '/logo.png' ? './logo.png' : (content.foundationInfo.logo || './logo.png');
   const parentOrg = content.foundationInfo.parentOrg || 'A Future Project of M R S';
   const motto = content.foundationInfo.motto || 'Poverty Ends With Us';
   const secondaryMotto = content.foundationInfo.secondaryMotto || 'Humanity United Against Poverty';
@@ -187,7 +187,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
                 onClick={() => onSelectSponsor()}
                 className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base whitespace-nowrap"
               >
-                <Sparkles className="w-4 h-4" />
+                <GraduationCap className="w-4 h-4" />
                 <span>Sponsor a Student (Free Clicks)</span>
               </button>
             </div>

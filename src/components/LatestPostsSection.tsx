@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BLOG_POSTS } from '../data/charityData';
 import { BlogPost } from '../types';
 import { openNextSponsorLink } from '../services/adDonateService';
-import { Calendar, Clock, ArrowRight, BookOpen, X, Heart, ExternalLink, Sparkles } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, BookOpen, X, Heart, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface LatestPostsSectionProps {

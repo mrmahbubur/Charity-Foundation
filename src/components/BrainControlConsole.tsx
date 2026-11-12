@@ -11,7 +11,7 @@ import {
   rotateVaultKey
 } from '../services/backendSyncService';
 import {
-  Brain,
+  SlidersHorizontal,
   BookOpen,
   Link2,
   Radio,
@@ -25,7 +25,7 @@ import {
   Activity,
   BarChart3,
   AlertTriangle,
-  Sparkles,
+  Target,
   RefreshCw,
   Lock,
   KeyRound,
@@ -369,11 +369,11 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-              <Brain className="w-6 h-6" />
+              <SlidersHorizontal className="w-6 h-6" />
             </div>
             <div>
               <h1 className="font-display font-extrabold text-lg sm:text-xl text-white flex items-center gap-2">
-                <span>M R S Private Brain &amp; Knowledge Vault</span>
+                <span>M R S Private Control &amp; Knowledge Vault</span>
                 <span
                   className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
                     isConnected ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300'
@@ -456,7 +456,7 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
           {[
-            { id: 'brain' as ConsoleTab, label: 'Brain & Persuasion', icon: Brain },
+            { id: 'brain' as ConsoleTab, label: 'Strategy & Goals', icon: SlidersHorizontal },
             { id: 'knowledge' as ConsoleTab, label: 'Knowledge Base & FAQs', icon: BookOpen },
             { id: 'ads' as ConsoleTab, label: 'Ad Links & Telemetry', icon: Link2 },
             { id: 'pulse' as ConsoleTab, label: 'Live Pulse & Broadcast', icon: Radio }
@@ -486,7 +486,7 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
             <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-5">
               <div className="flex items-center justify-between">
                 <h2 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-amber-400" />
+                  <Target className="w-5 h-5 text-amber-400" />
                   <span>Psychological Framing &amp; Daily Goal Engine</span>
                 </h2>
                 <label className="inline-flex items-center gap-2 text-xs font-bold cursor-pointer">

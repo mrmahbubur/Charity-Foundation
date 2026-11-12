@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { openNextSponsorLink, getTotalFreeClicks } from '../services/adDonateService';
 import { useBackendSync } from '../context/BackendSyncContext';
-import { Heart, Sparkles, ChevronLeft, ChevronRight, ExternalLink, Zap } from 'lucide-react';
+import { Heart, Megaphone, ChevronLeft, ChevronRight, ExternalLink, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface AnnouncementSlideshowBarProps {
@@ -103,7 +103,7 @@ export const AnnouncementSlideshowBar: React.FC<AnnouncementSlideshowBarProps> =
             {/* Slide Content */}
             <div className="flex items-center gap-2.5 truncate text-xs sm:text-sm">
               <span className="bg-slate-950 text-amber-300 font-extrabold text-[11px] px-2 py-0.5 rounded-md uppercase tracking-wide shrink-0 flex items-center gap-1 shadow-sm">
-                <Sparkles className="w-3 h-3 text-amber-400" />
+                <Megaphone className="w-3 h-3 text-amber-400" />
                 <span>{slide.badge}</span>
               </span>
 
