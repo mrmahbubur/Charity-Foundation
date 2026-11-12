@@ -117,7 +117,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
             </button>
 
             <a
-              href="/mrs-charity-foundation-blogger-theme.xml"
+              href="./mrs-charity-foundation-blogger-theme.xml"
               download="mrs-charity-foundation-blogger-theme.xml"
               className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium py-2 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 border border-slate-700"
             >
