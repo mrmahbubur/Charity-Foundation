@@ -24,8 +24,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'sponsor', label: 'Student Sponsorship' },
     { id: 'programs', label: 'Our Pillars' },
     { id: 'posts', label: 'Dispatches & Posts' },
+    { id: 'knowledge', label: 'Knowledge & FAQ' },
     { id: 'impact', label: 'Transparency' },
-    { id: 'volunteer', label: 'Volunteer Network' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleQuickDonate = () => {
-    openNextSponsorLink();
+    openNextSponsorLink('navbar');
     try {
       confetti({
         particleCount: 50,

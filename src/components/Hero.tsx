@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HERO_IMAGE } from '../data/charityData';
 import { openNextSponsorLink } from '../services/adDonateService';
 import { useBackendSync } from '../context/BackendSyncContext';
-import { Heart, BookOpen, Users, ShieldCheck, ExternalLink, Sparkles, Stethoscope, Gift, AlertTriangle, Zap } from 'lucide-react';
+import { Heart, BookOpen, ShieldCheck, ExternalLink, Sparkles, Stethoscope, Gift, AlertTriangle, Zap, CheckCircle2, Target, Activity } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface HeroProps {
@@ -11,13 +11,16 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => {
-  const { content, isConnected } = useBackendSync();
+  const { content } = useBackendSync();
+  const [clickFeedback, setClickFeedback] = useState<string | null>(null);
 
-  const handleFreeDonateClick = () => {
-    openNextSponsorLink();
+  const handleFreeDonateClick = (source = 'hero-cta') => {
+    const res = openNextSponsorLink(source);
+    setClickFeedback(`Thank you! Partner link #${res.linkNumber} opened — 1 free credit unlocked. Click again anytime for another link!`);
+    setTimeout(() => setClickFeedback(null), 4500);
     try {
       confetti({
-        particleCount: 60,
+        particleCount: 65,
         spread: 60,
         origin: { y: 0.3 },
       });
@@ -33,6 +36,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
   const secondaryMotto = content.foundationInfo.secondaryMotto || 'Humanity United Against Poverty';
   const totalSupporters = content.donationStats.totalSupporters || 18450;
   const urgent = content.urgentNotice;
+  const brain = content.brainEngine;
+
+  const dailyGoal = Math.max(1, brain?.dailyGoalClicks || 500);
+  const todayClicks = brain?.todayClicks || 427;
+  const remaining = Math.max(1, dailyGoal - todayClicks);
+  const progressPercent = Math.min(99, Math.max(8, Math.round((todayClicks / dailyGoal) * 100)));
+  const dynamicHeadline = (brain?.activeHeadline || 'Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal')
+    .replace('{remaining}', remaining.toLocaleString());
+  const latestActivity = brain?.activityStream && brain.activityStream.length > 0 ? brain.activityStream[0] : null;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-900 text-white pt-6 pb-16 lg:pt-10 lg:pb-24">
@@ -41,7 +53,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
       <div className="absolute bottom-0 left-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Urgent Crisis Response Banner if enabled from backend */}
+        {/* Urgent Crisis Response Banner */}
         {urgent && urgent.enabled && (
           <div className="mb-6 bg-gradient-to-r from-amber-500/20 via-rose-500/20 to-amber-500/20 border border-amber-400/40 rounded-xl p-3 sm:p-4 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-fadeIn">
             <div className="flex items-center gap-3">
@@ -51,14 +63,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-amber-300 text-xs uppercase tracking-wider">{urgent.badge}</span>
-                  <span className="text-slate-300 text-xs hidden sm:inline">· Official Emergency Response</span>
+                  <span className="text-slate-300 text-xs hidden sm:inline">· Active Community Appeal</span>
                 </div>
                 <div className="text-sm font-bold text-white mt-0.5">{urgent.headline}</div>
                 <p className="text-xs text-slate-300">{urgent.description}</p>
               </div>
             </div>
             <button
-              onClick={handleFreeDonateClick}
+              onClick={() => handleFreeDonateClick('urgent-banner')}
               className="bg-amber-400 hover:bg-amber-300 text-slate-950 px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 shadow-md"
             >
               <Zap className="w-3.5 h-3.5 fill-slate-950" />
@@ -70,8 +82,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
         {/* Split Hero: 2-Column Desktop Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Column 1: Editorial Headline & Narrative */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* Prominent Official Organization Logo as it is */}
+          <div className="lg:col-span-7 space-y-5">
+            {/* Prominent Official Organization Logo */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white p-2 rounded-2xl shadow-xl shadow-emerald-950/40 border border-emerald-500/30 flex items-center justify-center shrink-0">
                 <img
@@ -88,7 +100,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
                   <span className="text-white">{motto}</span>
                 </div>
                 <div className="text-xs font-semibold text-emerald-300">
-                  Official Foundation Seal · "{secondaryMotto}"
+                  Online Fund-Collection Phase · "{secondaryMotto}"
                 </div>
               </div>
             </div>
@@ -98,13 +110,72 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-              M R S Charity Foundation is an upcoming humanitarian <strong>future project of M R S</strong>. Built on the mottos <strong>"{motto}"</strong> and <strong>"{secondaryMotto}"</strong>, our zero-cost donation platform lets you support this future initiative <strong>100% free</strong> with every click.
+              M R S Charity Foundation is currently an active <strong>online-based initiative</strong> collecting preliminary funds for an upcoming major humanitarian <strong>ground project of M R S</strong>. Every 1-click visit opens a verified sponsor partner at <strong>100% zero cost</strong> to you.
             </p>
 
-            {/* CTAs - 100% Free Ads Donate System */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            {/* Live Community Goal Milestone Card */}
+            {brain?.enabled && (
+              <div className="bg-slate-800/75 border border-emerald-500/35 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-xl space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                    <Target className="w-4 h-4 text-amber-400" />
+                    <span>Today’s Community Aid Batch</span>
+                  </div>
+                  <div className="text-xs font-bold text-emerald-300 tabular-nums">
+                    {todayClicks.toLocaleString()} / {dailyGoal.toLocaleString()} Free Clicks ({progressPercent}%)
+                  </div>
+                </div>
+
+                {/* Animated Progress Bar */}
+                <div className="w-full h-3 bg-slate-950/90 rounded-full overflow-hidden border border-slate-700/80 p-0.5">
+                  <div
+                    className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-700 ease-out"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-sm sm:text-base font-extrabold text-white">
+                    {dynamicHeadline}
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {brain.activeSubtext}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  <button
+                    onClick={() => handleFreeDonateClick('hero-milestone')}
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold px-5 py-3 rounded-xl shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-xs sm:text-sm whitespace-nowrap"
+                  >
+                    <Heart className="w-4 h-4 fill-slate-950" />
+                    <span>{brain.activeCtaLabel || 'Unlock Free Meal & Study Aid (1-Click)'}</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </button>
+
+                  {latestActivity && (
+                    <div className="flex items-center gap-2 text-[11px] text-emerald-200 bg-emerald-950/70 px-3 py-1.5 rounded-lg border border-emerald-700/40">
+                      <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0 animate-pulse" />
+                      <span className="truncate max-w-[240px] sm:max-w-[280px]">
+                        <strong className="text-amber-300">{latestActivity.location}:</strong> {latestActivity.actionText}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {clickFeedback && (
+                  <div className="bg-emerald-950/90 border border-emerald-400/50 text-emerald-200 text-xs px-3 py-2 rounded-lg flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>{clickFeedback}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Primary & Secondary CTAs */}
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <button
-                onClick={handleFreeDonateClick}
+                onClick={() => handleFreeDonateClick('hero-primary')}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-700/25 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base whitespace-nowrap group"
               >
                 <Heart className="w-5 h-5 fill-white text-white group-hover:scale-110 transition-transform" />
@@ -121,8 +192,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
               </button>
             </div>
 
-            {/* Trust and Governance Note - No Contact Info */}
-            <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-400">
+            {/* Trust Highlights - Zero Fake Contact Info */}
+            <div className="pt-3 border-t border-slate-800/80 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-400">
               <div className="flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-emerald-400" />
                 <span>Free Quality Education</span>
@@ -133,7 +204,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
               </div>
               <div className="flex items-center gap-1.5">
                 <Gift className="w-4 h-4 text-emerald-400" />
-                <span>Essential Food &amp; Winter Relief</span>
+                <span>Essential Food &amp; Relief</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Zero Cash or Card Needed</span>
               </div>
             </div>
           </div>

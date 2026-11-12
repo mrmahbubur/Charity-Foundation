@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { openNextSponsorLink, getNextDonateLink, getTotalFreeClicks, DONATE_SPONSOR_LINKS } from '../services/adDonateService';
+import { openNextSponsorLink, getNextDonateLink, getTotalFreeClicks, getSponsorLinks } from '../services/adDonateService';
 import { FOUNDATION_INFO } from '../data/charityData';
 import { useSiteLogo } from '../services/logoService';
 import { X, Heart, Sparkles, ExternalLink, CheckCircle2, ShieldCheck, Zap, RefreshCw, FileText } from 'lucide-react';
@@ -25,10 +25,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   if (!isOpen) return null;
 
+  const sponsorLinks = getSponsorLinks();
   const nextLinkInfo = getNextDonateLink();
 
   const handleFreeDonateClick = () => {
-    const result = openNextSponsorLink();
+    const result = openNextSponsorLink('donation-modal');
     setTotalClicks(result.totalClicks);
     setLastOpenedLink({ url: result.url, linkNumber: result.linkNumber });
 
@@ -92,7 +93,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 <span>Zero-Cost Humanitarian Action</span>
               </div>
               <div className="text-xs text-slate-500">
-                Next sponsor destination: <span className="font-mono text-slate-700 font-semibold">Link {nextLinkInfo.index + 1} of {DONATE_SPONSOR_LINKS.length}</span> (rotates every click)
+                Next sponsor destination: <span className="font-mono text-slate-700 font-semibold">Link {nextLinkInfo.index + 1} of {sponsorLinks.length}</span> (rotates every click)
               </div>
             </div>
 
@@ -129,7 +130,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               <span>·</span>
               <div className="flex items-center gap-1 text-emerald-700">
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Rotates 7 unique ad links automatically</span>
+                <span>Rotates {sponsorLinks.length} unique ad links automatically</span>
               </div>
             </div>
           </div>

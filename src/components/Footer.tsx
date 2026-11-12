@@ -15,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
 
   const handleFooterDonate = (e: React.MouseEvent) => {
     e.preventDefault();
-    openNextSponsorLink();
+    openNextSponsorLink('footer');
     try {
       confetti({
         particleCount: 50,

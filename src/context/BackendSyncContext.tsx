@@ -2,14 +2,20 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import {
   SiteContentState,
   INITIAL_SITE_STATE,
+  BrainEngineConfig,
+  KnowledgeBaseConfig,
   fetchBackendContent,
   sendBackendContentUpdate,
   sendBackendLogoUpdate,
   triggerBackendManualTick,
   toggleBackendAutoConfig,
-  resetBackendContentToDefaults
+  resetBackendContentToDefaults,
+  updateBrainEngine,
+  updateKnowledgeBase,
+  triggerBrainPulse
 } from '../services/backendSyncService';
 import { setActiveLogo } from '../services/logoService';
+import { syncSponsorLinks } from '../services/adDonateService';
 
 interface BackendSyncContextValue {
   content: SiteContentState;
@@ -21,11 +27,41 @@ interface BackendSyncContextValue {
   triggerTick: () => Promise<boolean>;
   toggleAutoSystem: (enabled: boolean, intervalSec?: number) => Promise<boolean>;
   resetDefaults: () => Promise<boolean>;
+  updateBrain: (updates: Partial<BrainEngineConfig>) => Promise<boolean>;
+  updateKnowledge: (updates: Partial<KnowledgeBaseConfig>) => Promise<boolean>;
+  pushBrainPulse: (payload: { location?: string; actionText?: string; impactText?: string; bumpClicks?: number }) => Promise<boolean>;
   reconnect: () => void;
   recentNotification: string | null;
 }
 
 const BackendSyncContext = createContext<BackendSyncContextValue | undefined>(undefined);
+
+function mergeWithInitial(incoming: Partial<SiteContentState>): SiteContentState {
+  return {
+    ...INITIAL_SITE_STATE,
+    ...incoming,
+    foundationInfo: { ...INITIAL_SITE_STATE.foundationInfo, ...(incoming.foundationInfo || {}) },
+    urgentNotice: { ...INITIAL_SITE_STATE.urgentNotice, ...(incoming.urgentNotice || {}) },
+    donationStats: { ...INITIAL_SITE_STATE.donationStats, ...(incoming.donationStats || {}) },
+    automaticSystem: { ...INITIAL_SITE_STATE.automaticSystem, ...(incoming.automaticSystem || {}) },
+    brainEngine: {
+      ...INITIAL_SITE_STATE.brainEngine,
+      ...(incoming.brainEngine || {}),
+      floatingNudge: {
+        ...INITIAL_SITE_STATE.brainEngine.floatingNudge,
+        ...((incoming.brainEngine && incoming.brainEngine.floatingNudge) || {})
+      },
+      realClickAnalytics: {
+        ...INITIAL_SITE_STATE.brainEngine.realClickAnalytics,
+        ...((incoming.brainEngine && incoming.brainEngine.realClickAnalytics) || {})
+      }
+    },
+    knowledgeBase: {
+      ...INITIAL_SITE_STATE.knowledgeBase,
+      ...(incoming.knowledgeBase || {})
+    }
+  };
+}
 
 export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContentState>(INITIAL_SITE_STATE);
@@ -40,6 +76,17 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
       setRecentNotification(null);
     }, 4000);
   };
+
+  const applyContentSnapshot = useCallback((rawContent: Partial<SiteContentState>) => {
+    const merged = mergeWithInitial(rawContent);
+    setContent(merged);
+    if (merged.foundationInfo?.logo) {
+      setActiveLogo(merged.foundationInfo.logo);
+    }
+    if (merged.brainEngine?.sponsorLinks) {
+      syncSponsorLinks(merged.brainEngine.sponsorLinks);
+    }
+  }, []);
 
   // Connect to SSE stream
   const connectSSE = useCallback(() => {
@@ -59,10 +106,7 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         try {
           const payload = JSON.parse(e.data);
           if (payload.content) {
-            setContent(payload.content);
-            if (payload.content.foundationInfo?.logo) {
-              setActiveLogo(payload.content.foundationInfo.logo);
-            }
+            applyContentSnapshot(payload.content);
           }
           setIsConnected(true);
         } catch (err) {
@@ -76,22 +120,46 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
           const { type, payload } = message;
 
           if (type === 'FULL_SYNC') {
-            setContent(payload);
-            if (payload.foundationInfo?.logo) {
-              setActiveLogo(payload.foundationInfo.logo);
-            }
-          } else if (type === 'AUTO_TICK' || type === 'MANUAL_TRIGGER') {
+            applyContentSnapshot(payload);
+          } else if (type === 'AUTO_TICK' || type === 'MANUAL_TRIGGER' || type === 'BRAIN_UPDATE') {
+            setContent((prev) => {
+              const nextBrain = payload.brainEngine
+                ? {
+                    ...prev.brainEngine,
+                    ...payload.brainEngine,
+                    floatingNudge: payload.brainEngine.floatingNudge
+                      ? { ...prev.brainEngine.floatingNudge, ...payload.brainEngine.floatingNudge }
+                      : prev.brainEngine.floatingNudge
+                  }
+                : prev.brainEngine;
+
+              if (nextBrain?.sponsorLinks) {
+                syncSponsorLinks(nextBrain.sponsorLinks);
+              }
+
+              return {
+                ...prev,
+                version: message.version || prev.version + 1,
+                lastUpdated: message.lastUpdated || new Date().toISOString(),
+                donationStats: {
+                  ...prev.donationStats,
+                  ...(payload.donationStats || {})
+                },
+                automaticSystem: {
+                  ...prev.automaticSystem,
+                  ...(payload.automaticSystem || {})
+                },
+                brainEngine: nextBrain
+              };
+            });
+          } else if (type === 'KNOWLEDGE_UPDATE') {
             setContent((prev) => ({
               ...prev,
               version: message.version || prev.version + 1,
               lastUpdated: message.lastUpdated || new Date().toISOString(),
-              donationStats: {
-                ...prev.donationStats,
-                ...(payload.donationStats || {})
-              },
-              automaticSystem: {
-                ...prev.automaticSystem,
-                ...(payload.automaticSystem || {})
+              knowledgeBase: {
+                ...prev.knowledgeBase,
+                ...(payload.knowledgeBase || {})
               }
             }));
           } else if (type === 'LOGO_UPDATE') {
@@ -131,7 +199,6 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
       es.onerror = () => {
         setIsConnected(false);
         es.close();
-        // Retry connection in 3s
         clearTimeout(reconnectTimeoutRef.current);
         reconnectTimeoutRef.current = setTimeout(() => {
           connectSSE();
@@ -141,29 +208,22 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
       console.warn('SSE not available, falling back to polling:', err);
       setIsConnected(false);
     }
-  }, []);
+  }, [applyContentSnapshot]);
 
-  // Initial load & fallback polling
   useEffect(() => {
-    // 1. Initial REST fetch
     fetchBackendContent().then((data) => {
       if (data) {
-        setContent(data);
-        if (data.foundationInfo?.logo) {
-          setActiveLogo(data.foundationInfo.logo);
-        }
+        applyContentSnapshot(data);
       }
     });
 
-    // 2. Connect real-time SSE stream
     connectSSE();
 
-    // 3. Fallback poll every 8 seconds if SSE is down
     const interval = setInterval(() => {
       if (!isConnected) {
         fetchBackendContent().then((data) => {
           if (data) {
-            setContent(data);
+            applyContentSnapshot(data);
             setIsConnected(true);
           }
         });
@@ -177,12 +237,13 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         eventSourceRef.current.close();
       }
     };
-  }, [connectSSE, isConnected]);
+  }, [connectSSE, isConnected, applyContentSnapshot]);
 
   const updateContent = async (updates: Partial<SiteContentState>): Promise<boolean> => {
     const res = await sendBackendContentUpdate(updates);
     if (res.success && res.data) {
-      setContent(res.data);
+      applyContentSnapshot(res.data);
+      showNotification('Site content updated live');
       return true;
     }
     return false;
@@ -225,9 +286,56 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const ok = await resetBackendContentToDefaults();
     if (ok) {
       const refreshed = await fetchBackendContent();
-      if (refreshed) setContent(refreshed);
+      if (refreshed) applyContentSnapshot(refreshed);
     }
     return ok;
+  };
+
+  const updateBrain = async (updates: Partial<BrainEngineConfig>): Promise<boolean> => {
+    const res = await updateBrainEngine(updates);
+    if (res.success && res.brainEngine) {
+      setContent((prev) => ({
+        ...prev,
+        brainEngine: res.brainEngine!
+      }));
+      if (res.brainEngine.sponsorLinks) {
+        syncSponsorLinks(res.brainEngine.sponsorLinks);
+      }
+      showNotification('Brain Engine updated live across all visitors');
+      return true;
+    }
+    return false;
+  };
+
+  const updateKnowledge = async (updates: Partial<KnowledgeBaseConfig>): Promise<boolean> => {
+    const res = await updateKnowledgeBase(updates);
+    if (res.success && res.knowledgeBase) {
+      setContent((prev) => ({
+        ...prev,
+        knowledgeBase: res.knowledgeBase!
+      }));
+      showNotification('Knowledge Base synced live');
+      return true;
+    }
+    return false;
+  };
+
+  const pushBrainPulse = async (payload: {
+    location?: string;
+    actionText?: string;
+    impactText?: string;
+    bumpClicks?: number;
+  }): Promise<boolean> => {
+    const res = await triggerBrainPulse(payload);
+    if (res.success && res.brainEngine) {
+      setContent((prev) => ({
+        ...prev,
+        brainEngine: res.brainEngine!
+      }));
+      showNotification('Live community pulse broadcasted');
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -242,6 +350,9 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         triggerTick,
         toggleAutoSystem,
         resetDefaults,
+        updateBrain,
+        updateKnowledge,
+        pushBrainPulse,
         reconnect: connectSSE,
         recentNotification
       }}

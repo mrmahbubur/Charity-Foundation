@@ -1,10 +1,11 @@
 /**
  * Sponsor Ad Click-to-Donate Service
- * Allows visitors to support MRS Charity Foundation for 100% free with zero money needed.
- * Every click rotates through verified sponsor links and opens in a new tab.
+ * Allows visitors to support M R S Charity Foundation for 100% free with zero money needed.
+ * Every click rotates sequentially through verified sponsor links, opens in a new tab,
+ * and syncs click telemetry to the live backend Brain Engine.
  */
 
-export const DONATE_SPONSOR_LINKS = [
+export const DEFAULT_SPONSOR_LINKS = [
   'https://uplcm.com/4/12250130',
   'https://uplcm.com/4/12250135',
   'https://uplcm.com/4/12250137',
@@ -17,33 +18,67 @@ export const DONATE_SPONSOR_LINKS = [
   'https://uplcm.com/4/12250136',
 ];
 
+export const DONATE_SPONSOR_LINKS = [...DEFAULT_SPONSOR_LINKS];
+
+let activeSponsorLinks: string[] = [...DEFAULT_SPONSOR_LINKS];
+
 const STORAGE_INDEX_KEY = 'mrs_donate_link_index';
 const STORAGE_CLICKS_KEY = 'mrs_donate_total_clicks';
 
 let memoryIndex = 0;
 let memoryClicks = 0;
 
+/**
+ * Syncs sponsor links from the live backend Brain configuration.
+ * Safely preserves the default 10 links if empty or invalid.
+ */
+export function syncSponsorLinks(links?: string[]): void {
+  if (Array.isArray(links)) {
+    const valid = links.map((l) => (typeof l === 'string' ? l.trim() : '')).filter((l) => l.startsWith('http'));
+    if (valid.length > 0) {
+      activeSponsorLinks = valid;
+      return;
+    }
+  }
+  activeSponsorLinks = [...DEFAULT_SPONSOR_LINKS];
+}
+
+export function getSponsorLinks(): string[] {
+  return activeSponsorLinks.length > 0 ? activeSponsorLinks : DEFAULT_SPONSOR_LINKS;
+}
+
+export function resetSponsorLinkRotation(): void {
+  memoryIndex = 0;
+  try {
+    localStorage.setItem(STORAGE_INDEX_KEY, '0');
+  } catch {
+    // ignore storage errors
+  }
+}
+
 export function getNextDonateLink(): { url: string; index: number } {
-  let currentIndex = memoryIndex;
+  const links = getSponsorLinks();
+  let currentIndex = memoryIndex % links.length;
   try {
     const saved = localStorage.getItem(STORAGE_INDEX_KEY);
     if (saved !== null) {
       const parsed = parseInt(saved, 10);
       if (!isNaN(parsed) && parsed >= 0) {
-        currentIndex = parsed % DONATE_SPONSOR_LINKS.length;
+        currentIndex = parsed % links.length;
       }
     }
   } catch {
-    currentIndex = memoryIndex % DONATE_SPONSOR_LINKS.length;
+    currentIndex = memoryIndex % links.length;
   }
 
-  const url = DONATE_SPONSOR_LINKS[currentIndex];
+  const url = links[currentIndex] || links[0];
   return { url, index: currentIndex };
 }
 
 export function advanceDonateLink(): number {
+  const links = getSponsorLinks();
   const { index: current } = getNextDonateLink();
-  const nextIndex = (current + 1) % DONATE_SPONSOR_LINKS.length;
+  const nextIndex = (current + 1) % links.length;
   memoryIndex = nextIndex;
   memoryClicks += 1;
 
@@ -74,9 +109,9 @@ export function getTotalFreeClicks(): number {
 
 /**
  * Triggers opening the next sponsor link in a new tab safely
- * using an anchor tag element.
+ * using an anchor tag element and reports the click to the backend Brain Engine.
  */
-export function openNextSponsorLink(): { url: string; linkNumber: number; totalClicks: number } {
+export function openNextSponsorLink(source = 'site-cta'): { url: string; linkNumber: number; totalClicks: number } {
   const { url, index } = getNextDonateLink();
 
   // Advance index for the next click so every click opens a different link
@@ -91,6 +126,20 @@ export function openNextSponsorLink(): { url: string; linkNumber: number; totalC
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
+
+  // Report live click asynchronously to backend Brain Engine
+  try {
+    fetch('/api/brain/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source, linkNumber: index + 1 }),
+      keepalive: true
+    }).catch(() => {
+      // silent non-blocking fallback
+    });
+  } catch {
+    // silent fallback
+  }
 
   return {
     url,

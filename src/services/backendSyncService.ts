@@ -6,12 +6,6 @@ export interface FoundationInfo {
   motto: string;
   secondaryMotto: string;
   mission: string;
-  contact?: {
-    email?: string;
-    phone?: string;
-    address?: string;
-    helpline?: string;
-  };
 }
 
 export interface UrgentNotice {
@@ -67,6 +61,58 @@ export interface AutomaticSystemConfig {
   updateLog: BackendLog[];
 }
 
+export interface FloatingNudgeConfig {
+  enabled: boolean;
+  delaySeconds: number;
+  badge: string;
+  headline: string;
+  message: string;
+  ctaLabel: string;
+}
+
+export interface BrainActivityItem {
+  id: string;
+  location: string;
+  actionText: string;
+  impactText: string;
+  timestamp: string;
+}
+
+export interface BrainEngineConfig {
+  enabled: boolean;
+  persuasionMode: 'goal-gradient' | 'empathy' | 'urgency' | 'social-proof';
+  dailyGoalClicks: number;
+  todayClicks: number;
+  clickImpactUnit: string;
+  activeHeadline: string;
+  activeSubtext: string;
+  activeCtaLabel: string;
+  floatingNudge: FloatingNudgeConfig;
+  sponsorLinks: string[];
+  activityStream: BrainActivityItem[];
+  realClickAnalytics: {
+    totalRealClicks: number;
+    lastRealClickAt: string;
+    clicksBySection: Record<string, number>;
+  };
+}
+
+export interface KnowledgeFaqItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  ctaText: string;
+  active: boolean;
+}
+
+export interface KnowledgeBaseConfig {
+  missionBrief: string;
+  howItWorksSummary: string;
+  transparencyNote: string;
+  faqs: KnowledgeFaqItem[];
+}
+
 export interface SiteContentState {
   version: number;
   lastUpdated: string;
@@ -83,6 +129,8 @@ export interface SiteContentState {
     notice: string;
   };
   automaticSystem: AutomaticSystemConfig;
+  brainEngine: BrainEngineConfig;
+  knowledgeBase: KnowledgeBaseConfig;
 }
 
 export const INITIAL_SITE_STATE: SiteContentState = {
@@ -171,12 +219,102 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   automaticSystem: {
     enabled: true,
     autoSupporterIncrement: true,
-    supporterIncrementIntervalSec: 6,
+    supporterIncrementIntervalSec: 8,
     autoTickerSync: true,
     lastAutoUpdate: new Date().toISOString(),
     totalAutoTicks: 0,
     syncIntervalSec: 5,
     updateLog: []
+  },
+  brainEngine: {
+    enabled: true,
+    persuasionMode: 'goal-gradient',
+    dailyGoalClicks: 500,
+    todayClicks: 427,
+    clickImpactUnit: '1 Child Meal + 1 Study Notebook Credit',
+    activeHeadline: 'Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal',
+    activeSubtext: 'Zero money needed from your pocket—one quick click unlocks sponsor-funded meals and school kits for children.',
+    activeCtaLabel: 'Unlock Free Meal & Study Aid (1-Click)',
+    floatingNudge: {
+      enabled: true,
+      delaySeconds: 6,
+      badge: 'Daily Milestone · Almost Complete',
+      headline: 'Help Finish Today’s Rural School & Meal Batch',
+      message: 'Every click opens a sponsor partner in a new tab and immediately credits a child’s meal at $0 cost to you.',
+      ctaLabel: '1-Click Free Support'
+    },
+    sponsorLinks: [
+      'https://uplcm.com/4/12250130',
+      'https://uplcm.com/4/12250135',
+      'https://uplcm.com/4/12250137',
+      'https://uplcm.com/4/10016819',
+      'https://uplcm.com/4/12250134',
+      'https://uplcm.com/4/12250132',
+      'https://uplcm.com/4/12250138',
+      'https://uplcm.com/4/12250129',
+      'https://uplcm.com/4/12250133',
+      'https://uplcm.com/4/12250136'
+    ],
+    activityStream: [
+      {
+        id: 'act-1',
+        location: 'Dhaka',
+        actionText: 'unlocked 1 Child Meal & Study Credit (0 cost)',
+        impactText: '+1 Free Support Click',
+        timestamp: new Date().toISOString()
+      },
+      {
+        id: 'act-2',
+        location: 'Sylhet',
+        actionText: 'sponsored clean drinking water sachet via free link',
+        impactText: '+1 Water Credit',
+        timestamp: new Date(Date.now() - 25000).toISOString()
+      }
+    ],
+    realClickAnalytics: {
+      totalRealClicks: 0,
+      lastRealClickAt: '',
+      clicksBySection: {}
+    }
+  },
+  knowledgeBase: {
+    missionBrief: 'M R S Charity Foundation is currently an active online-based humanitarian initiative mobilizing foundational resources at zero cost to everyday visitors. Every verified sponsor link click accumulates real support toward launching our upcoming flagship ground project by M R S.',
+    howItWorksSummary: 'Commercial brand partners pay verified sponsorship rates when visitors open our partner links. We allocate those sponsor proceeds toward rural learning hubs, daily student nutrition, clean water wells, and rapid disaster relief—so you give meaningfully without spending personal money.',
+    transparencyNote: 'All foundational funds gathered during the current online phase are transparently tracked and reserved for establishing M R S community learning centers and relief operations.',
+    faqs: [
+      {
+        id: 'faq-1',
+        category: 'Zero-Cost Giving',
+        question: 'How does clicking a button donate without using my money?',
+        answer: 'When you click any free support button, a verified sponsor partner page opens in a new tab. Our advertising & corporate sponsor partners fund that visit directly, allowing us to convert everyday web clicks into meals, school notebooks, and clean water credits at zero cost to you.',
+        ctaText: 'Try 1 Free Support Click Now',
+        active: true
+      },
+      {
+        id: 'faq-2',
+        category: 'Repeat Support',
+        question: 'Can I click more than once to generate more help?',
+        answer: 'Yes! Each click automatically rotates through 10 different verified sponsor links. Clicking multiple times opens a fresh partner link each time and compounds the support credited toward today’s community milestone.',
+        ctaText: 'Open Next Sponsor Link (Free)',
+        active: true
+      },
+      {
+        id: 'faq-3',
+        category: 'Project Roadmap',
+        question: 'Where does M R S Charity Foundation currently operate?',
+        answer: 'Right now we are in our online fund-collection and community-building phase. The resources raised online are directly preparing the upcoming major ground project by M R S—establishing free rural primary schools, clean water stations, and family relief kitchens.',
+        ctaText: 'Support the Upcoming Launch (Free)',
+        active: true
+      },
+      {
+        id: 'faq-4',
+        category: 'Trust & Safety',
+        question: 'Do I ever need to enter bank cards, passwords, or personal payment details?',
+        answer: 'Never. We never ask visitors for credit cards, mobile banking PINs, or cash transfers on this portal. Every action on this site is 100% free and powered entirely by verified sponsor clicks.',
+        ctaText: 'Give Safely at $0 Cost',
+        active: true
+      }
+    ]
   }
 };
 
@@ -200,8 +338,7 @@ export async function sendBackendContentUpdate(updates: Partial<SiteContentState
       headers: { 'Content-Type': 'application/json', 'x-source': 'admin-control-panel' },
       body: JSON.stringify(updates)
     });
-    const json = await res.json();
-    return json;
+    return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Network request failed' };
   }
@@ -214,8 +351,7 @@ export async function sendBackendLogoUpdate(logoDataUrl: string): Promise<{ succ
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ logoDataUrl })
     });
-    const json = await res.json();
-    return json;
+    return await res.json();
   } catch (err: any) {
     return { success: false, error: err.message || 'Logo update failed' };
   }
@@ -256,5 +392,53 @@ export async function resetBackendContentToDefaults(): Promise<boolean> {
     return res.ok;
   } catch {
     return false;
+  }
+}
+
+export async function updateBrainEngine(
+  updates: Partial<BrainEngineConfig>
+): Promise<{ success: boolean; brainEngine?: BrainEngineConfig; message?: string; error?: string }> {
+  try {
+    const res = await fetch('/api/brain/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates)
+    });
+    return await res.json();
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Brain update failed' };
+  }
+}
+
+export async function updateKnowledgeBase(
+  updates: Partial<KnowledgeBaseConfig>
+): Promise<{ success: boolean; knowledgeBase?: KnowledgeBaseConfig; message?: string; error?: string }> {
+  try {
+    const res = await fetch('/api/brain/knowledge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates)
+    });
+    return await res.json();
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Knowledge update failed' };
+  }
+}
+
+export async function triggerBrainPulse(payload: {
+  location?: string;
+  actionText?: string;
+  impactText?: string;
+  bumpClicks?: number;
+}): Promise<{ success: boolean; brainEngine?: BrainEngineConfig; error?: string }> {
+  try {
+    const res = await fetch('/api/brain/pulse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Pulse trigger failed' };
   }
 }

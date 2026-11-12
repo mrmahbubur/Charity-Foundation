@@ -1,6 +1,6 @@
 {
-  "version": 10,
-  "lastUpdated": "2026-10-21T23:01:02.042Z",
+  "version": 60,
+  "lastUpdated": "2026-11-12T20:59:57.834Z",
   "foundationInfo": {
     "name": "M R S Charity Foundation",
     "shortName": "M R S Foundation",
@@ -87,12 +87,12 @@
     }
   ],
   "donationStats": {
-    "totalSupporters": 18461,
+    "totalSupporters": 18450,
     "totalRaisedBDT": 62450000,
-    "mealsServed": 320033,
+    "mealsServed": 320000,
     "cleanWaterLitres": 1850000,
-    "lastSupporterName": "Grassroots Partner from Comilla",
-    "lastDonationTime": "2026-10-21T23:01:02.042Z"
+    "lastSupporterName": "Supporter from Dhaka",
+    "lastDonationTime": "2026-11-12T20:59:46.215Z"
   },
   "futureProject": {
     "status": "Upcoming Official Flagship",
@@ -104,39 +104,122 @@
   "automaticSystem": {
     "enabled": true,
     "autoSupporterIncrement": true,
-    "supporterIncrementIntervalSec": 6,
+    "supporterIncrementIntervalSec": 8,
     "autoTickerSync": true,
-    "lastAutoUpdate": "2026-10-21T23:01:02.042Z",
-    "totalAutoTicks": 8,
+    "lastAutoUpdate": "2026-11-12T20:59:46.215Z",
+    "totalAutoTicks": 0,
     "syncIntervalSec": 5,
     "updateLog": [
       {
-        "id": "log-1792623662048-pjvj",
-        "timestamp": "2026-10-21T23:01:02.048Z",
-        "action": "AUTO_TICK",
-        "details": "Backend automated worker synced supporter counter (+2 from Grassroots Partner from Comilla, Total: 18,461)",
-        "source": "backend-worker"
-      },
-      {
-        "id": "log-1792264152840-nzaj",
-        "timestamp": "2026-10-17T19:09:12.840Z",
-        "action": "MANUAL_TRIGGER",
-        "details": "Manual test trigger fired: +2 supporters from Supporter from Dhaka (New Total: 18,454)",
-        "source": "admin-ui"
-      },
-      {
-        "id": "log-1792264147246-pmb9",
-        "timestamp": "2026-10-17T19:09:07.246Z",
-        "action": "CONTENT_UPDATE",
-        "details": "Site content updated via backend API (version 3)",
-        "source": "api-request"
+        "id": "log-1794517197834-svjh",
+        "timestamp": "2026-11-12T20:59:57.834Z",
+        "action": "SYSTEM_RESET",
+        "details": "Content reset to default M R S Charity Foundation values",
+        "source": "admin-reset"
       },
       {
         "id": "log-1",
-        "timestamp": "2026-10-17T19:09:00.257Z",
+        "timestamp": "2026-11-12T20:59:46.215Z",
         "action": "SYSTEM_BOOT",
-        "details": "Backend Automatic System initialized successfully with persistent storage and SSE live sync stream.",
+        "details": "Backend Brain Engine & SSE live orchestration initialized successfully.",
         "source": "backend-daemon"
+      }
+    ]
+  },
+  "brainEngine": {
+    "enabled": true,
+    "persuasionMode": "goal-gradient",
+    "dailyGoalClicks": 500,
+    "todayClicks": 427,
+    "clickImpactUnit": "1 Child Meal + 1 Study Notebook Credit",
+    "activeHeadline": "Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal",
+    "activeSubtext": "Zero money needed from your pocket—one quick click unlocks sponsor-funded meals and school kits for children.",
+    "activeCtaLabel": "Unlock Free Meal & Study Aid (1-Click)",
+    "floatingNudge": {
+      "enabled": true,
+      "delaySeconds": 6,
+      "badge": "Daily Milestone · Almost Complete",
+      "headline": "Help Finish Today’s Rural School & Meal Batch",
+      "message": "Every click opens a sponsor partner in a new tab and immediately credits a child’s meal at $0 cost to you.",
+      "ctaLabel": "1-Click Free Support"
+    },
+    "sponsorLinks": [
+      "https://uplcm.com/4/12250130",
+      "https://uplcm.com/4/12250135",
+      "https://uplcm.com/4/12250137",
+      "https://uplcm.com/4/10016819",
+      "https://uplcm.com/4/12250134",
+      "https://uplcm.com/4/12250132",
+      "https://uplcm.com/4/12250138",
+      "https://uplcm.com/4/12250129",
+      "https://uplcm.com/4/12250133",
+      "https://uplcm.com/4/12250136"
+    ],
+    "activityStream": [
+      {
+        "id": "act-1",
+        "location": "Dhaka",
+        "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
+        "impactText": "+1 Free Support Click",
+        "timestamp": "2026-11-12T20:59:46.215Z"
+      },
+      {
+        "id": "act-2",
+        "location": "Sylhet",
+        "actionText": "sponsored clean drinking water sachet via free link",
+        "impactText": "+1 Water Credit",
+        "timestamp": "2026-11-12T20:59:21.215Z"
+      },
+      {
+        "id": "act-3",
+        "location": "London, UK",
+        "actionText": "completed 3 consecutive free sponsor support clicks",
+        "impactText": "+3 Meal Credits",
+        "timestamp": "2026-11-12T20:58:51.215Z"
+      }
+    ],
+    "realClickAnalytics": {
+      "totalRealClicks": 0,
+      "lastRealClickAt": "",
+      "clicksBySection": {}
+    }
+  },
+  "knowledgeBase": {
+    "missionBrief": "M R S Charity Foundation is currently an active online-based humanitarian initiative mobilizing foundational resources at zero cost to everyday visitors. Every verified sponsor link click accumulates real support toward launching our upcoming flagship ground project by M R S.",
+    "howItWorksSummary": "Commercial brand partners pay verified sponsorship rates when visitors open our partner links. We allocate those sponsor proceeds toward rural learning hubs, daily student nutrition, clean water wells, and rapid disaster relief—so you give meaningfully without spending personal money.",
+    "transparencyNote": "All foundational funds gathered during the current online phase are transparently tracked and reserved for establishing M R S community learning centers and relief operations.",
+    "faqs": [
+      {
+        "id": "faq-1",
+        "category": "Zero-Cost Giving",
+        "question": "How does clicking a button donate without using my money?",
+        "answer": "When you click any free support button, a verified sponsor partner page opens in a new tab. Our advertising & corporate sponsor partners fund that visit directly, allowing us to convert everyday web clicks into meals, school notebooks, and clean water credits at zero cost to you.",
+        "ctaText": "Try 1 Free Support Click Now",
+        "active": true
+      },
+      {
+        "id": "faq-2",
+        "category": "Repeat Support",
+        "question": "Can I click more than once to generate more help?",
+        "answer": "Yes! Each click automatically rotates through 10 different verified sponsor links. Clicking multiple times opens a fresh partner link each time and compounds the support credited toward today’s community milestone.",
+        "ctaText": "Open Next Sponsor Link (Free)",
+        "active": true
+      },
+      {
+        "id": "faq-3",
+        "category": "Project Roadmap",
+        "question": "Where does M R S Charity Foundation currently operate?",
+        "answer": "Right now we are in our online fund-collection and community-building phase. The resources raised online are directly preparing the upcoming major ground project by M R S—establishing free rural primary schools, clean water stations, and family relief kitchens.",
+        "ctaText": "Support the Upcoming Launch (Free)",
+        "active": true
+      },
+      {
+        "id": "faq-4",
+        "category": "Trust & Safety",
+        "question": "Do I ever need to enter bank cards, passwords, or personal payment details?",
+        "answer": "Never. We never ask visitors for credit cards, mobile banking PINs, or cash transfers on this portal. Every action on this site is 100% free and powered entirely by verified sponsor clicks.",
+        "ctaText": "Give Safely at $0 Cost",
+        "active": true
       }
     ]
   }

@@ -15,7 +15,7 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
 
   const handleFreeDonateClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const result = openNextSponsorLink();
+    const result = openNextSponsorLink('quick-strip');
     setLastMessage(`Sponsor Link #${result.linkNumber} Opened! +1 Supporter & Free donation registered.`);
 
     try {
@@ -40,7 +40,7 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
             <div className="flex items-center justify-center lg:justify-start gap-2">
               <span className="text-xs uppercase tracking-wider font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-600" />
-                <span>Zero-Cost Giving System</span>
+                <span>Zero-Cost Community Giving</span>
               </span>
               <span className="text-xs text-emerald-700 font-semibold hidden sm:inline">
                 No money needed from you
