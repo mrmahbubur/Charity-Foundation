@@ -1,0 +1,6 @@
+{
+  "name": "MRS Charity Foundation",
+  "description": "M R S Charity Foundation (a future project of M R S). Mottos: 'Poverty Ends With Us' & 'Humanity United Against Poverty'. Transforming lives through healthcare, education, and essential necessities with a 100% free ad-sponsored donation system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

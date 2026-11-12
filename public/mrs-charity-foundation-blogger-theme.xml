@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='utf-8'/>
+  <meta content='width=device-width, initial-scale=1, shrink-to-fit=no' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  <b:include data='blog' name='all-head-content'/>
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600;700&amp;display=swap' rel='stylesheet'/>
+  <script src='https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js'></script>
+
+  <b:skin><![CDATA[
+  :root {
+    --primary: #059669;
+    --primary-dark: #047857;
+    --primary-50: #ECFDF5;
+    --accent: #D97706;
+    --navy: #0F172A;
+    --bg: #FCFCFA;
+    --surface: #FFFFFF;
+    --text: #1E293B;
+    --muted: #64748B;
+    --border: #E2E8F0;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { color: var(--primary-dark); }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; cursor: pointer; }
+  .mrs-top { background: #064E3B; color: #ECFDF5; font-size: 12.5px; padding: 8px 16px; font-weight: 500; }
+  .mrs-top-in { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .mrs-top-tag { background: #059669; color: #FFF; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-right: 6px; }
+  .mrs-top-gold { color: #FDE047; font-weight: 600; }
+  .mrs-bar { background: linear-gradient(90deg, #D97706, #B45309, #059669); color: #FFF; padding: 10px 16px; position: sticky; top: 0; z-index: 101; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .mrs-bar-in { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .mrs-bar-left { display: flex; align-items: center; gap: 10px; overflow: hidden; flex: 1; }
+  .mrs-pill { background: rgba(0,0,0,0.3); padding: 3px 9px; border-radius: 9999px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .mrs-dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; display: inline-block; }
+  .mrs-slide { display: none; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mrs-slide.active { display: block; }
+  .btn-t-cta { background: #0F172A; color: #FFF !important; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; white-space: nowrap; }
+  .btn-t-cta:hover { background: #1E293B; }
+  .mrs-head { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 40px; z-index: 100; }
+  .mrs-head-in { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .mrs-brand { display: flex; align-items: center; gap: 12px; }
+  .mrs-logo { width: 42px; height: 42px; border-radius: 8px; background: #FFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .mrs-brand h1 { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .mrs-brand span { font-size: 11px; font-weight: 600; color: var(--primary); text-transform: uppercase; }
+  .mrs-nav { display: flex; align-items: center; gap: 20px; list-style: none; }
+  .mrs-nav a { color: var(--text); font-weight: 600; font-size: 14px; }
+  .mrs-nav a:hover { color: var(--primary); }
+  .btn-green { background: var(--primary); color: #FFF !important; padding: 8px 18px; border-radius: 8px; font-size: 13.5px; font-weight: 700; border: none; box-shadow: 0 2px 4px rgba(5,150,105,0.2); }
+  .btn-green:hover { background: var(--primary-dark); }
+  .mrs-hero { background: linear-gradient(135deg, #064E3B 0%, #065F46 60%, #047857 100%); color: #FFF; padding: 48px 20px; }
+  .mrs-hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 36px; align-items: center; }
+  .mrs-badge { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 9999px; font-size: 11.5px; font-weight: 700; color: #D1FAE5; margin-bottom: 14px; }
+  .mrs-hero-h2 { font-family: 'Outfit', sans-serif; font-size: 34px; line-height: 1.22; font-weight: 800; margin-bottom: 14px; }
+  .mrs-hero-h2 span { color: #FBBF24; }
+  .mrs-hero-p { font-size: 15px; color: #E2E8F0; line-height: 1.6; margin-bottom: 20px; }
+  .mrs-mottos { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .mrs-motto { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 6px; font-size: 12px; color: #FEF08A; font-weight: 600; }
+  .mrs-hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn-gold { background: #F59E0B; color: #0F172A !important; padding: 12px 22px; border-radius: 8px; font-size: 14.5px; font-weight: 800; border: none; }
+  .btn-gold:hover { background: #FBBF24; }
+  .btn-ghost { background: rgba(255,255,255,0.1); color: #FFF !important; border: 1px solid rgba(255,255,255,0.25); padding: 12px 18px; border-radius: 8px; font-size: 14.5px; font-weight: 600; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+  .mrs-card { background: #FFF; color: var(--text); border-radius: var(--radius); padding: 24px; box-shadow: 0 16px 24px rgba(0,0,0,0.2); }
+  .mrs-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .mrs-card-h3 { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--navy); }
+  .mrs-free { background: #DCFCE7; color: #15803D; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 800; }
+  .mrs-card p { font-size: 13.5px; color: var(--muted); margin-bottom: 14px; }
+  .mrs-kpi-row { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .mrs-kpi-val { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 800; color: var(--primary); }
+  .btn-act { width: 100%; background: linear-gradient(135deg, #059669, #047857); color: #FFF !important; padding: 13px; border-radius: 8px; font-size: 14.5px; font-weight: 800; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-act:hover { background: #047857; }
+  .mrs-stats { background: #FFF; border-bottom: 1px solid var(--border); padding: 20px; }
+  .mrs-stats-in { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; text-align: center; }
+  .mrs-stat-box { padding: 4px; border-right: 1px solid var(--border); }
+  .mrs-stat-box:last-child { border-right: none; }
+  .mrs-num { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: var(--navy); }
+  .mrs-num.green { color: var(--primary); }
+  .mrs-lbl { font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 2px; }
+  .mrs-sec { padding: 44px 20px; max-width: 1200px; margin: 0 auto; }
+  .mrs-sh { text-align: center; max-width: 680px; margin: 0 auto 32px; }
+  .mrs-tag { color: var(--primary); font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+  .mrs-st { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  .mrs-sd { font-size: 14px; color: var(--muted); }
+  .mrs-g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .mrs-c-card { background: #FFF; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); display: flex; flex-direction: column; }
+  .mrs-c-img { height: 180px; background: #E2E8F0; position: relative; overflow: hidden; }
+  .mrs-c-img img { width: 100%; height: 100%; object-fit: cover; }
+  .mrs-c-badge { position: absolute; top: 10px; left: 10px; background: rgba(15,23,42,0.85); color: #FFF; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .mrs-c-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+  .mrs-c-name { font-family: 'Outfit', sans-serif; font-size: 16.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .mrs-c-sub { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .mrs-c-quote { background: var(--primary-50); border-left: 3px solid var(--primary); padding: 8px 10px; font-size: 12px; color: #065F46; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .mrs-c-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F1F5F9; padding-top: 12px; }
+  .mrs-c-cost { font-size: 12.5px; font-weight: 700; color: var(--navy); }
+  .mrs-c-cost span { display: block; font-size: 10px; color: var(--muted); font-weight: 500; }
+  .mrs-p-card { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .mrs-p-ico { width: 38px; height: 38px; background: var(--primary-50); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 10px; }
+  .mrs-p-h4 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .mrs-p-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .mrs-p-stat { font-size: 11.5px; font-weight: 700; color: var(--primary-dark); }
+  .mrs-audit { background: linear-gradient(135deg, #0F172A, #1E293B); color: #FFF; border-radius: var(--radius); padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+  .mrs-audit h3 { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .mrs-audit p { color: #94A3B8; font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+  .mrs-bar-w { background: rgba(255,255,255,0.1); height: 9px; border-radius: 9999px; overflow: hidden; display: flex; margin-bottom: 12px; }
+  .mrs-leg { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; }
+  .mrs-vol { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+  .mrs-vol-g { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+  .mrs-in { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-family: inherit; margin-bottom: 10px; outline: none; }
+  .mrs-in:focus { border-color: var(--primary); }
+  .mrs-blog { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 36px; }
+  .mrs-post-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .mrs-post-card { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.03); display: flex; flex-direction: column; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .mrs-post-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.07); }
+  .mrs-post-card-thumb { height: 210px; width: 100%; position: relative; overflow: hidden; background: #F8FAFC; border-bottom: 1px solid var(--border); }
+  .mrs-post-card-thumb a { display: block; width: 100%; height: 100%; }
+  .mrs-post-card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+  .mrs-post-card-thumb:hover img { transform: scale(1.05); }
+  .post-thumb-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #ECFDF5; }
+  .mrs-post-card-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+  .post-meta { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .post-title { font-family: 'Outfit', sans-serif; font-size: 19.5px; font-weight: 700; margin-bottom: 10px; line-height: 1.35; }
+  .post-title a { color: var(--navy); text-decoration: none; }
+  .post-title a:hover { color: var(--primary); }
+  .post-snippet { font-size: 13.5px; color: #475569; line-height: 1.6; margin-bottom: 16px; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .post-readmore { margin-top: auto; padding-top: 10px; border-top: 1px solid #F1F5F9; }
+  .post-readmore-btn { font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+  .post-readmore-btn:hover { color: var(--primary-dark); text-decoration: underline; }
+  .mrs-single-post { background: #FFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; max-width: 860px; margin: 0 auto; }
+  .mrs-single-title { font-family: 'Outfit', sans-serif; font-size: 30px; font-weight: 800; color: var(--navy); margin-bottom: 16px; line-height: 1.25; }
+  .mrs-single-thumb { border-radius: 10px; overflow: hidden; max-height: 420px; margin-bottom: 24px; background: #F1F5F9; }
+  .mrs-single-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .mrs-single-body { font-size: 15px; color: #334155; line-height: 1.75; }
+  .mrs-single-body p { margin-bottom: 16px; }
+  @media(max-width:850px){
+    .mrs-post-grid { grid-template-columns: 1fr; }
+    .mrs-post-card-thumb { height: 190px; }
+    .mrs-single-post { padding: 20px; }
+    .mrs-single-title { font-size: 24px; }
+  }
+  .mrs-foot { background: var(--navy); color: #94A3B8; padding: 44px 20px 20px; font-size: 13px; }
+  .mrs-foot-g { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 28px; margin-bottom: 32px; }
+  .mrs-foot h4 { color: #FFF; font-family: 'Outfit', sans-serif; font-size: 14.5px; font-weight: 700; margin-bottom: 12px; }
+  .mrs-foot ul { list-style: none; }
+  .mrs-foot li { margin-bottom: 6px; }
+  .mrs-foot a { color: #94A3B8; }
+  .mrs-foot a:hover { color: #34D399; }
+  .mrs-foot-b { max-width: 1200px; margin: 0 auto; padding-top: 18px; border-top: 1px solid #1E293B; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; flex-wrap: wrap; gap: 8px; }
+  .mrs-hud { position: fixed; bottom: 18px; right: 18px; z-index: 99; background: #0F172A; color: #FFF; padding: 9px 15px; border-radius: 9999px; box-shadow: 0 8px 20px rgba(0,0,0,0.35); border: 1px solid #334155; display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; }
+  @media(max-width:900px){
+    .mrs-hero-grid, .mrs-g3, .mrs-stats-in, .mrs-audit, .mrs-vol-g, .mrs-foot-g { grid-template-columns: 1fr; }
+    .mrs-nav { display: none; }
+    .mrs-hero-h2 { font-size: 26px; }
+    .mrs-stat-box { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .mrs-stat-box:last-child { border-bottom: none; }
+  }
+  ]]></b:skin>
+</head>
+
+<body>
+  <!-- Top Notice -->
+  <div class='mrs-top'>
+    <div class='mrs-top-in'>
+      <div>
+        <span class='mrs-top-tag'>Online Phase</span>
+        <span>M R S Charity Foundation &#183; A Future Big Project by M R S</span>
+      </div>
+      <div>
+        <span>Mottos: </span>
+        <span class='mrs-top-gold'>&quot;Poverty Ends With Us&quot;</span>
+        <span> &amp; </span>
+        <span class='mrs-top-gold'>&quot;Humanity United Against Poverty&quot;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Continuous Slideshow Bar -->
+  <div class='mrs-bar'>
+    <div class='mrs-bar-in'>
+      <div class='mrs-bar-left'>
+        <div class='mrs-pill'>
+          <span class='mrs-dot'/>
+          <span>ONLINE CAMPAIGN</span>
+        </div>
+        <div id='mrsTickerBox'>
+          <div class='mrs-slide active'><strong>&#10024; ONLINE FUND MOBILIZATION:</strong> We are currently an online-based initiative gathering resources for an upcoming big project!</div>
+          <div class='mrs-slide'><strong>&#127890; NO MONEY NEEDED FROM YOU:</strong> Every free sponsor click generates direct funding to build our future charity foundation.</div>
+          <div class='mrs-slide'><strong>&#10084; FUTURE GROUND OPERATIONS:</strong> Preparing rural primary schools, clean drinking water wells, and hunger relief centers.</div>
+          <div class='mrs-slide'><strong>&#128104;&#8205;&#128105;&#8205;&#128103; JOIN OUR ONLINE MOVEMENT:</strong> Support without cost today and help launch a major humanitarian project by M R S.</div>
+        </div>
+      </div>
+      <button class='btn-t-cta' onclick='handleFreeDonateClick();return false;'>Click to Free Donate</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class='mrs-head'>
+    <div class='mrs-head-in'>
+      <a class='mrs-brand' href='https://mrscharityfoundation.blogspot.com/'>
+        <div class='mrs-logo'>
+          <svg class='mrs-logo-svg' height='42' viewBox='0 0 120 120' width='42' xmlns='http://www.w3.org/2000/svg'>
+            <defs>
+              <linearGradient id='mrsEmblemBg' x1='0%' x2='100%' y1='0%' y2='100%'>
+                <stop offset='0%' stop-color='#064E3B'/>
+                <stop offset='50%' stop-color='#065F46'/>
+                <stop offset='100%' stop-color='#047857'/>
+              </linearGradient>
+              <linearGradient id='mrsGold' x1='0%' x2='100%' y1='0%' y2='100%'>
+                <stop offset='0%' stop-color='#FDE047'/>
+                <stop offset='50%' stop-color='#F59E0B'/>
+                <stop offset='100%' stop-color='#D97706'/>
+              </linearGradient>
+              <linearGradient id='mrsHeart' x1='0%' x2='100%' y1='0%' y2='100%'>
+                <stop offset='0%' stop-color='#10B981'/>
+                <stop offset='100%' stop-color='#059669'/>
+              </linearGradient>
+            </defs>
+            <circle cx='60' cy='60' fill='url(#mrsEmblemBg)' r='58' stroke='url(#mrsGold)' stroke-width='2.5'/>
+            <circle cx='60' cy='60' fill='none' r='52' stroke='rgba(254, 240, 138, 0.4)' stroke-dasharray='2,2' stroke-width='1'/>
+            <path d='M30,76 C24,64 26,48 36,36 C34,44 36,56 42,64 Z' fill='url(#mrsGold)' opacity='0.85'/>
+            <path d='M26,58 C20,50 24,40 32,32 C30,38 32,48 38,54 Z' fill='url(#mrsGold)' opacity='0.85'/>
+            <path d='M90,76 C96,64 94,48 84,36 C86,44 84,56 78,64 Z' fill='url(#mrsGold)' opacity='0.85'/>
+            <path d='M94,58 C100,50 96,40 88,32 C90,38 88,48 82,54 Z' fill='url(#mrsGold)' opacity='0.85'/>
+            <rect fill='#0F172A' height='16' rx='4' stroke='url(#mrsGold)' stroke-width='1' width='52' x='34' y='22'/>
+            <text fill='#FEF08A' font-family='Outfit, sans-serif' font-size='10' font-weight='800' letter-spacing='1.5' text-anchor='middle' x='60' y='33'>M R S</text>
+            <path d='M40,84 Q50,81 60,84 Q70,81 80,84 L80,72 Q70,69 60,72 Q50,69 40,72 Z' fill='#FFFFFF' stroke='#E2E8F0' stroke-width='0.8'/>
+            <path d='M60,72 L60,84' stroke='#CBD5E1' stroke-width='1'/>
+            <path d='M42,66 C42,66 48,74 60,74 C72,74 78,66 78,66 C74,72 68,78 60,78 C52,78 46,72 42,66 Z' fill='url(#mrsGold)'/>
+            <path d='M60,63 C57,58 48,56 48,64 C48,70 56,74 60,77 C64,74 72,70 72,64 C72,56 63,58 60,63 Z' fill='url(#mrsHeart)'/>
+            <path d='M60,61 Q60,52 60,46' stroke='#FDE047' stroke-linecap='round' stroke-width='2'/>
+            <path d='M60,50 Q54,46 52,51 Q56,54 60,52' fill='#34D399'/>
+            <path d='M60,48 Q66,44 68,49 Q64,52 60,50' fill='#10B981'/>
+            <path d='M25,92 L95,92 L90,102 L30,102 Z' fill='#0F172A' stroke='url(#mrsGold)' stroke-width='1'/>
+            <text fill='#FFFFFF' font-family='Outfit, sans-serif' font-size='7.5' font-weight='800' letter-spacing='0.5' text-anchor='middle' x='60' y='100'>FOUNDATION</text>
+          </svg>
+        </div>
+        <div>
+          <h1>MRS Charity Foundation</h1>
+          <span>A Future Big Project of M R S</span>
+        </div>
+      </a>
+      <nav class='mrs-nav'>
+        <a href='https://mrscharityfoundation.blogspot.com/'>Home</a>
+        <a href='#programs'>Planned Programs</a>
+        <a href='#sponsor'>Child Sponsorship</a>
+        <a href='#transparency'>Transparency</a>
+        <a href='#volunteer'>Online Volunteers</a>
+      </nav>
+      <div>
+        <button class='btn-green' onclick='handleFreeDonateClick();return false;'>Donate (100% Free)</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class='mrs-hero'>
+    <div class='mrs-hero-grid'>
+      <div>
+        <span class='mrs-badge'>&#9829; ONLINE INITIATIVE &#183; FUTURE BIG PROJECT COMING</span>
+        <h2 class='mrs-hero-h2'>Online Fund Collection for an <span>Upcoming Big Project</span></h2>
+        <p class='mrs-hero-p'>
+          MRS Charity Foundation is currently an <strong>online-based humanitarian platform</strong> actively collecting foundational funds and rallying community support. An ambitious, comprehensive flagship ground project is in preparation by M R S to launch free primary schools, nutrition programs, clean water wells, and emergency disaster relief.
+        </p>
+        <div class='mrs-mottos'>
+          <span class='mrs-motto'>Motto: &quot;Poverty Ends With Us&quot;</span>
+          <span class='mrs-motto'>Vision: &quot;Humanity United Against Poverty&quot;</span>
+          <span class='mrs-motto'>Phase: Online Fund Mobilization</span>
+        </div>
+        <div class='mrs-hero-btns'>
+          <button class='btn-gold' onclick='handleFreeDonateClick();return false;'>Click to Donate (Free - No Cost)</button>
+          <a class='btn-ghost' href='#programs'>Explore Planned Programs</a>
+        </div>
+      </div>
+
+      <div class='mrs-card'>
+        <div class='mrs-card-top'>
+          <h3 class='mrs-card-h3'>Zero-Cost Giving Hub</h3>
+          <span class='mrs-free'>100% Free</span>
+        </div>
+        <p>No money required from you. Clicking below opens a verified sponsor partner page in a new tab, generating direct funding for our upcoming humanitarian programs at zero cost!</p>
+        <div class='mrs-kpi-row'>
+          <span style='font-size:12px;color:var(--muted);font-weight:600;'>Total Verified Supporters</span>
+          <span class='mrs-kpi-val' id='mrsSupporterDisplay'>12,480</span>
+        </div>
+        <button class='btn-act' onclick='handleFreeDonateClick();return false;'>&#10024; Click to Donate Now (Free)</button>
+        <div style='font-size:11.5px;color:#64748B;text-align:center;margin-top:10px;'>&#10003; 10 Verified Ad Sponsors &#183; Instant tracking &#183; Unlimited clicks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class='mrs-stats'>
+    <div class='mrs-stats-in'>
+      <div class='mrs-stat-box'><div class='mrs-num green'>14</div><div class='mrs-lbl'>Planned Rural Schools</div></div>
+      <div class='mrs-stat-box'><div class='mrs-num'>4,250+</div><div class='mrs-lbl'>Children in Target Reach</div></div>
+      <div class='mrs-stat-box'><div class='mrs-num green'>100%</div><div class='mrs-lbl'>Free Zero-Cost Model</div></div>
+      <div class='mrs-stat-box'><div class='mrs-num'>Online</div><div class='mrs-lbl'>Active Resource Phase</div></div>
+    </div>
+  </div>
+
+  <!-- Sponsor a Child -->
+  <section class='mrs-sec' id='sponsor'>
+    <div class='mrs-sh'>
+      <span class='mrs-tag'>Target Beneficiaries</span>
+      <h2 class='mrs-st'>Sponsor an Underprivileged Child</h2>
+      <p class='mrs-sd'>Our upcoming flagship ground project will provide direct scholarships, school books, uniforms, hot nutritious meals, and health checkups for underprivileged children.</p>
+    </div>
+    <div class='mrs-g3'>
+      <div class='mrs-c-card'>
+        <div class='mrs-c-img'>
+          <img alt='Rifat Hossain' src='https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&amp;fit=crop&amp;w=600&amp;q=80'/>
+          <span class='mrs-c-badge'>Target Grade 3 &#183; Age 9</span>
+        </div>
+        <div class='mrs-c-body'>
+          <h3 class='mrs-c-name'>Rifat Hossain</h3>
+          <div class='mrs-c-sub'>Kurigram Riverine Region &#183; Aspiring Scholar</div>
+          <div class='mrs-c-quote'><strong>Dream:</strong> &quot;I want to become a civil engineer to build bridges across our flood rivers.&quot;</div>
+          <div class='mrs-c-foot'>
+            <div class='mrs-c-cost'>BDT 2,500 / mo<span>Planned scholarship fund</span></div>
+            <button class='btn-green' onclick='handleFreeDonateClick();return false;'>Sponsor Free</button>
+          </div>
+        </div>
+      </div>
+      <div class='mrs-c-card'>
+        <div class='mrs-c-img'>
+          <img alt='Mim Akter' src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&amp;fit=crop&amp;w=600&amp;q=80'/>
+          <span class='mrs-c-badge'>Target Grade 4 &#183; Age 10</span>
+        </div>
+        <div class='mrs-c-body'>
+          <h3 class='mrs-c-name'>Mim Akter</h3>
+          <div class='mrs-c-sub'>Urban Underprivileged Community &#183; High Potential</div>
+          <div class='mrs-c-quote'><strong>Dream:</strong> &quot;I dream of becoming a doctor to provide free medical care to vulnerable families.&quot;</div>
+          <div class='mrs-c-foot'>
+            <div class='mrs-c-cost'>BDT 2,500 / mo<span>Planned medical &amp; tuition</span></div>
+            <button class='btn-green' onclick='handleFreeDonateClick();return false;'>Sponsor Free</button>
+          </div>
+        </div>
+      </div>
+      <div class='mrs-c-card'>
+        <div class='mrs-c-img'>
+          <img alt='Tanvir Islam' src='https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&amp;fit=crop&amp;w=600&amp;q=80'/>
+          <span class='mrs-c-badge'>Target Grade 2 &#183; Age 8</span>
+        </div>
+        <div class='mrs-c-body'>
+          <h3 class='mrs-c-name'>Tanvir Islam</h3>
+          <div class='mrs-c-sub'>Remote Hill Tracts &#183; First-Gen Learner</div>
+          <div class='mrs-c-quote'><strong>Dream:</strong> &quot;I want to learn English and teach the children in my indigenous village.&quot;</div>
+          <div class='mrs-c-foot'>
+            <div class='mrs-c-cost'>BDT 2,500 / mo<span>Target learning kit</span></div>
+            <button class='btn-green' onclick='handleFreeDonateClick();return false;'>Sponsor Free</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section class='mrs-sec' id='programs' style='background:#F8FAFC;border-top:1px solid var(--border);border-bottom:1px solid var(--border);max-width:100%;'>
+    <div style='max-width:1200px;margin:0 auto;'>
+      <div class='mrs-sh'>
+        <span class='mrs-tag'>Future Roadmap</span>
+        <h2 class='mrs-st'>Planned Humanitarian Ground Pillars</h2>
+        <p class='mrs-sd'>Our upcoming big project is structured to address education, nutrition, health, livelihood, and disaster response.</p>
+      </div>
+      <div class='mrs-g3'>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#127891;</div><h4 class='mrs-p-h4'>Free Quality Education</h4><p class='mrs-p-desc'>Building modern community classrooms providing national curriculum instruction for underprivileged children.</p><div class='mrs-p-stat'>Upcoming: 14 Classrooms</div></div>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#127822;</div><h4 class='mrs-p-h4'>Midday Nutrition Program</h4><p class='mrs-p-desc'>Preparing freshly cooked warm midday lunches to eliminate child malnutrition and support classroom attendance.</p><div class='mrs-p-stat'>Upcoming: Daily Kitchens</div></div>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#128167;</div><h4 class='mrs-p-h4'>Clean Safe Drinking Water</h4><p class='mrs-p-desc'>Installing solar deep tube-wells and arsenic filtration units in remote coastal and flood-prone villages.</p><div class='mrs-p-stat'>Upcoming: 48 Wells Planned</div></div>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#9986;</div><h4 class='mrs-p-h4'>Women Vocational Training</h4><p class='mrs-p-desc'>Empowering vulnerable mothers through sewing, embroidery training, and small entrepreneurship grants.</p><div class='mrs-p-stat'>Upcoming: Training Hubs</div></div>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#9730;</div><h4 class='mrs-p-h4'>Disaster &amp; Flood Relief</h4><p class='mrs-p-desc'>Equipping rapid-response emergency flood boats, dry food packs, and water purification tablets.</p><div class='mrs-p-stat'>Upcoming: Rapid Relief Kits</div></div>
+        <div class='mrs-p-card'><div class='mrs-p-ico'>&#127973;</div><h4 class='mrs-p-h4'>Healthcare &amp; Dental Camps</h4><p class='mrs-p-desc'>Organizing regular medical camps with volunteer doctors, pediatric medicine, and hygiene supplies.</p><div class='mrs-p-stat'>Upcoming: Quarterly Camps</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparency -->
+  <section class='mrs-sec' id='transparency'>
+    <div class='mrs-sh'>
+      <span class='mrs-tag'>Open Governance</span>
+      <h2 class='mrs-st'>Transparency &amp; Resource Allocation</h2>
+      <p class='mrs-sd'>We uphold 100% honesty. As an online-based initiative, we openly share our operational roadmap and fund accumulation goals.</p>
+    </div>
+    <div class='mrs-audit'>
+      <div>
+        <h3>Transparent Fund Model</h3>
+        <p>By partnering with zero-cost digital sponsor networks, all collected funds accumulate directly to launch our upcoming big ground project.</p>
+        <div class='mrs-bar-w'>
+          <div style='background:#10B981;width:87.2%;'/>
+          <div style='background:#F59E0B;width:7.8%;'/>
+          <div style='background:#3B82F6;width:5.0%;'/>
+        </div>
+        <div class='mrs-leg'>
+          <div><span style='display:inline-block;width:7px;height:7px;border-radius:50%;background:#10B981;margin-right:4px;'/>87.2% Direct Field Programs</div>
+          <div><span style='display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-right:4px;'/>7.8% Operational Readiness</div>
+          <div><span style='display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B82F6;margin-right:4px;'/>5.0% Reserve &amp; Governance</div>
+        </div>
+      </div>
+      <div style='background:rgba(255,255,255,0.06);padding:20px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);font-size:13px;line-height:1.75;color:#CBD5E1;'>
+        <h4 style='color:#FFF;font-size:15px;margin-bottom:8px;'>Project Transparency Disclosures</h4>
+        <div><strong>Current Status:</strong> Online-Based Initiative &amp; Fund Collection</div>
+        <div><strong>Upcoming Milestone:</strong> Major Humanitarian Project in Preparation by M R S</div>
+        <div><strong>Funding Channel:</strong> 100% Free Sponsor-Backed Ad Clicks</div>
+        <div><strong>Online Portal:</strong> mrscharityfoundation.blogspot.com</div>
+        <div><strong>Governance:</strong> Strict Ethical Non-Profit Administration</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Volunteer -->
+  <section class='mrs-sec' id='volunteer'>
+    <div class='mrs-vol'>
+      <div class='mrs-vol-g'>
+        <div>
+          <span class='mrs-tag'>Online Network</span>
+          <h2 class='mrs-st' style='text-align:left;'>Join as an Online Ambassador</h2>
+          <p style='color:var(--muted);font-size:14px;margin-bottom:16px;line-height:1.55;'>
+            Be part of our founding digital supporter network. Share our free donation links, assist in online community campaigns, and be the first invited when our physical ground project launches.
+          </p>
+          <div style='font-size:13px;color:#059669;font-weight:700;'>
+            &#10003; Digital volunteer recognition &amp; priority invitation for upcoming ground projects.
+          </div>
+        </div>
+        <form onsubmit='handleVolunteerSubmit(event);return false;'>
+          <input class='mrs-in' id='volName' placeholder='Full Name (e.g., Ahsan Habib)' required='required' type='text'/>
+          <input class='mrs-in' id='volContact' placeholder='Your Email Address for Online Volunteer Team' required='required' type='email'/>
+          <select class='mrs-in' id='volArea'>
+            <option value='digital'>Digital Outreach &amp; Social Campaigns</option>
+            <option value='community'>Online Community Mobilizer</option>
+            <option value='future-ground'>Future Ground Team Pre-Registration</option>
+            <option value='content'>Writing &amp; Content Sharing</option>
+          </select>
+          <button class='btn-green' style='width:100%;justify-content:center;padding:11px;' type='submit'>Join Online Volunteer Network</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts Section -->
+  <main class='mrs-sec' id='blog-posts'>
+    <div class='mrs-sh' style='margin-bottom:20px;'>
+      <span class='mrs-tag'>Latest Updates</span>
+      <h2 class='mrs-st'>Foundation News &amp; Campaign Updates</h2>
+    </div>
+    <div class='mrs-blog'>
+      <b:section class='main' id='main' maxwidgets='2' showaddelement='yes'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+          <b:includable id='main' var='top'>
+            <b:if cond='data:blog.pageType == &quot;item&quot;'>
+              <!-- Single Post View -->
+              <b:loop values='data:posts' var='post'>
+                <article class='mrs-single-post'>
+                  <div style='margin-bottom:20px;'>
+                    <div class='post-meta'>
+                      <span><data:post.dateHeader/></span>
+                      <span>&#183;</span>
+                      <span>By <data:post.author/></span>
+                      <b:if cond='data:post.labels'>
+                        <span>&#183;</span>
+                        <b:loop values='data:post.labels' var='label'>
+                          <a expr:href='data:label.url' style='color:#059669;font-weight:700;'><data:label.name/></a>
+                        </b:loop>
+                      </b:if>
+                    </div>
+                    <h1 class='mrs-single-title'><data:post.title/></h1>
+                  </div>
+
+                  <b:if cond='data:post.thumbnailUrl'>
+                    <div class='mrs-single-thumb'>
+                      <img expr:alt='data:post.title' expr:src='data:post.thumbnailUrl'/>
+                    </div>
+                  <b:else/>
+                    <b:if cond='data:post.firstImageUrl'>
+                      <div class='mrs-single-thumb'>
+                        <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl'/>
+                      </div>
+                    </b:if>
+                  </b:if>
+
+                  <div class='mrs-single-body'>
+                    <data:post.body/>
+                  </div>
+
+                  <div style='margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;'>
+                    <a class='btn-green' href='https://mrscharityfoundation.blogspot.com/'>&#8592; Back to All Updates</a>
+                    <button class='btn-green' onclick='handleFreeDonateClick();return false;'>Donate (100% Free)</button>
+                  </div>
+                </article>
+              </b:loop>
+            <b:else/>
+              <!-- Dedicated Space for Showing Posts with Thumbnails and Snippets -->
+              <div class='mrs-post-grid'>
+                <b:if cond='data:posts.length != 0'>
+                  <b:loop values='data:posts' var='post'>
+                    <article class='mrs-post-card'>
+                      <!-- Dedicated Post Thumbnail Container -->
+                      <div class='mrs-post-card-thumb'>
+                        <a expr:href='data:post.url'>
+                          <b:if cond='data:post.thumbnailUrl'>
+                            <img expr:alt='data:post.title' expr:src='data:post.thumbnailUrl'/>
+                          <b:else/>
+                            <b:if cond='data:post.firstImageUrl'>
+                              <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl'/>
+                            <b:else/>
+                              <div class='post-thumb-fallback'>
+                                <svg class='mrs-logo-svg' height='70' viewBox='0 0 120 120' width='70' xmlns='http://www.w3.org/2000/svg'>
+                                  <circle cx='60' cy='60' fill='#064E3B' r='58' stroke='#F59E0B' stroke-width='2.5'/>
+                                  <text fill='#FEF08A' font-family='Outfit, sans-serif' font-size='12' font-weight='800' letter-spacing='1.5' text-anchor='middle' x='60' y='52'>M R S</text>
+                                  <text fill='#FFFFFF' font-family='Outfit, sans-serif' font-size='8' font-weight='700' letter-spacing='1' text-anchor='middle' x='60' y='72'>CHARITY</text>
+                                </svg>
+                              </div>
+                            </b:if>
+                          </b:if>
+                        </a>
+                      </div>
+
+                      <!-- Dedicated Post Content: Meta, Headline & Text Snippet -->
+                      <div class='mrs-post-card-body'>
+                        <div class='post-meta'>
+                          <span><data:post.dateHeader/></span>
+                          <span>&#183;</span>
+                          <span>By <data:post.author/></span>
+                          <b:if cond='data:post.labels'>
+                            <span>&#183;</span>
+                            <b:loop values='data:post.labels' var='label'>
+                              <a expr:href='data:label.url' style='color:#059669;font-weight:600;'><data:label.name/></a>
+                            </b:loop>
+                          </b:if>
+                        </div>
+                        <h3 class='post-title'><a expr:href='data:post.url'><data:post.title/></a></h3>
+                        <!-- Dedicated Text Snippet Space -->
+                        <div class='post-snippet'>
+                          <b:if cond='data:post.snippet'>
+                            <data:post.snippet/>
+                          <b:else/>
+                            <data:post.body/>
+                          </b:if>
+                        </div>
+                        <div class='post-readmore'>
+                          <a class='post-readmore-btn' expr:href='data:post.url'>Read Full Article &#8594;</a>
+                        </div>
+                      </div>
+                    </article>
+                  </b:loop>
+                <b:else/>
+                  <div style='grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--muted);'>
+                    <h4 style='font-family:Outfit,sans-serif;color:var(--navy);font-size:18px;margin-bottom:8px;'>Welcome to M R S Charity Foundation Blog</h4>
+                    <p style='font-size:14px;max-width:540px;margin:0 auto;'>Project field dispatches, campaign milestones, and humanitarian updates will appear here automatically with their featured thumbnails and summaries.</p>
+                  </div>
+                </b:if>
+              </div>
+            </b:if>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class='mrs-foot'>
+    <div class='mrs-foot-g'>
+      <div>
+        <h4 style='font-size:18px;'>MRS Charity Foundation</h4>
+        <p style='margin-bottom:12px;'>Currently an online-based humanitarian initiative actively collecting foundational funds. An ambitious future big project is in preparation by M R S to establish wide-scale education and relief programs.</p>
+        <p style='color:#34D399;font-weight:700;'>Motto: &quot;Poverty Ends With Us&quot;</p>
+        <p style='color:#FEF08A;font-weight:700;'>Vision: &quot;Humanity United Against Poverty&quot;</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href='https://mrscharityfoundation.blogspot.com/'>Home</a></li>
+          <li><a href='#programs'>Planned Programs</a></li>
+          <li><a href='#sponsor'>Child Sponsorship</a></li>
+          <li><a href='#transparency'>Transparency</a></li>
+          <li><a href='#volunteer'>Online Volunteers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project Status</h4>
+        <ul>
+          <li><span style='color:#34D399;'>&#10003; Online Phase Active</span></li>
+          <li><span style='color:#FEF08A;'>&#8987; Big Project in Development</span></li>
+          <li><span>&#10024; 100% Free Sponsor Clicks</span></li>
+          <li><span>&#128101; Community Mobilization</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Zero-Cost Philanthropy</h4>
+        <p style='margin-bottom:10px;'>No money needed from your wallet. Every click on our donation button triggers verified sponsor funding to build our foundational resource pool.</p>
+        <button class='btn-green' onclick='handleFreeDonateClick();return false;' style='width:100%;justify-content:center;padding:9px 14px;'>Click to Donate (100% Free)</button>
+      </div>
+    </div>
+    <div class='mrs-foot-b'>
+      <div>&#169; 2026 M R S Charity Foundation. All Rights Reserved. A Future Big Project of M R S.</div>
+      <div>Zero-Money Giving &#183; 100% Sponsor Supported &#183; Online Initiative Phase</div>
+    </div>
+  </footer>
+
+  <!-- Floating HUD -->
+  <div class='mrs-hud'>
+    <span style='display:inline-block;width:7px;height:7px;background:#10B981;border-radius:50%;'/>
+    <span>Live Supporters: <strong id='mrsHudCount'>12,480</strong></span>
+    <button onclick='handleFreeDonateClick();' style='background:#059669;color:#FFF;border:none;padding:3px 9px;border-radius:5px;font-size:11px;font-weight:700;'>+1 Click</button>
+  </div>
+
+  <script type='text/javascript'>
+  //<![CDATA[
+  var mrsSponsorLinks = [
+    'https://uplcm.com/4/12250130',
+    'https://uplcm.com/4/12250135',
+    'https://uplcm.com/4/12250137',
+    'https://uplcm.com/4/10016819',
+    'https://uplcm.com/4/12250134',
+    'https://uplcm.com/4/12250132',
+    'https://uplcm.com/4/12250138',
+    'https://uplcm.com/4/12250129',
+    'https://uplcm.com/4/12250133',
+    'https://uplcm.com/4/12250136'
+  ];
+  var mrsMemIdx = 0;
+  var mrsMemCount = 12480;
+  function getSupporterCount() {
+    var stored = mrsMemCount;
+    try { var val = localStorage.getItem('mrs_supporter_total'); if (val && !isNaN(parseInt(val, 10))) stored = parseInt(val, 10); } catch(e) {}
+    return stored;
+  }
+  function updateSupporterCountDisplay(count) {
+    var display = document.getElementById('mrsSupporterDisplay');
+    var hud = document.getElementById('mrsHudCount');
+    var formatted = count.toLocaleString();
+    if (display) display.textContent = formatted;
+    if (hud) hud.textContent = formatted;
+  }
+  function handleFreeDonateClick() {
+    var cur = mrsMemIdx;
+    try {
+      var saved = localStorage.getItem('mrs_ad_link_idx');
+      if (saved !== null && !isNaN(parseInt(saved, 10))) cur = parseInt(saved, 10);
+    } catch(e) {}
+    cur = cur % mrsSponsorLinks.length;
+    var targetUrl = mrsSponsorLinks[cur];
+    var nextIdx = (cur + 1) % mrsSponsorLinks.length;
+    mrsMemIdx = nextIdx;
+    mrsMemCount = getSupporterCount() + 1;
+    updateSupporterCountDisplay(mrsMemCount);
+    try {
+      localStorage.setItem('mrs_ad_link_idx', nextIdx.toString());
+      localStorage.setItem('mrs_supporter_total', mrsMemCount.toString());
+    } catch(e) {}
+    if (window.confetti) {
+      window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.8 }, colors: ['#059669', '#F59E0B', '#10B981'] });
+    }
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  }
+  function handleVolunteerSubmit(event) {
+    if (event && event.preventDefault) event.preventDefault();
+    var name = document.getElementById('volName') ? document.getElementById('volName').value : '';
+    alert('Thank you, ' + (name || 'Friend') + '! Your online volunteer registration has been received. Welcome to the MRS digital community!');
+    if (window.confetti) { window.confetti({ particleCount: 50, spread: 70 }); }
+    return false;
+  }
+  (function() {
+    var container = document.getElementById('mrsTickerBox');
+    if (!container) return;
+    var slides = container.querySelectorAll('.mrs-slide');
+    if (slides && slides.length > 1) {
+      var activeIdx = 0;
+      setInterval(function() {
+        slides[activeIdx].classList.remove('active');
+        activeIdx = (activeIdx + 1) % slides.length;
+        slides[activeIdx].classList.add('active');
+      }, 4200);
+    }
+  })();
+  document.addEventListener('DOMContentLoaded', function() {
+    updateSupporterCountDisplay(getSupporterCount());
+  });
+  //]]>
+  </script>
+</body>
+</html>
