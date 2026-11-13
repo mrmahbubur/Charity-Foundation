@@ -228,7 +228,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
               <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3 sm:p-4 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 text-slate-200">
                 <div className="flex items-center justify-between gap-2 text-[11px] sm:text-xs text-amber-400 font-bold mb-1">
                   <span>M R S Community Learning Initiative</span>
-                  <span className="shrink-0">Rural Center</span>
+                  <span className="shrink-0">Donamba · Uganda</span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
                   "Offering education, nutrition, and essential necessities to empower children and break the generational cycle of poverty."

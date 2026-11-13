@@ -1,9 +1,13 @@
 import { ChildProfile, Campaign, ImpactStory, AuditItem, BlogPost } from '../types';
 import heroEducationImg from '../assets/images/hero_education_aid_1792141324122.jpg';
+import heroReadingImg from '../assets/images/hero_charity_education_1792133164119.jpg';
 import childScholarImg from '../assets/images/child_scholar_portrait_1792141324614.jpg';
+import sponsorGirlImg from '../assets/images/sponsor_child_portrait_1792133164620.jpg';
 import foodReliefImg from '../assets/images/food_relief_pack_1792141324322.jpg';
 import cleanWaterImg from '../assets/images/clean_water_pump_1792141325779.jpg';
 import womenSewingImg from '../assets/images/women_vocational_sewing_1792141326227.jpg';
+import womenNariShaktiImg from '../assets/images/vocational_women_empowerment_1792133164922.jpg';
+import volunteerReliefImg from '../assets/images/volunteer_relief_action_1792133166628.jpg';
 
 export const SITE_LOGO = './logo.png';
 export const HERO_IMAGE = heroEducationImg;
@@ -11,7 +15,7 @@ export const CHILD_PORTRAIT_IMAGE = childScholarImg;
 export const FOOD_RELIEF_IMAGE = foodReliefImg;
 export const CLEAN_WATER_IMAGE = cleanWaterImg;
 export const WOMEN_EMPOWERMENT_IMAGE = womenSewingImg;
-export const VOLUNTEER_RELIEF_IMAGE = foodReliefImg;
+export const VOLUNTEER_RELIEF_IMAGE = volunteerReliefImg;
 
 export const FOUNDATION_INFO = {
   name: 'M R S Charity Foundation',
@@ -45,7 +49,7 @@ export const FOUNDATION_INFO = {
     {
       goal: 'Emergency Disaster Relief & Shelter',
       detail: 'Providing emergency food rations, winter thermal blankets, and shelter assistance to rebuild with dignity.',
-      image: FOOD_RELIEF_IMAGE,
+      image: VOLUNTEER_RELIEF_IMAGE,
     },
     {
       goal: 'Humanity First & Life Restoring',
@@ -65,107 +69,107 @@ export const IMPACT_METRICS = [
 export const CHILDREN_PROFILES: ChildProfile[] = [
   {
     id: 'ch-01',
-    name: 'Student Scholar #101',
-    age: 8,
+    name: 'Sarah N.',
+    age: 9,
     gender: 'Female',
-    grade: 'Grade 3',
-    district: 'Gaibandha Chapter',
-    schoolName: 'M R S Community Learning Center',
+    grade: 'Primary 3',
+    district: 'Donamba Chapter, Uganda',
+    schoolName: 'Donamba Primary School',
     dream: 'Medical Doctor',
-    story: 'Attends our free daily community learning center. With access to textbooks and regular midday nutrition, she aspires to serve her community in healthcare.',
+    story: 'Photographed holding her Primary 3 English Exercises workbook in the school yard. Free access to textbooks, uniform support, and daily meals keeps her thriving in class.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: CHILD_PORTRAIT_IMAGE,
+    image: childScholarImg,
     urgent: true,
-    hobbies: ['Drawing', 'Reading folk literature', 'Nature study'],
-    favoriteSubject: 'General Science',
+    hobbies: ['English Exercises', 'Drawing', 'Nature study'],
+    favoriteSubject: 'English & Science',
     joinedDate: 'Community Member',
   },
   {
     id: 'ch-02',
-    name: 'Student Scholar #102',
-    age: 9,
+    name: 'Samuel K.',
+    age: 10,
     gender: 'Male',
-    grade: 'Grade 4',
-    district: 'Bandarban Chapter',
-    schoolName: 'M R S Hill Community Primary Center',
+    grade: 'Primary 4',
+    district: 'Donamba Chapter, Uganda',
+    schoolName: 'Village Mars Community Classroom',
     dream: 'Computer Engineer',
-    story: 'Learning digital skills and language literacy in our rural center. Free access to books and nutrition enables his daily school attendance without barrier.',
+    story: 'Reading "My Community" and "Stories of Hope" with classmates inside our tin-roofed village classroom. Sponsor clicks provide illustrated storybooks and midday meals.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: HERO_IMAGE,
+    image: heroEducationImg,
     urgent: false,
-    hobbies: ['Football', 'Logic puzzles', 'Singing'],
-    favoriteSubject: 'Computing & Science',
+    hobbies: ['Storybooks', 'Group Reading', 'Football'],
+    favoriteSubject: 'Reading & Science',
     joinedDate: 'Community Member',
   },
   {
     id: 'ch-03',
-    name: 'Student Scholar #103',
-    age: 7,
+    name: 'Ananya D.',
+    age: 8,
     gender: 'Female',
-    grade: 'Grade 2',
-    district: 'Sunamganj Chapter',
-    schoolName: 'M R S Haor Learning Center',
+    grade: 'Grade 3',
+    district: 'Sarvodaya Chapter, South Asia',
+    schoolName: 'Sarvodaya Primary School',
     dream: 'School Teacher',
-    story: 'Receives free schooling, stationery, and nutritional support in flood-prone wetlands, allowing her to stay in school consistently throughout the year.',
+    story: 'Smiling with her handwritten notebook along the palm-lined path outside Sarvodaya Primary School, supported by free uniforms, stationery, and daily study aid.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: CHILD_PORTRAIT_IMAGE,
+    image: sponsorGirlImg,
     urgent: true,
-    hobbies: ['Poetry', 'Handicrafts'],
-    favoriteSubject: 'Literature & Language',
+    hobbies: ['Handwriting', 'Poetry', 'Gardening'],
+    favoriteSubject: 'Literature & Math',
     joinedDate: 'Community Member',
   },
   {
     id: 'ch-04',
-    name: 'Student Scholar #104',
-    age: 10,
+    name: 'Kavindu R.',
+    age: 9,
     gender: 'Male',
-    grade: 'Grade 5',
-    district: 'Kurigram Chapter',
-    schoolName: 'M R S Rural Learning Center',
+    grade: 'Grade 4',
+    district: 'Reading Time Chapter',
+    schoolName: 'Sarvodaya Reading Time Hall',
     dream: 'Civil Engineer',
-    story: 'Enrolled in our comprehensive youth education program with full access to curriculum materials, clean water, and regular health checkups.',
+    story: 'Sharing storybooks including "Akuru Katha" and "Nodutu Lokaya" during daily Reading Time with classmates in full school uniform.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: HERO_IMAGE,
+    image: heroReadingImg,
     urgent: false,
-    hobbies: ['Clay modeling', 'Cricket'],
-    favoriteSubject: 'Mathematics',
+    hobbies: ['Story Reading', 'Cricket', 'Sketching'],
+    favoriteSubject: 'Mathematics & Reading',
     joinedDate: 'Community Member',
   },
   {
     id: 'ch-05',
-    name: 'Student Scholar #105',
-    age: 6,
+    name: 'Grace A.',
+    age: 7,
     gender: 'Female',
-    grade: 'Pre-Primary',
-    district: 'Khulna Chapter',
-    schoolName: 'M R S Coastal Children Center',
-    dream: 'Environmental Scientist',
-    story: 'Participates in early childhood education, foundational literacy, and daily nutritious meals in our coastal community learning hub.',
+    grade: 'Primary 2',
+    district: 'Donamba Chapter, Uganda',
+    schoolName: 'Village Mars Safe Water Hub',
+    dream: 'Public Health Nurse',
+    story: 'Clean drinking water from the Village Mars Safe Water Project hand pump in Donamba keeps children healthy, hydrated, and able to attend morning school every day.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: CHILD_PORTRAIT_IMAGE,
+    image: cleanWaterImg,
     urgent: true,
-    hobbies: ['Coloring', 'Rhymes', 'Gardening'],
-    favoriteSubject: 'Art & Phonics',
+    hobbies: ['Rhymes', 'Drawing', 'Swimming'],
+    favoriteSubject: 'Health & Art',
     joinedDate: 'Community Member',
   },
   {
     id: 'ch-06',
-    name: 'Student Scholar #106',
+    name: 'Tariq H.',
     age: 11,
     gender: 'Male',
-    grade: 'Grade 6',
-    district: 'Sylhet Chapter',
-    schoolName: 'M R S Community Secondary Center',
+    grade: 'Grade 5',
+    district: 'Bangladesh Relief Chapter',
+    schoolName: 'Bangladesh Community Aid Center',
     dream: 'Journalist & Writer',
-    story: 'Talented student writer benefiting from our youth mentoring library and free academic support, ensuring smooth transition to higher secondary education.',
+    story: 'Supported by our Bangladesh Emergency Aid & Clean Water relief distribution volunteers, keeping families resilient and students enrolled throughout flood seasons.',
     monthlyAmountBDT: 0,
     monthlyAmountUSD: 0,
-    image: HERO_IMAGE,
+    image: volunteerReliefImg,
     urgent: false,
     hobbies: ['Debating', 'Story writing', 'Badminton'],
     favoriteSubject: 'Social Studies & History',
@@ -183,43 +187,43 @@ export const CAMPAIGNS: Campaign[] = [
     raisedAmountBDT: 85000,
     donorsCount: 412,
     image: HERO_IMAGE,
-    summary: 'Offering free schooling to children living in poverty. Modeled after successful grassroots educational centers, every child receives books and nutrition.',
+    summary: 'Offering free schooling to children in community classrooms like Donamba & Sarvodaya. Every scholar receives illustrated storybooks, stationery, and nutrition.',
     impactMetrics: '14 Learning Hubs · 4,850+ Students'
   },
   {
     id: 'camp-02',
     title: 'Essential Necessities & Emergency Relief',
-    subtitle: 'Distribution of seasonal winter clothing, water purification, and emergency food relief packages.',
+    subtitle: 'Distribution of grains, maize, rice flour, nutrition packs, and emergency water relief boxes.',
     category: 'Disaster Relief',
     targetAmountBDT: 80000,
     raisedAmountBDT: 68000,
     donorsCount: 680,
     image: FOOD_RELIEF_IMAGE,
-    summary: 'Rapid response distribution of food staples, blankets, and essential necessities directly to families suffering from extreme poverty and climate challenges.',
+    summary: 'Rapid response distribution of maize, rice flour, nutrition packs, and essential necessities directly to rural families in Uganda and Bangladesh.',
     impactMetrics: '18,000+ Family relief packages'
   },
   {
     id: 'camp-03',
-    title: 'Vocational Skills & Dignified Livelihoods',
-    subtitle: 'Free community tailoring, sewing machine grants, and micro-skills workshops for rural households.',
+    title: 'Rural Women’s Tailoring & Livelihoods',
+    subtitle: 'Free vocational livelihood workshops, sewing machine grants, and garment craft training.',
     category: 'Women Empowerment',
     targetAmountBDT: 70000,
     raisedAmountBDT: 59000,
     donorsCount: 295,
     image: WOMEN_EMPOWERMENT_IMAGE,
-    summary: 'Equipping impoverished mothers and youth with income-generating craft skills and tools to achieve long-term economic independence.',
-    impactMetrics: '650+ Individuals trained'
+    summary: 'Equipping mothers and rural women in our Tailoring Program with Singer and Usha sewing machines to build dependable daily income.',
+    impactMetrics: '650+ Artisans trained'
   },
   {
     id: 'camp-04',
-    title: 'Clean Healthcare, Water Wells & Hygiene',
-    subtitle: 'Deep community tube wells, clean water access, and mobile health camps.',
+    title: 'Village Mars Safe Water Project — Donamba',
+    subtitle: 'Deep community water pumps, clean water access, and child hygiene stations.',
     category: 'Clean Water',
     targetAmountBDT: 50000,
     raisedAmountBDT: 42000,
     donorsCount: 188,
     image: CLEAN_WATER_IMAGE,
-    summary: 'Ensuring safe drinking water and foundational health checkups for remote communities, reducing preventable waterborne diseases.',
+    summary: 'Installing deep-aquifer hand pumps such as the Safe Water Project at Village Mars in Donamba, Uganda, eliminating waterborne illness.',
     impactMetrics: '340+ Clean Water Wells'
   }
 ];
@@ -228,38 +232,38 @@ export const IMPACT_STORIES: ImpactStory[] = [
   {
     id: 'story-01',
     title: 'Transforming Lives Through Free Daily Education',
-    personName: 'Community Graduate Scholar',
-    role: 'Former M R S Student, Now University Scholar',
-    location: 'Northeastern Regional Chapter',
-    summary: 'Access to free daily classes and textbooks opened pathways to higher engineering studies.',
-    fullQuote: 'Having access to free books, meals, and teachers who cared changed my entire perspective. Today I can study at the university level and mentor the younger students in our local community center.',
-    achievement: 'Earned full scholarship for undergraduate studies',
-    image: HERO_IMAGE,
-    program: 'Education Pillar'
+    personName: 'Sarah N. & Village Scholars',
+    role: 'Primary 3 Classroom Scholar, Community Learning Hub',
+    location: 'Donamba Chapter, Uganda',
+    summary: 'Access to free English exercise notebooks, storybooks, and community teachers opened pathways to bright futures.',
+    fullQuote: 'Having my own English exercise book, storybooks like Stories of Hope, and caring community teachers changed my life. Every child in our classroom looks forward to learning each morning.',
+    achievement: 'Full classroom attendance & top Primary 3 reader',
+    image: heroEducationImg,
+    program: 'Education Pillar · Uganda'
   },
   {
     id: 'story-02',
     title: 'Achieving Economic Self-Sufficiency Through Skills',
-    personName: 'Vocational Workshop Artisan',
-    role: 'Workshop Graduate & Independent Artisan',
-    location: 'Northern Rural Hub',
-    summary: 'Practical tailoring training transformed a vulnerable household into an economically sustainable home.',
-    fullQuote: 'The tailoring training gave me dignity and dependable daily income. I am able to feed my family and support all my children in school without asking anyone for charity.',
-    achievement: 'Operates independent tailoring workshop',
-    image: WOMEN_EMPOWERMENT_IMAGE,
-    program: 'Livelihood & Skills Hub'
+    personName: 'Nari Shakti Tailoring Artisans',
+    role: 'Rural Women’s Tailoring & Workshop Graduates',
+    location: 'Sarvodaya Vocational Chapter, South Asia',
+    summary: 'Hands-on sewing machine training at our Community Workshop transformed vulnerable households into independent earners.',
+    fullQuote: 'The Rural Women’s Tailoring Program gave us dignity and dependable daily income. We craft garments together at the workshop and fund our children’s schooling without barrier.',
+    achievement: 'Operate independent village tailoring cooperative',
+    image: womenNariShaktiImg,
+    program: 'Nari Shakti Livelihood Hub'
   },
   {
     id: 'story-03',
-    title: 'Rapid Mobilization for Emergency Relief',
-    personName: 'Youth Volunteer Chapter Member',
-    role: 'Grassroots Volunteer Team',
-    location: 'Disaster Relief Chapter',
-    summary: 'Young volunteers mobilizing food baskets and clean drinking water to flood-affected communities.',
-    fullQuote: 'Humanity united against poverty means standing together when disaster strikes. Every relief package handed over brings genuine hope to families in need.',
-    achievement: 'Delivered food and clean water to over 450 households',
-    image: VOLUNTEER_RELIEF_IMAGE,
-    program: 'Volunteer Relief Network'
+    title: 'Rapid Mobilization for Bangladesh Emergency Relief',
+    personName: 'Bangladesh Youth Relief Team',
+    role: 'Grassroots Volunteer Aid Chapter',
+    location: 'Bangladesh Relief Distribution Chapter',
+    summary: 'Youth volunteers mobilizing emergency aid boxes and clean drinking water containers to rural Bangladesh villages.',
+    fullQuote: 'Humanity united against poverty means standing together on the ground when families need food and clean water. Every Emergency Aid Clean Water box restores immediate hope.',
+    achievement: 'Delivered emergency clean water & aid to 450+ families',
+    image: volunteerReliefImg,
+    program: 'Bangladesh Relief Network'
   }
 ];
 
@@ -269,7 +273,7 @@ export const FINANCIAL_AUDIT: AuditItem[] = [
     percentage: 88.5,
     amountBDT: 'Sponsored via Ad Clicks',
     amountUSD: '100% Free to Donors',
-    color: '#059669', // Emerald
+    color: '#059669',
     detail: 'Learning materials, student midday meals, relief packets, and community safe water installation.'
   },
   {
@@ -277,15 +281,15 @@ export const FINANCIAL_AUDIT: AuditItem[] = [
     percentage: 7.5,
     amountBDT: 'Sponsored via Ad Clicks',
     amountUSD: '100% Free to Donors',
-    color: '#2563EB', // Blue
-    detail: 'Volunteer gear, distribution logistics across rural char areas, and community support.'
+    color: '#2563EB',
+    detail: 'Volunteer gear, distribution logistics across rural chapters in Uganda, Bangladesh & South Asia.'
   },
   {
     category: 'Digital System & Ad Sponsor Operations',
     percentage: 4.0,
     amountBDT: 'Sponsored via Ad Clicks',
     amountUSD: '100% Free to Donors',
-    color: '#D97706', // Amber
+    color: '#D97706',
     detail: 'Hosting, ad network verification, and zero-cost donor portal maintenance.'
   }
 ];
@@ -296,8 +300,8 @@ export const BLOG_POSTS: BlogPost[] = [
     title: 'Roadmap to Launch: Preparing Our Future Flagship Ground Project',
     slug: 'preparing-our-future-flagship-ground-project',
     thumbnail: HERO_IMAGE,
-    excerpt: 'M R S Charity Foundation is currently in its active online fundraising phase. Learn how digital ad-supported contributions are laying the foundational resources for our upcoming physical learning centers and relief wings.',
-    content: 'M R S Charity Foundation is pioneering an innovative, zero-cost digital humanitarian model. Currently operating as an online-based initiative, our platform enables compassionate individuals around the world to generate tangible financial support without paying a single cent out of pocket. Every ad click is backed by our verified corporate sponsor pool. These early resources are directly fueling the groundwork for the upcoming flagship ground project spearheaded by M R S, focusing on comprehensive child schooling, nutritional support, and emergency disaster response.',
+    excerpt: 'M R S Charity Foundation is currently in its active online fundraising phase. Learn how digital ad-supported contributions supply storybooks and desks for community classrooms like Donamba & Sarvodaya.',
+    content: 'M R S Charity Foundation is pioneering an innovative, zero-cost digital humanitarian model. Currently operating as an online-based initiative, our platform enables compassionate individuals around the world to generate tangible financial support without paying a single cent out of pocket. Every ad click is backed by our verified corporate sponsor pool, laying the groundwork for our upcoming flagship ground project by M R S across rural classrooms, water wells, and emergency relief.',
     date: 'October 20, 2026',
     readTime: '4 min read',
     category: 'Future Project by M R S',
@@ -306,42 +310,41 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     id: 'post-02',
-    title: 'Why Zero-Cost Ad Giving Powers Sustainable Humanitarian Action',
+    title: 'Zero-Cost Aid in Action: Grains, Maize & Emergency Nutrition Packs',
     slug: 'why-zero-cost-ad-giving-powers-sustainable-humanitarian-action',
     thumbnail: FOOD_RELIEF_IMAGE,
-    excerpt: 'You do not need to spend personal funds to change a child\'s life. Discover how everyday internet users generate verified sponsor donations simply by visiting our free portal and viewing sponsored links.',
-    content: 'Traditional charitable giving often faces financial friction: donors want to help, but personal budgets or complicated payment gateways create barriers. At M R S Charity Foundation, we eliminate all financial hurdles. Through our verified sponsor monetization infrastructure, commercial brand partners fund meals, medical aid, and study kits every time an online supporter clicks through our portal. This democratic philanthropy model ensures everyone can participate regardless of income.',
+    excerpt: 'You do not need to spend personal funds to feed families. See how everyday web clicks power Emergency Relief Food distributions of grains, maize, rice flour, and nutrition packs.',
+    content: 'Traditional charitable giving often faces financial friction: donors want to help, but personal budgets create barriers. At M R S Charity Foundation, commercial sponsor partners fund Emergency Relief Food packs, maize grains, rice flour, and emergency clean water kits every time an online supporter clicks through our portal—ensuring everyone can participate regardless of income.',
     date: 'October 16, 2026',
     readTime: '3 min read',
-    category: 'Transparency & Giving',
+    category: 'Donamba & Bangladesh Relief',
     author: 'Field Communications',
-    tags: ['Zero-Cost Philanthropy', 'Sponsor Giving', 'Community']
+    tags: ['Zero-Cost Philanthropy', 'Food Aid', 'Community']
   },
   {
     id: 'post-03',
-    title: 'Clean Drinking Water Mission: Deep Aquifer Solutions for Remote Regions',
+    title: 'Safe Water Project at Village Mars, Donamba (Uganda): Clean Drinking Water',
     slug: 'clean-drinking-water-mission-deep-aquifer-solutions',
     thumbnail: CLEAN_WATER_IMAGE,
-    excerpt: 'Safe drinking water is the bedrock of community health and children\'s school attendance. Here is how our upcoming ground initiatives will install deep-aquifer filtration systems across vulnerable riverbank districts.',
-    content: 'Waterborne diseases remain one of the primary reasons children miss schooling in riverbank and coastal communities. Our planned water initiatives prioritize the installation of deep-aquifer tube wells reaching beyond arsenic and seasonal flood contaminants. Coupled with community water sanitation training, these solar and manual pumping stations will secure daily drinking water for thousands of families.',
+    excerpt: 'Safe drinking water is the bedrock of children’s health and school attendance. Discover how deep community hand pumps at Village Mars in Donamba, Uganda protect young scholars.',
+    content: 'Waterborne diseases remain one of the leading causes of missed school days across rural regions. Deep-aquifer hand pumps such as the Safe Water Project at Village Mars in Donamba, Uganda bring fresh, clean water directly to children and families, securing daily drinking water and healthier futures.',
     date: 'October 12, 2026',
     readTime: '5 min read',
-    category: 'Clean Water Pillar',
+    category: 'Donamba Safe Water Hub',
     author: 'Infrastructure Planning',
-    tags: ['Clean Water', 'Child Health', 'Ground Initiative']
+    tags: ['Clean Water', 'Donamba Uganda', 'Ground Initiative']
   },
   {
     id: 'post-04',
-    title: 'Empowering Rural Mothers with Tailoring Workshops & Micro-Skills',
+    title: 'Rural Women’s Tailoring Program: Vocational Skills & Independence',
     slug: 'empowering-rural-mothers-tailoring-micro-skills',
     thumbnail: WOMEN_EMPOWERMENT_IMAGE,
-    excerpt: 'Breaking intergenerational poverty starts with sustainable household economic independence. Explore how our vocational curriculum equips mothers with sewing machines and market-ready craftsmanship.',
-    content: 'When a mother achieves sustainable income, the entire household transforms: children attend school with complete uniforms, nutrition improves, and financial resilience is built against emergencies. Our upcoming vocational empowerment tracks will provide hands-on tailoring, textile finishing, and direct linkage to local artisan cooperatives, turning vulnerable families into self-reliant entrepreneurs.',
+    excerpt: 'Breaking intergenerational poverty starts with household economic independence. Explore how our Rural Women’s Tailoring Program equips mothers with sewing machines and skills.',
+    content: 'When a mother achieves dependable income at our Vocational Livelihood Empowerment Workshop, the entire household transforms: children attend school in uniform, nutrition improves, and families thrive independently. Our upcoming tailoring tracks provide sewing machines and craft training to help households succeed.',
     date: 'October 08, 2026',
     readTime: '4 min read',
-    category: 'Livelihood & Skills',
+    category: 'Vocational Tailoring Hub',
     author: 'Skills Development Team',
-    tags: ['Women Empowerment', 'Vocational Skills', 'Self Sufficiency']
+    tags: ['Women Empowerment', 'Tailoring Workshop', 'Self Sufficiency']
   }
 ];
-

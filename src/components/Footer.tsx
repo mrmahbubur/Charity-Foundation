@@ -98,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
             </ul>
           </div>
 
-          {/* Zero Cost Ads Donate & Blogger */}
+          {/* Zero Cost Ads Donate */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider">
               Zero-Cost Giving
@@ -115,14 +115,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
               <span>Click to Donate (100% Free)</span>
               <ExternalLink className="w-3 h-3 text-emerald-200" />
             </button>
-
-            <a
-              href="./mrs-charity-foundation-blogger-theme.xml"
-              download="mrs-charity-foundation-blogger-theme.xml"
-              className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium py-2 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 border border-slate-700"
-            >
-              <span>Download Blogger Theme XML</span>
-            </a>
           </div>
         </div>
 

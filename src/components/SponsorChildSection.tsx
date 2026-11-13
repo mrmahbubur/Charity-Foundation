@@ -13,7 +13,7 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
   const [selectedDistrict, setSelectedDistrict] = useState<string>('All');
   const [selectedGender, setSelectedGender] = useState<string>('All');
 
-  const districts = ['All', 'Gaibandha', 'Bandarban', 'Sunamganj', 'Kurigram', 'Khulna', 'Sylhet'];
+  const districts = ['All', 'Donamba', 'Uganda', 'Sarvodaya', 'Reading Time', 'Bangladesh'];
 
   const filteredChildren = CHILDREN_PROFILES.filter((child) => {
     const matchesDistrict = selectedDistrict === 'All' || child.district.includes(selectedDistrict);

@@ -7,7 +7,7 @@ import confetti from 'canvas-confetti';
 export const VolunteerSection: React.FC = () => {
   const [formData, setFormData] = useState({
     alias: '',
-    chapter: 'Central Chapter',
+    chapter: 'Bangladesh Relief Chapter',
     interestArea: 'Education & Child Mentoring',
     availability: 'Flexible / Online',
   });
@@ -16,8 +16,12 @@ export const VolunteerSection: React.FC = () => {
   const [volunteerId, setVolunteerId] = useState('');
 
   const chapters = [
-    'Central Chapter', 'Eastern Chapter', 'Northern River Chapter',
-    'Southern Coastal Chapter', 'Hill Tracts Chapter', 'Digital Ambassador'
+    'Bangladesh Relief Chapter',
+    'Donamba Chapter, Uganda',
+    'Sarvodaya Chapter, South Asia',
+    'Reading Time Chapter',
+    'Nari Shakti Vocational Hub',
+    'Digital Ambassador'
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
