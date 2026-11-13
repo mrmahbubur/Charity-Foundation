@@ -101,13 +101,13 @@ export const AnnouncementSlideshowBar: React.FC<AnnouncementSlideshowBarProps> =
             </div>
 
             {/* Slide Content */}
-            <div className="flex items-center gap-2.5 truncate text-xs sm:text-sm">
-              <span className="bg-slate-950 text-amber-300 font-extrabold text-[11px] px-2 py-0.5 rounded-md uppercase tracking-wide shrink-0 flex items-center gap-1 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2.5 min-w-0 text-xs sm:text-sm">
+              <span className="bg-slate-950 text-amber-300 font-extrabold text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md uppercase tracking-wide shrink-0 inline-flex items-center gap-1 shadow-sm self-start sm:self-auto">
                 <Megaphone className="w-3 h-3 text-amber-400" />
                 <span>{slide.badge}</span>
               </span>
 
-              <div className="truncate">
+              <div className="line-clamp-2 md:truncate">
                 <strong className="text-slate-950 font-bold">{slide.title}: </strong>
                 <span className="text-slate-900 font-medium">{slide.message}</span>
               </div>
@@ -115,7 +115,7 @@ export const AnnouncementSlideshowBar: React.FC<AnnouncementSlideshowBarProps> =
           </div>
 
           {/* Right: Instant Free Donate Button with rotating links */}
-          <div className="flex items-center gap-3 shrink-0 w-full md:w-auto justify-end">
+          <div className="flex items-center gap-3 shrink-0 w-full md:w-auto justify-center md:justify-end">
             {totalClicks > 0 && (
               <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-slate-900 bg-white/40 px-2 py-1 rounded-md">
                 <Zap className="w-3 h-3 text-amber-900" />
@@ -125,15 +125,15 @@ export const AnnouncementSlideshowBar: React.FC<AnnouncementSlideshowBarProps> =
 
             <button
               onClick={handleFreeDonateClick}
-              className={`px-4 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold shadow-sm transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
+              className={`w-full sm:w-auto justify-center px-4 py-2 sm:py-1.5 rounded-lg text-xs sm:text-sm font-extrabold shadow-sm transition-all cursor-pointer flex items-center gap-2 ${
                 justClicked
-                  ? 'bg-white text-emerald-800 scale-105'
+                  ? 'bg-white text-emerald-800 scale-[1.02]'
                   : 'bg-slate-950 hover:bg-slate-900 text-white hover:shadow-md'
               }`}
             >
-              <Heart className={`w-3.5 h-3.5 ${justClicked ? 'fill-emerald-600 text-emerald-600' : 'fill-amber-400 text-amber-400'}`} />
+              <Heart className={`w-3.5 h-3.5 shrink-0 ${justClicked ? 'fill-emerald-600 text-emerald-600' : 'fill-amber-400 text-amber-400'}`} />
               <span>{justClicked ? 'Thank you! Link Opened' : slide.actionText}</span>
-              <ExternalLink className="w-3 h-3 opacity-80" />
+              <ExternalLink className="w-3 h-3 opacity-80 shrink-0" />
             </button>
           </div>
         </div>

@@ -55,19 +55,19 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
           </div>
 
           {/* Right Action buttons */}
-          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-center lg:justify-end">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full lg:w-auto justify-center lg:justify-end">
             <button
               onClick={handleFreeDonateClick}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-6 py-3 rounded-xl text-sm transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center gap-2.5 whitespace-nowrap group transform hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full sm:w-auto justify-center text-center bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center gap-2 sm:whitespace-nowrap group transform hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Heart className="w-4 h-4 fill-white text-white group-hover:scale-110 transition-transform" />
+              <Heart className="w-4 h-4 fill-white text-white group-hover:scale-110 transition-transform shrink-0" />
               <span>Click to Donate (Free · No Money Needed)</span>
-              <ExternalLink className="w-4 h-4 text-emerald-200" />
+              <ExternalLink className="w-4 h-4 text-emerald-200 shrink-0" />
             </button>
 
             <button
               onClick={() => onOpenDonate()}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-4 py-3 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer whitespace-nowrap"
+              className="w-full sm:w-auto justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-4 py-3 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer sm:whitespace-nowrap"
             >
               <span>Learn How It Works</span>
             </button>

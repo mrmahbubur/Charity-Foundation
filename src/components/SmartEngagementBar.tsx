@@ -55,7 +55,7 @@ export const SmartEngagementBar: React.FC = () => {
     <div
       role="region"
       aria-label="Community Daily Goal Nudge"
-      className="fixed bottom-4 left-4 z-40 max-w-xs sm:max-w-sm font-sans animate-fade-in hidden sm:block"
+      className="fixed bottom-4 left-4 z-40 max-w-xs xl:max-w-sm font-sans animate-fade-in hidden lg:block"
     >
       <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border-2 border-emerald-500/40 p-4 space-y-3 text-slate-900 relative">
         <button

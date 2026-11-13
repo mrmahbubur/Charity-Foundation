@@ -147,11 +147,11 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
 
           <button
             onClick={handleSupportFutureProject}
-            className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl text-xs sm:text-sm transition-all shadow-md cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 transform hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full md:w-auto justify-center text-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-5 sm:px-6 py-3.5 rounded-xl text-xs sm:text-sm transition-all shadow-md cursor-pointer flex items-center gap-2 sm:whitespace-nowrap shrink-0 transform hover:-translate-y-0.5 active:translate-y-0"
           >
-            <Heart className="w-4 h-4 fill-slate-950" />
+            <Heart className="w-4 h-4 fill-slate-950 shrink-0" />
             <span>Click to Donate (100% Free · No Money Needed)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3.5 h-3.5 shrink-0" />
           </button>
         </div>
       </div>

@@ -8,7 +8,9 @@ import confetti from 'canvas-confetti';
 export const LiveSupporterWidget: React.FC = () => {
   const { totalSupporters: localSupporters, userClicks, recentNotification, addManualSupporter } = useSupporterCount();
   const { content } = useBackendSync();
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState<boolean>(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
   const [hasClickedBoost, setHasClickedBoost] = useState(false);
   const [rewardMsg, setRewardMsg] = useState<string | null>(null);
 
@@ -43,7 +45,8 @@ export const LiveSupporterWidget: React.FC = () => {
   return (
     <aside
       aria-label="Live Community Impact"
-      className="fixed bottom-4 right-4 z-40 w-[300px] sm:w-[320px] font-sans"
+      className="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 max-w-[calc(100vw-1.5rem)] font-sans pb-[env(safe-area-inset-bottom)]"
+      style={{ width: isMinimized ? 'auto' : 'min(320px, calc(100vw - 1.5rem))' }}
     >
       {/* Recent Supporter Notification Toast */}
       {recentNotification && (

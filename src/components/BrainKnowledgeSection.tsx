@@ -168,11 +168,11 @@ export const BrainKnowledgeSection: React.FC = () => {
           </div>
           <button
             onClick={() => openNextSponsorLink('knowledge-banner')}
-            className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl text-sm shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer inline-flex items-center gap-2 shrink-0 whitespace-nowrap"
+            className="w-full md:w-auto justify-center bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl text-sm shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer inline-flex items-center gap-2 shrink-0 sm:whitespace-nowrap"
           >
-            <Heart className="w-4 h-4 fill-slate-950" />
+            <Heart className="w-4 h-4 fill-slate-950 shrink-0" />
             <span>1-Click Free Support</span>
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4 shrink-0" />
           </button>
         </div>
       </div>

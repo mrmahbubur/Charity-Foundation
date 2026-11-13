@@ -101,7 +101,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFCFA] text-slate-900 selection:bg-amber-100 selection:text-amber-900 relative">
+    <div className="min-h-screen flex flex-col bg-[#FCFCFA] text-slate-900 selection:bg-amber-100 selection:text-amber-900 relative overflow-x-clip">
       <Navbar
         onOpenDonate={() => handleOpenDonate()}
         activeTab={activeTab}
