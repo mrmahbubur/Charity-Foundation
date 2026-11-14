@@ -22,7 +22,7 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
   });
 
   const handleSponsorClick = (child: ChildProfile) => {
-    openNextSponsorLink();
+    openNextSponsorLink('sponsor-child');
     try {
       confetti({
         particleCount: 50,

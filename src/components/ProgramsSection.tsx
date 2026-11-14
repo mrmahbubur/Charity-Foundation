@@ -11,7 +11,7 @@ interface ProgramsSectionProps {
 export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }) => {
   const handleSupportCause = (e: React.MouseEvent) => {
     e.preventDefault();
-    openNextSponsorLink();
+    openNextSponsorLink('programs');
     try {
       confetti({
         particleCount: 50,

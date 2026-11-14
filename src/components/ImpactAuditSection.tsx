@@ -6,7 +6,7 @@ import confetti from 'canvas-confetti';
 
 export const ImpactAuditSection: React.FC = () => {
   const handleDonateClick = () => {
-    openNextSponsorLink();
+    openNextSponsorLink('impact-audit');
     try {
       confetti({
         particleCount: 50,

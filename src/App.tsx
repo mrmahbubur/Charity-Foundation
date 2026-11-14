@@ -27,14 +27,7 @@ function isPrivateVaultRoute(): boolean {
   if (typeof window === 'undefined') return false;
   const p = window.location.pathname;
   const h = window.location.hash;
-  return (
-    p === '/mrs-vault' ||
-    p.startsWith('/mrs-vault/') ||
-    h === '#mrs-vault' ||
-    p === '/brain' ||
-    p.startsWith('/brain/') ||
-    h === '#brain'
-  );
+  return p === '/mrs-vault' || p.startsWith('/mrs-vault/') || h === '#mrs-vault';
 }
 
 function MainApp() {
@@ -60,7 +53,7 @@ function MainApp() {
 
   const handleExitVault = () => {
     try {
-      if (window.location.pathname.startsWith('/brain') || window.location.pathname.startsWith('/mrs-vault')) {
+      if (window.location.pathname.startsWith('/mrs-vault')) {
         window.history.pushState({}, '', '/');
       } else {
         window.location.hash = '';

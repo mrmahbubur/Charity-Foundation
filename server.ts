@@ -577,8 +577,8 @@ async function startServer() {
     next();
   });
 
-  // Block automated vulnerability scanners and common exploit probe paths
-  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)/i;
+  // Block automated vulnerability scanners, internal paths, and common exploit probes
+  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|\.github|\.gitignore|\.aistudio|node_modules|server|src|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|metadata\.json|README\.md|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)|\.map$/i;
   app.use((req, res, next) => {
     if (BLOCKED_PROBE_REGEX.test(req.path)) {
       return res.status(404).end();
@@ -587,7 +587,7 @@ async function startServer() {
   });
 
   app.get('/robots.txt', (_req, res) => {
-    res.type('text/plain').send('User-agent: *\nDisallow: /api/\nDisallow: /brain\nDisallow: /mrs-vault\n');
+    res.type('text/plain').send('User-agent: *\nDisallow: /api/\nDisallow: /mrs-vault\n');
   });
 
   app.use(express.json({ limit: '15mb' }));

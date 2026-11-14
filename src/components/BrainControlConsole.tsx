@@ -66,7 +66,7 @@ const PERSUASION_PRESETS: Record<
   },
   'social-proof': {
     headline: 'Thousands Are Giving for Free Today — {remaining} Clicks to Next Milestone',
-    subtext: 'Join supporters across Bangladesh and worldwide unlocking real humanitarian funds with simple zero-cost clicks.',
+    subtext: 'Join supporters across Donamba, Sarvodaya, Bangladesh, and worldwide unlocking real humanitarian funds with simple zero-cost clicks.',
     cta: 'Join & Add Your Free Click (+1)',
     nudgeHeadline: 'Community Momentum Is Surging Right Now',
     nudgeBadge: 'Live Community Drive'

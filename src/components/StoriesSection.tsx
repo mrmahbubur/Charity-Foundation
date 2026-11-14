@@ -18,7 +18,7 @@ export const StoriesSection: React.FC = () => {
   };
 
   const handleFreeDonateClick = () => {
-    openNextSponsorLink();
+    openNextSponsorLink('stories');
     try {
       confetti({
         particleCount: 45,
@@ -48,7 +48,7 @@ export const StoriesSection: React.FC = () => {
         {/* Feature Story Card with Asymmetric Layout */}
         <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 items-center">
           {/* Visual Left */}
-          <div className="lg:col-span-5 relative h-80 lg:h-full min-h-[380px] bg-slate-900">
+          <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-full lg:min-h-[400px] bg-slate-900">
             <img
               src={currentStory.image}
               alt={currentStory.personName}
@@ -71,7 +71,7 @@ export const StoriesSection: React.FC = () => {
           </div>
 
           {/* Editorial Content Right */}
-          <div className="lg:col-span-7 p-8 sm:p-12 space-y-6 flex flex-col justify-between">
+          <div className="lg:col-span-7 p-5 sm:p-8 lg:p-12 space-y-6 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="flex items-center justify-between text-xs text-slate-500">
                 <span className="font-semibold text-emerald-700 uppercase tracking-wider">

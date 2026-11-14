@@ -17,7 +17,7 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
   if (!child) return null;
 
   const handleFreeSponsorClick = () => {
-    const res = openNextSponsorLink();
+    openNextSponsorLink('sponsor-modal');
     setClickCount((prev) => prev + 1);
     setCompleted(true);
 
@@ -39,10 +39,10 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative border border-stone-200">
+      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl relative border border-stone-200">
         <button
           onClick={handleResetAndClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
           aria-label="Close child sponsor modal"
         >
           <X className="w-5 h-5" />
@@ -104,11 +104,11 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
 
             <button
               onClick={handleFreeSponsorClick}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 px-6 rounded-2xl text-base transition-all shadow-lg shadow-emerald-700/25 cursor-pointer flex items-center justify-center gap-2 group transform hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 sm:py-4 px-5 sm:px-6 rounded-2xl text-sm sm:text-base transition-all shadow-lg shadow-emerald-700/25 cursor-pointer flex items-center justify-center gap-2 group transform hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Heart className="w-5 h-5 fill-white text-white group-hover:scale-110 transition-transform" />
-              <span>Click to Sponsor for Free (Opens in New Tab)</span>
-              <ExternalLink className="w-4 h-4 text-emerald-200" />
+              <Heart className="w-5 h-5 fill-white text-white group-hover:scale-110 transition-transform shrink-0" />
+              <span>Click to Sponsor (100% Free)</span>
+              <ExternalLink className="w-4 h-4 text-emerald-200 shrink-0" />
             </button>
           </div>
         ) : (
@@ -157,18 +157,18 @@ export const SponsorChildModal: React.FC<SponsorChildModalProps> = ({ child, onC
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button
                 onClick={handleFreeSponsorClick}
-                className="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <Heart className="w-3.5 h-3.5 fill-slate-950" />
-                <span>Click Again (Open Next Sponsor)</span>
+                <Heart className="w-3.5 h-3.5 fill-slate-950 shrink-0" />
+                <span>Click Again (Next Sponsor · #{clickCount})</span>
               </button>
 
               <button
                 onClick={handleResetAndClose}
-                className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs transition-colors cursor-pointer"
+                className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl text-xs transition-colors cursor-pointer"
               >
                 Done
               </button>

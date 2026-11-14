@@ -171,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Heart className="w-4 h-4 fill-white" />
-                <span>Donate (100% Free · No Cost)</span>
+                <span>Donate (100% Free)</span>
                 <ExternalLink className="w-3.5 h-3.5 text-emerald-200" />
               </button>
             </div>

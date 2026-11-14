@@ -39,7 +39,7 @@ export const AnnouncementSlideshowBar: React.FC<AnnouncementSlideshowBarProps> =
 
   const handleFreeDonateClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const result = openNextSponsorLink();
+    const result = openNextSponsorLink('announcement-bar');
     setTotalClicks(result.totalClicks);
     setJustClicked(true);
     setTimeout(() => setJustClicked(false), 2000);

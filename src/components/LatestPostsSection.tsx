@@ -13,7 +13,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   const handleFreeDonateClick = () => {
-    openNextSponsorLink();
+    openNextSponsorLink('latest-posts');
     try {
       confetti({
         particleCount: 40,
@@ -136,13 +136,13 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
           aria-modal="true"
         >
           <div
-            className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-stone-200 p-6 sm:p-8 relative text-left"
+            className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-stone-200 p-5 sm:p-8 relative text-left"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedPost(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
+              className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
               aria-label="Close article modal"
             >
               <X className="w-5 h-5" />

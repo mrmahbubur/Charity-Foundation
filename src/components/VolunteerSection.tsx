@@ -44,7 +44,7 @@ export const VolunteerSection: React.FC = () => {
   };
 
   const handleSupportClick = () => {
-    openNextSponsorLink();
+    openNextSponsorLink('volunteer');
   };
 
   return (
