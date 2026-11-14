@@ -27,12 +27,8 @@ export function useSupporterCount() {
     return unsubscribe;
   }, []);
 
-  const addManualSupporter = (e?: React.MouseEvent) => {
-    if (e) {
-      supporterTracker.recordClick(e.clientX, e.clientY);
-    } else {
-      supporterTracker.addSupporters(1);
-    }
+  const addManualSupporter = (_e?: React.MouseEvent) => {
+    supporterTracker.addSupporters(1);
   };
 
   return {

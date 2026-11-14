@@ -50,7 +50,7 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
               Click the Button Below to Donate 100% Free
             </h3>
             <p className="text-xs text-slate-500 max-w-xl">
-              Every click opens a different verified ad sponsor in a new tab. Our partners fund tuition, hot midday meals, and winter relief for children in Bangladesh.
+              Every click opens a verified sponsor partner in a new tab. Our partners fund tuition, hot midday meals, and emergency relief across our Donamba (Uganda), Bangladesh, and South Asia chapters.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
               className="w-full sm:w-auto justify-center text-center bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center gap-2 sm:whitespace-nowrap group transform hover:-translate-y-0.5 active:translate-y-0"
             >
               <Heart className="w-4 h-4 fill-white text-white group-hover:scale-110 transition-transform shrink-0" />
-              <span>Click to Donate (Free · No Money Needed)</span>
+              <span>Click to Donate (Free)</span>
               <ExternalLink className="w-4 h-4 text-emerald-200 shrink-0" />
             </button>
 

@@ -113,7 +113,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                       className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm group"
                     >
                       <Heart className="w-4 h-4 fill-white group-hover:scale-110 transition-transform" />
-                      <span>Click to Free Donate (Opens Sponsor in New Tab)</span>
+                      <span>Support Program (100% Free)</span>
                       <ExternalLink className="w-4 h-4 text-emerald-200" />
                     </button>
                   </div>

@@ -115,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
 
             {/* Live Community Goal Milestone Card */}
             {brain?.enabled && (
-              <div className="bg-slate-800/75 border border-emerald-500/35 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-xl space-y-3">
+              <div className="bg-slate-800/70 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-xl space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
                     <Target className="w-4 h-4 text-amber-400" />
@@ -126,42 +126,33 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
                   </div>
                 </div>
 
-                {/* Animated Progress Bar */}
-                <div className="w-full h-3 bg-slate-950/90 rounded-full overflow-hidden border border-slate-700/80 p-0.5">
+                {/* Progress Bar */}
+                <div className="w-full h-2.5 bg-slate-950/90 rounded-full overflow-hidden border border-slate-700/80 p-0.5">
                   <div
                     className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-700 ease-out"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
 
-                <div className="space-y-1">
-                  <div className="text-sm sm:text-base font-extrabold text-white">
-                    {dynamicHeadline}
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {brain.activeSubtext}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                  <button
-                    onClick={() => handleFreeDonateClick('hero-milestone')}
-                    className="w-full sm:w-auto justify-center text-center bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold px-4 sm:px-5 py-3 rounded-xl shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-xs sm:text-sm sm:whitespace-nowrap"
-                  >
-                    <Heart className="w-4 h-4 fill-slate-950 shrink-0" />
-                    <span>{brain.activeCtaLabel || 'Unlock Free Meal & Study Aid (1-Click)'}</span>
-                    <ExternalLink className="w-4 h-4 shrink-0" />
-                  </button>
-
-                  {latestActivity && (
-                    <div className="w-full sm:w-auto flex items-center gap-2 text-[11px] text-emerald-200 bg-emerald-950/70 px-3 py-1.5 rounded-lg border border-emerald-700/40 min-w-0">
-                      <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0 animate-pulse" />
-                      <span className="truncate">
-                        <strong className="text-amber-300">{latestActivity.location}:</strong> {latestActivity.actionText}
-                      </span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <div className="text-sm sm:text-base font-extrabold text-white">
+                      {dynamicHeadline}
                     </div>
-                  )}
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {brain.activeSubtext}
+                    </p>
+                  </div>
                 </div>
+
+                {latestActivity && (
+                  <div className="flex items-center gap-2 text-[11px] text-emerald-200 bg-emerald-950/70 px-3 py-1.5 rounded-lg border border-emerald-700/40 min-w-0">
+                    <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0 animate-pulse" />
+                    <span className="truncate">
+                      <strong className="text-amber-300">{latestActivity.location}:</strong> {latestActivity.actionText}
+                    </span>
+                  </div>
+                )}
 
                 {clickFeedback && (
                   <div className="bg-emerald-950/90 border border-emerald-400/50 text-emerald-200 text-xs px-3 py-2 rounded-lg flex items-center gap-2">
@@ -176,16 +167,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
             <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
               <button
                 onClick={() => handleFreeDonateClick('hero-primary')}
-                className="w-full sm:w-auto justify-center text-center bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-5 sm:px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-700/25 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base sm:whitespace-nowrap group"
+                className="w-full sm:w-auto justify-center text-center bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-5 sm:px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-700/25 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base sm:whitespace-nowrap group"
               >
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white group-hover:scale-110 transition-transform shrink-0" />
-                <span>Click to Donate (100% Free · No Money Needed)</span>
+                <span>Click to Donate (100% Free)</span>
                 <ExternalLink className="w-4 h-4 text-emerald-200 shrink-0" />
               </button>
 
               <button
                 onClick={() => onSelectSponsor()}
-                className="w-full sm:w-auto justify-center text-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base sm:whitespace-nowrap"
+                className="w-full sm:w-auto justify-center text-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5 cursor-pointer flex items-center gap-2 text-sm sm:text-base sm:whitespace-nowrap"
               >
                 <GraduationCap className="w-4 h-4 shrink-0" />
                 <span>Sponsor a Student (Free Clicks)</span>

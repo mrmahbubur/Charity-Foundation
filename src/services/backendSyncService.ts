@@ -174,7 +174,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
       id: 'ann-3',
       badge: 'Zero-Cost Giving',
       title: 'Your Click Creates Real Aid',
-      message: 'You don’t have to spend a single Taka. Every time you click "Donate", a sponsor link opens in a new tab and funds rural Bangladesh schools.',
+      message: 'You don’t have to spend a single cent. Every time you click "Donate", a sponsor link opens in a new tab and funds community schools in Donamba, Sarvodaya & Bangladesh.',
       actionText: 'Click to Donate Now',
       active: true
     },
@@ -258,17 +258,24 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     activityStream: [
       {
         id: 'act-1',
-        location: 'Dhaka',
+        location: 'Donamba, Uganda',
         actionText: 'unlocked 1 Child Meal & Study Credit (0 cost)',
         impactText: '+1 Free Support Click',
         timestamp: new Date().toISOString()
       },
       {
         id: 'act-2',
-        location: 'Sylhet',
+        location: 'Sarvodaya, South Asia',
+        actionText: 'sponsored a classroom reading kit via free link',
+        impactText: '+1 Study Credit',
+        timestamp: new Date(Date.now() - 25000).toISOString()
+      },
+      {
+        id: 'act-3',
+        location: 'Dhaka, Bangladesh',
         actionText: 'sponsored clean drinking water sachet via free link',
         impactText: '+1 Water Credit',
-        timestamp: new Date(Date.now() - 25000).toISOString()
+        timestamp: new Date(Date.now() - 50000).toISOString()
       }
     ],
     realClickAnalytics: {

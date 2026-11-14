@@ -1,10 +1,10 @@
 {
-  "version": 87,
-  "lastUpdated": "2026-11-12T21:10:43.225Z",
+  "version": 102,
+  "lastUpdated": "2026-11-14T05:40:57.678Z",
   "foundationInfo": {
     "name": "M R S Charity Foundation",
     "shortName": "M R S Foundation",
-    "logo": "/logo.png",
+    "logo": "./logo.png",
     "parentOrg": "A Future Project of M R S",
     "motto": "Poverty Ends With Us",
     "secondaryMotto": "Humanity United Against Poverty",
@@ -39,7 +39,7 @@
       "id": "ann-3",
       "badge": "Zero-Cost Giving",
       "title": "Your Click Creates Real Aid",
-      "message": "You don’t have to spend a single Taka. Every time you click \"Donate\", a sponsor link opens in a new tab and funds rural Bangladesh schools.",
+      "message": "You don’t have to spend a single cent. Every time you click \"Donate\", a sponsor link opens in a new tab and funds community schools in Donamba, Sarvodaya & Bangladesh.",
       "actionText": "Click to Donate Now",
       "active": true
     },
@@ -87,12 +87,12 @@
     }
   ],
   "donationStats": {
-    "totalSupporters": 18450,
+    "totalSupporters": 18470,
     "totalRaisedBDT": 62450000,
-    "mealsServed": 320000,
-    "cleanWaterLitres": 1850000,
-    "lastSupporterName": "Supporter from Dhaka",
-    "lastDonationTime": "2026-11-12T21:10:34.732Z"
+    "mealsServed": 320040,
+    "cleanWaterLitres": 1850100,
+    "lastSupporterName": "Supporter from Chattogram",
+    "lastDonationTime": "2026-11-14T05:40:57.678Z"
   },
   "futureProject": {
     "status": "Upcoming Official Flagship",
@@ -106,10 +106,31 @@
     "autoSupporterIncrement": true,
     "supporterIncrementIntervalSec": 8,
     "autoTickerSync": true,
-    "lastAutoUpdate": "2026-11-12T21:10:34.732Z",
-    "totalAutoTicks": 0,
+    "lastAutoUpdate": "2026-11-14T05:40:57.678Z",
+    "totalAutoTicks": 15,
     "syncIntervalSec": 5,
     "updateLog": [
+      {
+        "id": "log-1794634857678-9bq5",
+        "timestamp": "2026-11-14T05:40:57.678Z",
+        "action": "COMMUNITY_PULSE",
+        "details": "Pulse synced (+1 from Chattogram, Daily: 442/500)",
+        "source": "scheduler"
+      },
+      {
+        "id": "log-1794634817674-jurw",
+        "timestamp": "2026-11-14T05:40:17.674Z",
+        "action": "COMMUNITY_PULSE",
+        "details": "Pulse synced (+1 from Toronto, Canada, Daily: 437/500)",
+        "source": "scheduler"
+      },
+      {
+        "id": "log-1794634777667-befm",
+        "timestamp": "2026-11-14T05:39:37.667Z",
+        "action": "COMMUNITY_PULSE",
+        "details": "Pulse synced (+1 from Toronto, Canada, Daily: 432/500)",
+        "source": "scheduler"
+      },
       {
         "id": "log-1794517843225-ye66",
         "timestamp": "2026-11-12T21:10:43.225Z",
@@ -130,7 +151,7 @@
     "enabled": true,
     "persuasionMode": "goal-gradient",
     "dailyGoalClicks": 500,
-    "todayClicks": 427,
+    "todayClicks": 442,
     "clickImpactUnit": "1 Child Meal + 1 Study Notebook Credit",
     "activeHeadline": "Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal",
     "activeSubtext": "Zero money needed from your pocket—one quick click unlocks sponsor-funded meals and school kits for children.",
@@ -157,25 +178,88 @@
     ],
     "activityStream": [
       {
-        "id": "act-1",
+        "id": "act-1794634857678-knzc",
+        "location": "Chattogram",
+        "actionText": "sponsored a clean drinking water sachet via free click",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:40:57.678Z"
+      },
+      {
+        "id": "act-1794634849676-zj7h",
+        "location": "Barisal",
+        "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:40:49.676Z"
+      },
+      {
+        "id": "act-1794634841676-moef",
+        "location": "Rangpur",
+        "actionText": "supported a student textbook pack without paying a cent",
+        "impactText": "+2 Free Credits",
+        "timestamp": "2026-11-14T05:40:41.676Z"
+      },
+      {
+        "id": "act-1794634833675-3rvs",
+        "location": "Dhaka",
+        "actionText": "sponsored a clean drinking water sachet via free click",
+        "impactText": "+2 Free Credits",
+        "timestamp": "2026-11-14T05:40:33.675Z"
+      },
+      {
+        "id": "act-1794634825674-9z06",
         "location": "Dhaka",
         "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
-        "impactText": "+1 Free Support Click",
-        "timestamp": "2026-11-12T21:10:34.732Z"
+        "impactText": "+2 Free Credits",
+        "timestamp": "2026-11-14T05:40:25.674Z"
       },
       {
-        "id": "act-2",
-        "location": "Sylhet",
-        "actionText": "sponsored clean drinking water sachet via free link",
-        "impactText": "+1 Water Credit",
-        "timestamp": "2026-11-12T21:10:09.732Z"
+        "id": "act-1794634817674-43bj",
+        "location": "Donamba, Uganda",
+        "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:40:17.674Z"
       },
       {
-        "id": "act-3",
+        "id": "act-1794634809672-52hf",
+        "location": "Sarvodaya, South Asia",
+        "actionText": "contributed to today’s rural classroom kit goal",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:40:09.672Z"
+      },
+      {
+        "id": "act-1794634801671-ubvm",
+        "location": "Dhaka, Bangladesh",
+        "actionText": "sponsored a clean drinking water sachet via free click",
+        "impactText": "+2 Free Credits",
+        "timestamp": "2026-11-14T05:40:01.671Z"
+      },
+      {
+        "id": "act-1794634793670-c2jf",
         "location": "London, UK",
-        "actionText": "completed 3 consecutive free sponsor support clicks",
-        "impactText": "+3 Meal Credits",
-        "timestamp": "2026-11-12T21:09:39.732Z"
+        "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
+        "impactText": "+2 Free Credits",
+        "timestamp": "2026-11-14T05:39:53.670Z"
+      },
+      {
+        "id": "act-1794634785669-xubt",
+        "location": "Toronto, Canada",
+        "actionText": "unlocked 1 Child Meal & Study Credit (0 cost)",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:39:45.669Z"
+      },
+      {
+        "id": "act-1794634777667-c7lc",
+        "location": "Toronto, Canada",
+        "actionText": "supported a student textbook pack without paying a cent",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:39:37.667Z"
+      },
+      {
+        "id": "act-1794634769665-sz0y",
+        "location": "Dhaka",
+        "actionText": "completed a free sponsor click for emergency relief",
+        "impactText": "+1 Free Credit",
+        "timestamp": "2026-11-14T05:39:29.665Z"
       }
     ],
     "realClickAnalytics": {

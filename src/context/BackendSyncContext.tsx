@@ -38,7 +38,7 @@ interface BackendSyncContextValue {
 
 const BackendSyncContext = createContext<BackendSyncContextValue | undefined>(undefined);
 
-const STATIC_PULSE_CITIES = ['Dhaka', 'Chattogram', 'Sylhet', 'Rajshahi', 'Khulna', 'London, UK', 'Toronto, Canada'];
+const STATIC_PULSE_CITIES = ['Donamba, Uganda', 'Dhaka, Bangladesh', 'Sarvodaya, South Asia', 'Chattogram, Bangladesh', 'Sylhet, Bangladesh', 'London, UK', 'Toronto, Canada'];
 const STATIC_PULSE_ACTIONS = [
   'unlocked 1 Child Meal & Study Credit (0 cost)',
   'sponsored a clean drinking water sachet via free click',

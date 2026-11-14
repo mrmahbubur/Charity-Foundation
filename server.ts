@@ -194,7 +194,7 @@ const DEFAULT_CONTENT = {
       id: 'ann-3',
       badge: 'Zero-Cost Giving',
       title: 'Your Click Creates Real Aid',
-      message: 'You don’t have to spend a single Taka. Every time you click "Donate", a sponsor link opens in a new tab and funds rural Bangladesh schools.',
+      message: 'You don’t have to spend a single cent. Every time you click "Donate", a sponsor link opens in a new tab and funds community schools in Donamba, Sarvodaya & Bangladesh.',
       actionText: 'Click to Donate Now',
       active: true
     },
@@ -286,23 +286,23 @@ const DEFAULT_CONTENT = {
     activityStream: [
       {
         id: 'act-1',
-        location: 'Dhaka',
+        location: 'Donamba, Uganda',
         actionText: 'unlocked 1 Child Meal & Study Credit (0 cost)',
         impactText: '+1 Free Support Click',
         timestamp: new Date().toISOString()
       },
       {
         id: 'act-2',
-        location: 'Sylhet',
-        actionText: 'sponsored clean drinking water sachet via free link',
-        impactText: '+1 Water Credit',
+        location: 'Sarvodaya, South Asia',
+        actionText: 'sponsored a classroom reading kit via free link',
+        impactText: '+1 Study Credit',
         timestamp: new Date(Date.now() - 25000).toISOString()
       },
       {
         id: 'act-3',
-        location: 'London, UK',
-        actionText: 'completed 3 consecutive free sponsor support clicks',
-        impactText: '+3 Meal Credits',
+        location: 'Dhaka, Bangladesh',
+        actionText: 'sponsored clean drinking water sachet via free link',
+        impactText: '+1 Water Credit',
         timestamp: new Date(Date.now() - 55000).toISOString()
       }
     ],
@@ -464,16 +464,14 @@ function recordLog(action: string, details: string, source = 'api') {
 }
 
 const RANDOM_REGIONS = [
-  'Dhaka',
-  'Chattogram',
-  'Sylhet',
-  'Rajshahi',
-  'Khulna',
-  'Barisal',
-  'Rangpur',
+  'Donamba, Uganda',
+  'Sarvodaya, South Asia',
+  'Dhaka, Bangladesh',
+  'Chattogram, Bangladesh',
+  'Sylhet, Bangladesh',
   'London, UK',
   'Toronto, Canada',
-  'Comilla'
+  'New York, USA'
 ];
 
 const BRAIN_ACTIVITY_TEMPLATES = [
@@ -597,9 +595,8 @@ async function startServer() {
 
   const publicDir = path.resolve(__dirname, 'public');
 
-  app.get(['/logo.png', '/logo.jpg'], (req, res) => {
-    const filename = req.path.endsWith('.jpg') ? 'logo.jpg' : 'logo.png';
-    const filePath = path.resolve(publicDir, filename);
+  app.get(['/logo.png', '/logo.jpg'], (_req, res) => {
+    const filePath = path.resolve(publicDir, 'logo.png');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');

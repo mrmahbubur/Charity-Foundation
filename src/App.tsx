@@ -16,7 +16,6 @@ import { FutureProjectSection } from './components/FutureProjectSection';
 import { DonationModal } from './components/DonationModal';
 import { SponsorChildModal } from './components/SponsorChildModal';
 import { LiveSupporterWidget } from './components/LiveSupporterWidget';
-import { SmartEngagementBar } from './components/SmartEngagementBar';
 import { Footer } from './components/Footer';
 
 // Code-split private console so public site visitors never download its UI bundle
@@ -150,8 +149,6 @@ function MainApp() {
         child={selectedChild}
         onClose={() => setSelectedChild(null)}
       />
-
-      <SmartEngagementBar />
 
       <LiveSupporterWidget />
     </div>

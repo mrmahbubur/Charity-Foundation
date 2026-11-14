@@ -6,7 +6,7 @@ import { Heart, ChevronDown, ChevronUp, Users, ExternalLink, CheckCircle2 } from
 import confetti from 'canvas-confetti';
 
 export const LiveSupporterWidget: React.FC = () => {
-  const { totalSupporters: localSupporters, userClicks, recentNotification, addManualSupporter } = useSupporterCount();
+  const { totalSupporters: localSupporters, userClicks, recentNotification } = useSupporterCount();
   const { content } = useBackendSync();
   const [isMinimized, setIsMinimized] = useState<boolean>(() =>
     typeof window !== 'undefined' ? window.innerWidth < 768 : false
@@ -25,7 +25,6 @@ export const LiveSupporterWidget: React.FC = () => {
   const handleOneClickFreeSupport = (e: React.MouseEvent) => {
     e.stopPropagation();
     const res = openNextSponsorLink('floating-widget');
-    addManualSupporter(e);
     setHasClickedBoost(true);
     setRewardMsg(`Unlocked +1 Credit (Partner #${res.linkNumber}/${sponsorCount})! Click again for next link.`);
     setTimeout(() => setHasClickedBoost(false), 450);

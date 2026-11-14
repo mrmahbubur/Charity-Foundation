@@ -81,7 +81,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
             <p className="text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
               You do not need to spend any money from your pocket. Simply click the button below — each click opens a verified sponsor partner in a new tab.
-              <strong> Our sponsor network pays on your behalf</strong> to provide free education, meals, and relief to underprivileged children in Bangladesh.
+              <strong> Our sponsor network pays on your behalf</strong> to provide free education, meals, and relief for children across our Donamba (Uganda), Bangladesh, and South Asia chapters.
             </p>
           </div>
 
@@ -101,9 +101,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               onClick={handleFreeDonateClick}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 px-6 rounded-2xl text-base sm:text-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-emerald-700/25 cursor-pointer flex items-center justify-center gap-3 group"
             >
-              <Heart className="w-6 h-6 fill-white text-white group-hover:scale-110 transition-transform" />
-              <span>Click to Donate (Free · No Money Needed)</span>
-              <ExternalLink className="w-5 h-5 text-emerald-200" />
+              <Heart className="w-6 h-6 fill-white text-white group-hover:scale-110 transition-transform shrink-0" />
+              <span>Click to Donate (Free)</span>
+              <ExternalLink className="w-5 h-5 text-emerald-200 shrink-0" />
             </button>
 
             {/* Post-click acknowledgement */}

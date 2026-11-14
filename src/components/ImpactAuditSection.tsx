@@ -73,9 +73,9 @@ export const ImpactAuditSection: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 pt-1">
                   <span>{item.detail}</span>
-                  <span className="font-semibold text-emerald-700 shrink-0 ml-3">
+                  <span className="font-semibold text-emerald-700 shrink-0">
                     {item.amountUSD}
                   </span>
                 </div>
