@@ -8,7 +8,29 @@ import { createServer as createViteServer } from 'vite';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = Number(process.env.PORT) || 3000;
+function resolvePort(): number {
+  const portArgIndex = process.argv.indexOf('--port');
+  if (portArgIndex !== -1 && process.argv[portArgIndex + 1]) {
+    const parsed = Number(process.argv[portArgIndex + 1]);
+    if (Number.isFinite(parsed) && parsed > 0) return parsed;
+  }
+  const portEqArg = process.argv.find((arg) => arg.startsWith('--port='));
+  if (portEqArg) {
+    const parsed = Number(portEqArg.split('=')[1]);
+    if (Number.isFinite(parsed) && parsed > 0) return parsed;
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    const envPort = Number(process.env.PORT);
+    const nginxPort = Number(process.env.NGINX_PORT);
+    if (envPort && envPort !== nginxPort && envPort !== 8080) {
+      return envPort;
+    }
+    return Number(process.env.DEFAULT_APP_PORT) || 3000;
+  }
+  return Number(process.env.PORT) || 3000;
+}
+
+const PORT = resolvePort();
 const DATA_DIR = path.resolve(__dirname, 'server/data');
 const DATA_FILE = path.resolve(DATA_DIR, 'site-content.json');
 const VAULT_FILE = path.resolve(DATA_DIR, 'vault-auth.json');
@@ -578,9 +600,9 @@ async function startServer() {
   });
 
   // Block automated vulnerability scanners, internal paths, and common exploit probes
-  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|\.github|\.gitignore|\.aistudio|node_modules|server|src|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|metadata\.json|README\.md|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)|\.map$/i;
+  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|\.github|\.gitignore|\.aistudio|server\/data|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|metadata\.json|README\.md|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)(\/|$)/i;
   app.use((req, res, next) => {
-    if (BLOCKED_PROBE_REGEX.test(req.path)) {
+    if (BLOCKED_PROBE_REGEX.test(req.path) || (process.env.NODE_ENV === 'production' && req.path.endsWith('.map'))) {
       return res.status(404).end();
     }
     next();
