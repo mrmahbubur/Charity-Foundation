@@ -46,16 +46,17 @@ export const StoriesSection: React.FC = () => {
         </div>
 
         {/* Feature Story Card with Asymmetric Layout */}
-        <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 items-center">
+        <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 items-stretch">
           {/* Visual Left */}
-          <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-full lg:min-h-[400px] bg-slate-900">
+          <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-full lg:min-h-[420px] bg-slate-900">
             <img
               src={currentStory.image}
               alt={currentStory.personName}
+              loading="lazy"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 text-white">
               <span className="text-xs uppercase tracking-wider text-emerald-400 font-bold block mb-1">
                 {currentStory.program}
@@ -86,9 +87,9 @@ export const StoriesSection: React.FC = () => {
                 "{currentStory.title}"
               </h3>
 
-              <p className="text-sm sm:text-base text-slate-700 italic leading-relaxed pl-4 border-l-2 border-emerald-500">
+              <blockquote className="text-base sm:text-lg text-slate-800 italic leading-relaxed py-4 border-y border-stone-200">
                 "{currentStory.fullQuote}"
-              </p>
+              </blockquote>
 
               <div className="pt-2">
                 <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">

@@ -71,8 +71,10 @@ export const LiveSupporterWidget: React.FC = () => {
 
           <button
             onClick={() => setIsMinimized(!isMinimized)}
-            className="text-slate-400 hover:text-white p-1 rounded transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-white p-1.5 rounded-lg transition-colors cursor-pointer"
             title={isMinimized ? 'Expand live impact' : 'Minimize live impact'}
+            aria-label={isMinimized ? 'Expand live community impact panel' : 'Minimize live community impact panel'}
+            aria-expanded={!isMinimized}
           >
             {isMinimized ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>

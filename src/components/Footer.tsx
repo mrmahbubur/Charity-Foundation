@@ -59,10 +59,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
             </div>
           </div>
 
-          {/* Quick Pillars */}
+          {/* Quick Pillars & Navigation */}
           <div className="space-y-3">
             <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider">
-              Core Pillars
+              Explore Portal
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -71,28 +71,38 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDonate }) => {
                 </a>
               </li>
               <li>
-                <a href="#programs" className="hover:text-white transition-colors">
-                  Free Child Education
-                </a>
-              </li>
-              <li>
-                <a href="#programs" className="hover:text-white transition-colors">
-                  Community Healthcare
-                </a>
-              </li>
-              <li>
-                <a href="#programs" className="hover:text-white transition-colors">
-                  Essential Food &amp; Relief
-                </a>
-              </li>
-              <li>
                 <a href="#sponsor" className="hover:text-white transition-colors">
-                  Student Scholar Sponsorship
+                  Student Sponsorship
+                </a>
+              </li>
+              <li>
+                <a href="#programs" className="hover:text-white transition-colors">
+                  Education, Food &amp; Safe Water
+                </a>
+              </li>
+              <li>
+                <a href="#impact" className="hover:text-white transition-colors">
+                  Financial Transparency
                 </a>
               </li>
               <li>
                 <a href="#volunteer" className="hover:text-white transition-colors">
                   Volunteer Supporter Network
+                </a>
+              </li>
+              <li>
+                <a href="#stories" className="hover:text-white transition-colors">
+                  Stories of Transformation
+                </a>
+              </li>
+              <li>
+                <a href="#posts" className="hover:text-white transition-colors">
+                  Field Dispatches &amp; Updates
+                </a>
+              </li>
+              <li>
+                <a href="#knowledge" className="hover:text-white transition-colors">
+                  Knowledge &amp; FAQ
                 </a>
               </li>
             </ul>

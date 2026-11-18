@@ -63,14 +63,15 @@ export const VolunteerSection: React.FC = () => {
               M R S Charity Foundation unites passionate youth and compassionate individuals across communities. Whether as a digital supporter clicking to donate or a local field volunteer, every effort counts.
             </p>
 
-            <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+            <div className="relative rounded-2xl overflow-hidden border border-stone-200 shadow-md bg-stone-200">
               <img
                 src={VOLUNTEER_RELIEF_IMAGE}
                 alt="Volunteers supporting M R S Charity Foundation initiatives"
+                loading="lazy"
                 className="w-full h-64 object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 to-transparent" />
               <div className="absolute bottom-3 left-4 right-4 text-white text-xs">
                 <span className="font-semibold text-amber-300">Community Action:</span> Over 16,200 volunteer network members across relief and teaching initiatives.
               </div>
@@ -94,7 +95,7 @@ export const VolunteerSection: React.FC = () => {
 
           {/* Registration Form Column */}
           <div className="lg:col-span-7">
-            <div className="bg-[#FCFCFA] p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm">
+            <div className="bg-[#FCFCFA] p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-sm">
               {submitted ? (
                 <div className="text-center py-8 space-y-6">
                   <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
@@ -110,9 +111,9 @@ export const VolunteerSection: React.FC = () => {
                   </div>
 
                   {/* Generated Volunteer Badge */}
-                  <div className="bg-white max-w-sm mx-auto p-6 rounded-2xl border-2 border-dashed border-emerald-500 shadow-sm text-left space-y-3">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                      <span className="text-xs font-bold text-emerald-700 uppercase">Volunteer Pass</span>
+                  <div className="bg-white max-w-sm mx-auto p-6 rounded-2xl border border-emerald-300 shadow-sm text-left space-y-3">
+                    <div className="flex items-center justify-between border-b border-stone-100 pb-2">
+                      <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Volunteer Pass</span>
                       <span className="text-xs font-mono font-bold text-slate-700">{volunteerId}</span>
                     </div>
                     <div className="text-base font-bold text-slate-900">{formData.alias}</div>
@@ -150,27 +151,29 @@ export const VolunteerSection: React.FC = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      <label htmlFor="vol-alias" className="block text-xs font-semibold text-slate-700 mb-1">
                         Supporter Handle / Display Name *
                       </label>
                       <input
+                        id="vol-alias"
                         type="text"
                         required
                         placeholder="e.g. VolunteerSupporter26"
                         value={formData.alias}
                         onChange={(e) => setFormData({ ...formData, alias: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      <label htmlFor="vol-chapter" className="block text-xs font-semibold text-slate-700 mb-1">
                         Regional Chapter *
                       </label>
                       <select
+                        id="vol-chapter"
                         value={formData.chapter}
                         onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-white"
                       >
                         {chapters.map((ch) => (
                           <option key={ch} value={ch}>{ch}</option>
@@ -180,13 +183,14 @@ export const VolunteerSection: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="vol-interest" className="block text-xs font-semibold text-slate-700 mb-1">
                       Primary Area of Interest
                     </label>
                     <select
+                      id="vol-interest"
                       value={formData.interestArea}
                       onChange={(e) => setFormData({ ...formData, interestArea: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-white"
                     >
                       <option value="Education & Child Mentoring">Education &amp; Child Mentoring</option>
                       <option value="Healthcare & Clean Water">Healthcare &amp; Clean Water Support</option>

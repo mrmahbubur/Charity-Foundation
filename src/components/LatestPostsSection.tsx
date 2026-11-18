@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BLOG_POSTS } from '../data/charityData';
 import { BlogPost } from '../types';
 import { openNextSponsorLink } from '../services/adDonateService';
@@ -11,6 +11,15 @@ interface LatestPostsSectionProps {
 
 export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDonate }) => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+
+  useEffect(() => {
+    if (!selectedPost) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedPost(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedPost]);
 
   const handleFreeDonateClick = () => {
     openNextSponsorLink('latest-posts');
@@ -30,7 +39,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 text-emerald-800 text-xs font-extrabold uppercase tracking-widest">
             <BookOpen className="w-3.5 h-3.5 text-emerald-700" />
             <span>Field Dispatches &amp; Articles</span>
           </div>
@@ -52,7 +61,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
               className="group bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col"
             >
               {/* Dedicated Post Thumbnail Container */}
-              <div className="relative h-60 sm:h-64 w-full overflow-hidden bg-stone-100">
+              <div className="relative h-60 sm:h-64 w-full overflow-hidden bg-stone-200">
                 <img
                   src={post.thumbnail}
                   alt={post.title}
@@ -60,10 +69,10 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
                   referrerPolicy="no-referrer"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent opacity-80" />
 
-                {/* Category Badge overlay */}
-                <span className="absolute top-4 left-4 bg-emerald-950/90 backdrop-blur-sm text-emerald-300 border border-emerald-700/60 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                {/* Category Label overlay */}
+                <span className="absolute top-4 left-4 bg-emerald-950/90 backdrop-blur-sm text-emerald-200 border border-emerald-700/60 text-[11px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-md shadow-sm">
                   {post.category}
                 </span>
 
@@ -83,16 +92,19 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
                       <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                       <span>{post.date}</span>
                     </span>
-                    <span>&#183;</span>
+                    <span aria-hidden="true">·</span>
                     <span>By {post.author}</span>
                   </div>
 
                   {/* Post Title */}
-                  <h3
-                    onClick={() => setSelectedPost(post)}
-                    className="font-display font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-emerald-700 transition-colors cursor-pointer leading-snug"
-                  >
-                    {post.title}
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPost(post)}
+                      className="text-left cursor-pointer hover:underline decoration-emerald-600/50 underline-offset-4"
+                    >
+                      {post.title}
+                    </button>
                   </h3>
 
                   {/* Dedicated Text Snippet Space */}
@@ -149,7 +161,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
             </button>
 
             {/* Modal Thumbnail */}
-            <div className="rounded-2xl overflow-hidden h-64 sm:h-72 w-full mb-6 bg-stone-100">
+            <div className="rounded-2xl overflow-hidden h-64 sm:h-72 w-full mb-6 bg-stone-200">
               <img
                 src={selectedPost.thumbnail}
                 alt={selectedPost.title}
@@ -159,18 +171,18 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
             </div>
 
             {/* Modal Post Meta */}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
-              <span className="bg-emerald-100 text-emerald-900 font-bold px-2.5 py-0.5 rounded-full">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-500 mb-3">
+              <span className="text-emerald-800 uppercase tracking-wider font-bold">
                 {selectedPost.category}
               </span>
-              <span>&#183;</span>
+              <span aria-hidden="true">·</span>
               <span className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                 <span>{selectedPost.date}</span>
               </span>
-              <span>&#183;</span>
+              <span aria-hidden="true">·</span>
               <span>{selectedPost.readTime}</span>
-              <span>&#183;</span>
+              <span aria-hidden="true">·</span>
               <span>By {selectedPost.author}</span>
             </div>
 
@@ -180,7 +192,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ onOpenDo
             </h3>
 
             {/* Text Snippet Highlight */}
-            <div className="bg-emerald-50/70 border-l-4 border-emerald-600 p-4 rounded-r-xl mb-6">
+            <div className="bg-emerald-50/60 border border-emerald-200/80 p-4 rounded-xl mb-6">
               <p className="text-emerald-950 font-medium text-sm sm:text-base italic leading-relaxed">
                 "{selectedPost.excerpt}"
               </p>

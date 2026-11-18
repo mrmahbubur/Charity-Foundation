@@ -80,9 +80,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
         )}
 
         {/* Split Hero: 2-Column Desktop Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
           {/* Column 1: Editorial Headline & Narrative */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-7 space-y-5 flex flex-col justify-center">
             {/* Prominent Official Organization Logo */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white p-2 rounded-2xl shadow-xl shadow-emerald-950/40 border border-emerald-500/30 flex items-center justify-center shrink-0">
@@ -94,9 +94,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
                 />
               </div>
               <div className="space-y-1.5">
-                <div className="inline-flex items-center gap-2 bg-emerald-950/80 backdrop-blur-sm border border-emerald-800/80 rounded-full py-1 px-3 text-xs font-bold text-amber-300 shadow-sm">
+                <div className="inline-flex items-center gap-2 bg-emerald-900/75 border border-emerald-700/70 rounded-lg py-1 px-3 text-xs font-bold text-amber-300">
                   <span className="text-amber-400 font-semibold">{parentOrg}</span>
-                  <span className="text-emerald-500" aria-hidden="true">·</span>
+                  <span className="text-emerald-400" aria-hidden="true">·</span>
                   <span className="text-white">{motto}</span>
                 </div>
                 <div className="text-xs font-semibold text-emerald-300">
@@ -115,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
 
             {/* Live Community Goal Milestone Card */}
             {brain?.enabled && (
-              <div className="bg-slate-800/70 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-xl space-y-3">
+              <div className="bg-slate-800/75 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 backdrop-blur-md shadow-xl space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
                     <Target className="w-4 h-4 text-amber-400" />
@@ -146,8 +146,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
                 </div>
 
                 {latestActivity && (
-                  <div className="flex items-center gap-2 text-[11px] text-emerald-200 bg-emerald-950/70 px-3 py-1.5 rounded-lg border border-emerald-700/40 min-w-0">
-                    <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0 animate-pulse" />
+                  <div className="flex items-center gap-2 text-[11px] text-emerald-200 bg-emerald-950/75 px-3 py-1.5 rounded-lg border border-emerald-700/40 min-w-0">
+                    <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                     <span className="truncate">
                       <strong className="text-amber-300">{latestActivity.location}:</strong> {latestActivity.actionText}
                     </span>
@@ -205,18 +205,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
           </div>
 
           {/* Column 2: Visual Card with Authentic Humanitarian Photo */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900 group">
+          <div className="lg:col-span-5 flex">
+            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-full lg:min-h-[460px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900 group">
               <img
                 src={HERO_IMAGE}
                 alt="Children in community learning center supported by M R S Charity Foundation"
-                className="w-full h-64 sm:h-80 md:h-96 lg:h-[420px] object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
 
-              {/* In-photo Badge Overlay without personal names */}
-              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3 sm:p-4 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 text-slate-200">
+              {/* In-photo Caption Block */}
+              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3 sm:p-4 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-700/60 text-slate-200">
                 <div className="flex items-center justify-between gap-2 text-[11px] sm:text-xs text-amber-400 font-bold mb-1">
                   <span>M R S Community Learning Initiative</span>
                   <span className="shrink-0">Donamba · Uganda</span>
@@ -235,16 +235,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate, onSelectSponsor }) => 
         {/* 4-Column Full-Width KPI strip below Hero Split with Live Supporters Counter */}
         <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-slate-800 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 text-center">
           {/* Real-time Supporter KPI */}
-          <div className="space-y-1 bg-slate-800/40 p-3 rounded-xl border border-emerald-500/30">
-            <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-400 tabular-nums flex items-center justify-center gap-1.5">
-              <span>{totalSupporters.toLocaleString()}</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="space-y-1 bg-slate-800/45 p-3.5 rounded-xl border border-emerald-500/30">
+            <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-400 tabular-nums">
+              {totalSupporters.toLocaleString()}
             </div>
-            <div className="text-sm font-semibold text-emerald-300">Live Supporters</div>
+            <div className="text-sm font-semibold text-emerald-300">Community Supporters</div>
             <div className="text-xs text-slate-400">Updates live on every click</div>
           </div>
 
-          <div className="space-y-1 p-3">
+          <div className="space-y-1 p-3.5">
             <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-400 tabular-nums">
               4,850+
             </div>

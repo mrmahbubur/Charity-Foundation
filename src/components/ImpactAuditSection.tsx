@@ -50,7 +50,7 @@ export const ImpactAuditSection: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-3.5 h-3.5 rounded-full"
+                      className="w-3 h-3 rounded-sm shrink-0"
                       style={{ backgroundColor: item.color }}
                     />
                     <span className="font-semibold text-slate-900 text-sm sm:text-base">

@@ -51,17 +51,18 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                 className="bg-[#FCFCFA] rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group"
               >
                 {/* Image */}
-                <div className="relative h-64 overflow-hidden bg-slate-100">
+                <div className="relative h-64 overflow-hidden bg-stone-200">
                   <img
                     src={camp.image}
                     alt={camp.title}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
 
                   <div className="absolute top-4 left-4">
-                    <span className="text-xs font-semibold px-3 py-1 rounded-md bg-white/90 backdrop-blur-sm text-slate-900 shadow">
+                    <span className="text-[11px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-md bg-white/95 text-slate-900 shadow-sm">
                       {camp.category}
                     </span>
                   </div>

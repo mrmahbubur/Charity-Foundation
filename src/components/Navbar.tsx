@@ -21,10 +21,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'future-project', label: 'Future Project' },
-    { id: 'sponsor', label: 'Student Sponsorship' },
-    { id: 'programs', label: 'Our Pillars' },
-    { id: 'posts', label: 'Dispatches & Posts' },
-    { id: 'knowledge', label: 'Knowledge & FAQ' },
+    { id: 'sponsor', label: 'Sponsorship' },
+    { id: 'programs', label: 'Programs' },
+    { id: 'posts', label: 'Dispatches' },
     { id: 'impact', label: 'Transparency' },
   ];
 
@@ -68,26 +67,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="hidden md:inline text-emerald-200">— {secondaryMotto}</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 text-emerald-200 shrink-0">
-            {/* Live Supporter automatic counter */}
-            <div className="flex items-center gap-1.5 bg-emerald-900/90 text-amber-300 px-2 sm:px-2.5 py-0.5 rounded-full border border-emerald-700/60 font-semibold shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <div className="flex items-center gap-1.5 bg-emerald-900/80 text-amber-300 px-2.5 py-0.5 rounded-md border border-emerald-700/60 font-semibold">
               <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400" />
               <span className="tabular-nums">{totalSupporters.toLocaleString()}</span>
-              <span className="text-[11px] text-emerald-300 font-normal hidden sm:inline">Supporters</span>
+              <span className="text-[11px] text-emerald-200 font-normal hidden sm:inline">Supporters</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Top Navigation */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4 lg:gap-6">
           {/* Zone 1: Brand Wordmark Element with Official Site Logo */}
           <button
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-2 sm:gap-3 text-left focus:outline-none group min-w-0 cursor-pointer"
+            className="flex items-center gap-2.5 sm:gap-3 text-left group min-w-0 cursor-pointer"
           >
-            <div className="relative h-10 w-10 sm:h-14 sm:w-14 flex items-center justify-center shrink-0">
+            <div className="relative h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center shrink-0">
               <img
                 src={activeLogo}
                 alt="MRS Charity Foundation Logo"
@@ -99,22 +96,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="font-display font-extrabold text-sm sm:text-lg lg:text-xl text-slate-900 tracking-tight leading-tight truncate">
                 {foundationName}
               </div>
-              <div className="text-[10px] sm:text-[11px] font-semibold text-emerald-700 tracking-wide uppercase truncate">
+              <div className="text-[10px] sm:text-[11px] font-semibold text-emerald-800 tracking-wide uppercase truncate">
                 A Project of M R S · {motto}
               </div>
             </div>
           </button>
 
           {/* Zone 2: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-6 text-sm font-medium text-slate-600 shrink-0">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-7 text-sm font-medium text-slate-600 shrink-0">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`whitespace-nowrap transition-colors py-1 border-b-2 cursor-pointer ${
+                className={`whitespace-nowrap transition-colors py-1.5 border-b-2 cursor-pointer ${
                   activeTab === item.id
-                    ? 'border-emerald-600 text-emerald-700 font-semibold'
-                    : 'border-transparent hover:text-slate-900 hover:border-slate-300'
+                    ? 'border-emerald-700 text-emerald-800 font-semibold'
+                    : 'border-transparent hover:text-slate-950 hover:border-stone-300'
                 }`}
               >
                 {item.label}

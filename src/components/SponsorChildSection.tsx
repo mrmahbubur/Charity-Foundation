@@ -118,7 +118,7 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
               <button
                 key={district}
                 onClick={() => setSelectedDistrict(district)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
                   selectedDistrict === district
                     ? 'bg-emerald-700 text-white shadow-sm font-semibold'
                     : 'bg-white text-slate-700 border border-stone-200 hover:border-stone-300'
@@ -138,7 +138,7 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
                 <button
                   key={gender}
                   onClick={() => setSelectedGender(gender)}
-                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-md transition-colors cursor-pointer ${
                     selectedGender === gender ? 'bg-emerald-100 text-emerald-900 font-bold' : 'text-slate-600'
                   }`}
                 >
@@ -157,30 +157,24 @@ export const SponsorChildSection: React.FC<SponsorChildSectionProps> = ({ onSele
               className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group"
             >
               {/* Photo */}
-              <div className="relative h-64 overflow-hidden bg-stone-100">
+              <div className="relative h-64 overflow-hidden bg-stone-200">
                 <img
                   src={child.image}
                   alt={child.name}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                {/* Location & Urgent tag */}
-                <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-xs text-white">
-                  <div className="flex items-center gap-1 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md">
-                    <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{child.district}</span>
+                {/* Location tag & Dream overlay */}
+                <div className="absolute bottom-3 left-4 right-4 text-white space-y-1">
+                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span className="truncate">{child.district}</span>
                   </div>
-                  <div className="bg-amber-600 text-white font-semibold px-2 py-0.5 rounded text-[11px] shadow">
-                    Free Sponsor
-                  </div>
-                </div>
-
-                {/* Child Name & Dream overlay */}
-                <div className="absolute bottom-3 left-3 right-3 text-white">
                   <h4 className="font-display font-bold text-xl leading-tight">{child.name}</h4>
-                  <div className="text-xs text-emerald-300 font-medium mt-0.5">
+                  <div className="text-xs text-slate-200 font-medium">
                     Aspires to be a {child.dream}
                   </div>
                 </div>

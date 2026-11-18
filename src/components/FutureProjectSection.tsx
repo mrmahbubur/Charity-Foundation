@@ -64,7 +64,7 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 text-emerald-800 text-xs font-extrabold uppercase tracking-widest">
             <Compass className="w-3.5 h-3.5 text-emerald-700" />
             <span>Official Mission &amp; Goals</span>
           </div>
@@ -73,11 +73,11 @@ export const FutureProjectSection: React.FC<FutureProjectSectionProps> = ({ onOp
             The Mission of {info.name}
           </h2>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-amber-700">
-            <span className="bg-amber-100 px-2.5 py-0.5 rounded-full">{info.parentOrg}</span>
-            <span>·</span>
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-amber-800">
+            <span>{info.parentOrg}</span>
+            <span aria-hidden="true">·</span>
             <span>"{info.motto}"</span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <span>"{info.secondaryMotto}"</span>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { openNextSponsorLink, getNextDonateLink, getTotalFreeClicks, getSponsorLinks } from '../services/adDonateService';
 import { FOUNDATION_INFO } from '../data/charityData';
 import { useSiteLogo } from '../services/logoService';
@@ -23,6 +23,15 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const [totalClicks, setTotalClicks] = useState<number>(getTotalFreeClicks());
   const [lastOpenedLink, setLastOpenedLink] = useState<{ url: string; linkNumber: number } | null>(null);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const sponsorLinks = getSponsorLinks();
@@ -45,8 +54,16 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl relative border border-slate-200">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl relative border border-stone-200"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -70,7 +87,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 text-amber-800 text-xs font-extrabold uppercase tracking-widest">
               <HeartHandshake className="w-3.5 h-3.5 text-amber-600" />
               <span>100% Free Click-to-Donate</span>
             </div>
@@ -86,7 +103,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           </div>
 
           {/* Primary Action Button (The core click-to-donate with link rotation) */}
-          <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-amber-50 p-6 rounded-2xl border-2 border-emerald-500/40 text-center space-y-4 shadow-sm">
+          <div className="bg-gradient-to-br from-emerald-50 via-teal-50/70 to-amber-50/60 p-6 rounded-2xl border border-emerald-200 text-center space-y-4 shadow-sm">
             <div className="space-y-1">
               <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider flex items-center justify-center gap-1.5">
                 <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />

@@ -37,12 +37,13 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
         <div className="flex flex-col lg:flex-row items-center justify-between gap-5">
           {/* Left Title & Explanation */}
           <div className="space-y-1 text-center lg:text-left">
-            <div className="flex items-center justify-center lg:justify-start gap-2">
-              <span className="text-xs uppercase tracking-wider font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
-                <HeartHandshake className="w-3 h-3 text-amber-600" />
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs">
+              <span className="uppercase tracking-widest font-extrabold text-amber-800 inline-flex items-center gap-1.5">
+                <HeartHandshake className="w-3.5 h-3.5 text-amber-600" />
                 <span>Zero-Cost Community Giving</span>
               </span>
-              <span className="text-xs text-emerald-700 font-semibold hidden sm:inline">
+              <span className="text-stone-300 hidden sm:inline" aria-hidden="true">·</span>
+              <span className="text-emerald-700 font-semibold hidden sm:inline">
                 No money needed from you
               </span>
             </div>
@@ -67,7 +68,7 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
 
             <button
               onClick={() => onOpenDonate()}
-              className="w-full sm:w-auto justify-center bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-4 py-3 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer sm:whitespace-nowrap"
+              className="w-full sm:w-auto justify-center bg-stone-100 hover:bg-stone-200 text-slate-800 font-semibold px-4 py-3 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer sm:whitespace-nowrap border border-stone-200"
             >
               <span>Learn How It Works</span>
             </button>
@@ -75,15 +76,15 @@ export const QuickDonationStrip: React.FC<QuickDonationStripProps> = ({ onOpenDo
         </div>
 
         {/* Live feedback alert or counter bar */}
-        <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+        <div className="mt-3 pt-3 border-t border-stone-200/80 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
           {lastMessage ? (
-            <div className="text-emerald-700 font-bold flex items-center gap-1.5 animate-pulse">
-              <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <div className="text-emerald-800 font-bold flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
               <span>{lastMessage} (Next click will open another unique link!)</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <RefreshCw className="w-3.5 h-3.5 text-emerald-600" />
+              <RefreshCw className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>Automatically rotates through {DONATE_SPONSOR_LINKS.length} verified sponsor links in new tabs. Click as many times as you want!</span>
             </div>
           )}

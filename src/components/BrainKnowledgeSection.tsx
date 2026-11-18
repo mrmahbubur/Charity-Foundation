@@ -43,7 +43,7 @@ export const BrainKnowledgeSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 text-emerald-800 text-xs font-extrabold uppercase tracking-widest">
             <HelpCircle className="w-3.5 h-3.5 text-emerald-700" />
             <span>Foundation Knowledge &amp; How It Works</span>
           </div>
@@ -57,7 +57,7 @@ export const BrainKnowledgeSection: React.FC = () => {
 
         {/* 3 Credibility & Knowledge Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
               <Compass className="w-5 h-5" />
             </div>
@@ -69,7 +69,7 @@ export const BrainKnowledgeSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-3">
             <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
               <HeartHandshake className="w-5 h-5" />
             </div>
@@ -81,7 +81,7 @@ export const BrainKnowledgeSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+          <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-3">
             <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center">
               <ShieldCheck className="w-5 h-5" />
             </div>
@@ -102,22 +102,23 @@ export const BrainKnowledgeSection: React.FC = () => {
               <div
                 key={faq.id}
                 className={`bg-white rounded-2xl border transition-all ${
-                  isOpen ? 'border-emerald-500/60 shadow-md' : 'border-slate-200 hover:border-slate-300'
+                  isOpen ? 'border-emerald-500/60 shadow-md' : 'border-stone-200 hover:border-stone-300'
                 }`}
               >
                 <button
                   onClick={() => setOpenFaqId(isOpen ? '' : faq.id)}
+                  aria-expanded={isOpen}
                   className="w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 cursor-pointer"
                 >
                   <div className="space-y-1">
-                    <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-emerald-800">
                       {faq.category}
                     </span>
                     <h4 className="font-display font-bold text-sm sm:text-base text-slate-900">
                       {faq.question}
                     </h4>
                   </div>
-                  <span className="p-1.5 rounded-full bg-slate-100 text-slate-600 shrink-0">
+                  <span className="p-1.5 rounded-lg bg-stone-100 text-slate-600 shrink-0">
                     {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </span>
                 </button>
