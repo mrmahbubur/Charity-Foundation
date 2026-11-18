@@ -1,9 +1,9 @@
 import express from 'express';
 import fs from 'fs';
+import http from 'http';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-import { createServer as createViteServer } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -600,7 +600,7 @@ async function startServer() {
   });
 
   // Block automated vulnerability scanners, internal paths, and common exploit probes
-  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|\.github|\.gitignore|\.aistudio|server\/data|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|metadata\.json|README\.md|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)(\/|$)/i;
+  const BLOCKED_PROBE_REGEX = /^\/(\.env|\.git|\.github|\.gitignore|\.aistudio|\.node-version|render\.yaml|server\.ts|server\/|public\/|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|metadata\.json|README\.md|wp-admin|wp-login|wp-content|phpinfo|phpmyadmin|server-status|config\.json|administrator|admin\.php|xmlrpc\.php)(\/|$)/i;
   app.use((req, res, next) => {
     if (BLOCKED_PROBE_REGEX.test(req.path) || (process.env.NODE_ENV === 'production' && req.path.endsWith('.map'))) {
       return res.status(404).end();
@@ -1122,23 +1122,48 @@ async function startServer() {
     res.json({ success: true, message: 'Content reset to defaults', data: currentContent });
   });
 
+  const httpServer = http.createServer(app);
+
   if (process.env.NODE_ENV !== 'production') {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa'
+    let viteMiddlewares: express.RequestHandler | null = null;
+    app.use((req, res, next) => {
+      if (viteMiddlewares) {
+        return viteMiddlewares(req, res, next);
+      }
+      res.status(503).send('Server initializing');
     });
-    app.use(vite.middlewares);
+
+    httpServer.listen(PORT, '0.0.0.0', () => {
+      console.log(`M R S Charity Foundation server listening on http://0.0.0.0:${PORT}`);
+    });
+
+    const { createServer: createViteServer } = await import('vite');
+    createViteServer({
+      server: {
+        middlewareMode: true,
+        hmr: process.env.DISABLE_HMR === 'true' ? false : { server: httpServer }
+      },
+      appType: 'spa'
+    })
+      .then((vite) => {
+        viteMiddlewares = vite.middlewares;
+      })
+      .catch((err) => {
+        console.error('Failed to initialize Vite middleware:', err);
+        process.exit(1);
+      });
   } else {
     const distPath = path.resolve(__dirname, 'dist');
-    app.use(express.static(distPath));
+    const staticProdDir = fs.existsSync(path.join(distPath, 'index.html')) ? distPath : __dirname;
+    app.use(express.static(staticProdDir));
     app.get('*', (_req, res) => {
-      res.sendFile(path.resolve(distPath, 'index.html'));
+      res.sendFile(path.resolve(staticProdDir, 'index.html'));
+    });
+
+    httpServer.listen(PORT, '0.0.0.0', () => {
+      console.log(`M R S Charity Foundation server listening on http://0.0.0.0:${PORT}`);
     });
   }
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`M R S Charity Foundation server listening on http://0.0.0.0:${PORT}`);
-  });
 }
 
 startServer().catch((err) => {
