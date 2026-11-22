@@ -226,9 +226,7 @@ const DEFAULT_CONTENT = {
   donationStats: {
     totalSupporters: 0,
     totalRaisedBDT: 0,
-    mealsServed: 0,
-    cleanWaterLitres: 0,
-    lastSupporterName: 'Online Portal Active',
+    lastSupporterName: 'Online Fund-Collection Active',
     lastDonationTime: new Date().toISOString()
   },
   futureProject: {
@@ -262,9 +260,9 @@ const DEFAULT_CONTENT = {
     persuasionMode: 'goal-gradient' as 'goal-gradient' | 'empathy' | 'urgency' | 'social-proof',
     dailyGoalClicks: 500,
     todayClicks: 0,
-    clickImpactUnit: 'Verified Sponsor Reserve Contribution',
+    clickImpactUnit: 'Verified Online Fund-Collection Credit',
     activeHeadline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
-    activeSubtext: 'Zero personal cost—clicking opens a verified sponsor partner in a new tab to support future healthcare, education, and relief reserves.',
+    activeSubtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab to build our pre-launch charitable fund reserve.',
     activeCtaLabel: 'Support Now (Free)',
     floatingNudge: {
       enabled: true,
@@ -357,7 +355,19 @@ function loadSiteContent() {
         ...parsed,
         foundationInfo: { ...DEFAULT_CONTENT.foundationInfo, ...(parsed.foundationInfo || {}) },
         urgentNotice: { ...DEFAULT_CONTENT.urgentNotice, ...(parsed.urgentNotice || {}) },
-        donationStats: { ...DEFAULT_CONTENT.donationStats, ...(parsed.donationStats || {}) },
+        donationStats: {
+          totalSupporters: Number(parsed.donationStats?.totalSupporters) || DEFAULT_CONTENT.donationStats.totalSupporters,
+          totalRaisedBDT: Number(parsed.donationStats?.totalRaisedBDT) || DEFAULT_CONTENT.donationStats.totalRaisedBDT,
+          lastSupporterName:
+            typeof parsed.donationStats?.lastSupporterName === 'string'
+              ? parsed.donationStats.lastSupporterName
+              : DEFAULT_CONTENT.donationStats.lastSupporterName,
+          lastDonationTime:
+            typeof parsed.donationStats?.lastDonationTime === 'string'
+              ? parsed.donationStats.lastDonationTime
+              : DEFAULT_CONTENT.donationStats.lastDonationTime
+        },
+        futureProject: { ...DEFAULT_CONTENT.futureProject, ...(parsed.futureProject || {}) },
         automaticSystem: { ...DEFAULT_CONTENT.automaticSystem, ...(parsed.automaticSystem || {}) },
         brainEngine: {
           ...DEFAULT_CONTENT.brainEngine,
@@ -800,7 +810,21 @@ async function startServer() {
       currentContent.impactMetrics = updates.impactMetrics;
     }
     if (updates.donationStats) {
-      currentContent.donationStats = { ...currentContent.donationStats, ...updates.donationStats };
+      currentContent.donationStats = {
+        ...currentContent.donationStats,
+        ...(typeof updates.donationStats.totalSupporters === 'number'
+          ? { totalSupporters: updates.donationStats.totalSupporters }
+          : {}),
+        ...(typeof updates.donationStats.totalRaisedBDT === 'number'
+          ? { totalRaisedBDT: updates.donationStats.totalRaisedBDT }
+          : {}),
+        ...(typeof updates.donationStats.lastSupporterName === 'string'
+          ? { lastSupporterName: updates.donationStats.lastSupporterName }
+          : {}),
+        ...(typeof updates.donationStats.lastDonationTime === 'string'
+          ? { lastDonationTime: updates.donationStats.lastDonationTime }
+          : {})
+      };
     }
     if (updates.futureProject) {
       currentContent.futureProject = { ...currentContent.futureProject, ...updates.futureProject };

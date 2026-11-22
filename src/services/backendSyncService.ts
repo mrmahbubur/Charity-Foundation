@@ -36,8 +36,6 @@ export interface ImpactMetricItem {
 export interface DonationStats {
   totalSupporters: number;
   totalRaisedBDT: number;
-  mealsServed: number;
-  cleanWaterLitres: number;
   lastSupporterName: string;
   lastDonationTime: string;
 }
@@ -184,9 +182,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   donationStats: {
     totalSupporters: 0,
     totalRaisedBDT: 0,
-    mealsServed: 0,
-    cleanWaterLitres: 0,
-    lastSupporterName: 'Online Portal Active',
+    lastSupporterName: 'Online Fund-Collection Active',
     lastDonationTime: new Date().toISOString()
   },
   futureProject: {
@@ -212,9 +208,9 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     persuasionMode: 'goal-gradient',
     dailyGoalClicks: 500,
     todayClicks: 0,
-    clickImpactUnit: 'Verified Sponsor Reserve Contribution',
+    clickImpactUnit: 'Verified Online Fund-Collection Credit',
     activeHeadline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
-    activeSubtext: 'Zero personal cost—clicking opens a verified sponsor partner in a new tab to support future healthcare, education, and relief reserves.',
+    activeSubtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab to build our pre-launch charitable fund reserve.',
     activeCtaLabel: 'Support Now (Free)',
     floatingNudge: {
       enabled: true,

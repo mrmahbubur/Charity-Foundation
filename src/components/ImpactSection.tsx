@@ -19,12 +19,12 @@ export const ImpactSection: React.FC = () => {
     <section id="impact" className="section-editorial bg-canvas border-b border-border">
       <EditorialContainer className="space-y-12">
         <div className="max-w-2xl space-y-3">
-          <p className="eyebrow-heading">Progress &amp; Mobilization Status</p>
+          <p className="eyebrow-heading">Fund-Collection Progress &amp; Stage</p>
           <h2 className="section-title">
-            Transparent Milestones as We Collect Initial Funds Online
+            Transparent Online Fund-Collection Milestones
           </h2>
           <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
-            Every statistic we present reflects our genuine current stage as a pre-launch future project of M R S—with no inflated claims or fabricated field totals.
+            Every figure below reflects our honest Phase 1 pre-launch status as an online fund-collection initiative of M R S—with no inflated delivery metrics.
           </p>
         </div>
 
@@ -46,10 +46,10 @@ export const ImpactSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="font-serif text-xl font-bold text-heading">
-                Daily Free Sponsor Click Goal
+                Daily Online Fund-Collection Goal
               </h3>
               <p className="text-sm text-ink-muted mt-1">
-                Tracks cumulative free sponsor visits building reserves during the current online fund-collection drive.
+                Tracks cumulative voluntary sponsor visits building our charitable reserve during Phase 1 online fund collection.
               </p>
             </div>
             <div className="text-sm font-semibold text-primary tabular-nums shrink-0">

@@ -45,12 +45,12 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         </div>
 
         <header className="space-y-4">
-          <p className="eyebrow-heading">Zero-Cost Humanitarian Giving</p>
+          <p className="eyebrow-heading">Phase 1 · Zero-Cost Online Fund Collection</p>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-heading leading-tight">
-            How Free Ad-Sponsored Giving Works
+            How Free Pre-Launch Fund Collection Works
           </h1>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[65ch]">
-            {SITE_CONFIG.organization.name} makes charitable participation accessible to everyone—even without a credit card or spare budget.
+            {SITE_CONFIG.organization.name} builds charitable reserves online ahead of field launch—never asking visitors for cash or payment cards.
           </p>
         </header>
 
@@ -58,7 +58,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
             <div>
               <h2 className="font-serif text-2xl font-bold text-heading">
-                Contribute With One Free Click
+                Build Reserves With One Free Click
               </h2>
               <p className="text-sm text-ink-muted mt-1">
                 Next destination: Sponsor Partner #{nextInfo.index + 1} of {sponsorLinks.length}
@@ -90,7 +90,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                   Sponsor link #{lastLinkNum} opened in a new browser tab.
                 </div>
                 <p className="text-xs text-ink-muted mt-1">
-                  Thank you for contributing at zero personal cost. You may click again anytime to visit the next rotating sponsor partner.
+                  Thank you for building our Phase 1 reserve at zero personal cost. You may click again anytime to visit the next rotating sponsor partner.
                 </p>
               </div>
             </div>

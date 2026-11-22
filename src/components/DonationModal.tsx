@@ -81,16 +81,16 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               referrerPolicy="no-referrer"
             />
             <p className="text-xs uppercase tracking-[0.16em] font-semibold text-primary">
-              100% Free Ad-Sponsored Giving
+              Phase 1 · Zero-Cost Online Fund Collection
             </p>
             <h2
               id="donate-modal-title"
               className="font-serif text-2xl sm:text-3xl font-bold text-heading"
             >
-              Support at Zero Cost to You
+              Build Future Aid Reserves at $0 Cost
             </h2>
             <p className="text-sm text-ink-muted leading-relaxed">
-              Focus: <strong className="text-ink">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—our partners fund the contribution while you spend nothing.
+              Target Focus: <strong className="text-ink">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—sponsors fund our pre-launch reserve while you spend nothing.
             </p>
           </div>
 

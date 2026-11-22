@@ -170,7 +170,7 @@ export const SITE_CONFIG = {
       paths: ['', 'index.html', 'home'],
       titlePrefix: 'Poverty Ends With Us',
       description:
-        'A future humanitarian project of M R S collecting funds online during Phase 1 for healthcare, education, and essential relief at $0 donor cost.',
+        'Pre-launch online fund-collection portal for M R S Charity Foundation (A Future Project of M R S) building reserves for future aid at $0 cost.',
     },
     transparency: {
       id: 'transparency',
@@ -179,7 +179,7 @@ export const SITE_CONFIG = {
       paths: ['transparency'],
       titlePrefix: 'Transparency & Governance',
       description:
-        'Inspect M R S Charity Foundation pre-launch governance, 88% planned direct-aid reserve allocation, and 100% online overhead-free accountability.',
+        'Review M R S Charity Foundation pre-launch governance, 88% planned direct-aid reserve allocation, and 100% online fund-collection accountability.',
     },
     donate: {
       id: 'donate',
@@ -188,7 +188,7 @@ export const SITE_CONFIG = {
       paths: ['donate'],
       titlePrefix: 'How Free Giving Works',
       description:
-        'Support M R S Charity Foundation at zero personal cost through verified commercial sponsor visits building reserves for future programs.',
+        'Support Phase 1 pre-launch fund collection at $0 personal cost through verified sponsor visits building reserves for future M R S programs.',
     },
     privacy: {
       id: 'privacy',
@@ -197,7 +197,7 @@ export const SITE_CONFIG = {
       paths: ['privacy-policy', 'privacy'],
       titlePrefix: 'Privacy Policy',
       description:
-        'Read how M R S Charity Foundation handles visitor privacy, zero financial-data collection, and digital correspondence during pre-launch.',
+        'Read how M R S Charity Foundation protects visitor privacy with zero financial data collection during Phase 1 pre-launch online operations.',
     },
     terms: {
       id: 'terms',
@@ -206,7 +206,7 @@ export const SITE_CONFIG = {
       paths: ['terms'],
       titlePrefix: 'Terms of Use',
       description:
-        'Review Terms of Use, sponsor link participation rules, and Phase 1 pre-launch program disclosures for M R S Charity Foundation.',
+        'Review Terms of Use, sponsor link participation rules, and Phase 1 pre-launch fund-collection disclosures for M R S Charity Foundation.',
     },
     'not-found': {
       id: 'not-found',
@@ -215,7 +215,7 @@ export const SITE_CONFIG = {
       paths: ['404'],
       titlePrefix: 'Page Not Found',
       description:
-        'The requested page could not be found on the M R S Charity Foundation pre-launch online portal.',
+        'Requested page not found on the M R S Charity Foundation pre-launch online fund-collection portal.',
     },
   } as Record<ConfigPageKey, PageRouteMeta>,
 
@@ -281,9 +281,9 @@ export const SITE_CONFIG = {
    */
   howItWorks: {
     eyebrow: 'How It Works',
-    heading: 'How Zero-Cost Ad-Sponsored Giving Works',
+    heading: 'How Zero-Cost Online Fund Collection Works',
     subheading:
-      'A straightforward, transparent four-step cycle that converts everyday web visits into reserved humanitarian funding.',
+      'A transparent four-step cycle converting everyday web visits into reserved pre-launch funding for upcoming community programs.',
     steps: [
       {
         id: 'click',
@@ -302,16 +302,16 @@ export const SITE_CONFIG = {
       {
         id: 'sponsor',
         number: '03',
-        title: 'Sponsor Covers the Cost',
+        title: 'Sponsor Funds the Reserve',
         description:
-          'Commercial sponsors compensate valid page visits. That revenue replaces direct cash donations from your own pocket.',
+          'Commercial sponsors compensate qualified page visits. That revenue builds our charitable fund without taking cash from your pocket.',
       },
       {
         id: 'allocate',
         number: '04',
-        title: 'Allocated to Program Reserves',
+        title: 'Grows Pre-Launch Program Reserves',
         description:
-          'Net proceeds are reserved toward rural learning supplies, basic health checkups, clean water, and essential relief.',
+          'Net sponsor proceeds accumulate online to fund upcoming rural learning supplies, primary health checkups, and essential relief.',
       },
     ] as HowItWorksStepConfig[],
   },
@@ -321,7 +321,7 @@ export const SITE_CONFIG = {
    */
   impactSection: {
     disclaimer:
-      'M R S Charity Foundation is currently in its online fund-collection phase ahead of future ground operations. Digital participation clicks below reflect real activity on this portal; audited field beneficiary reports will be added once physical programs open.',
+      'M R S Charity Foundation is in Phase 1 pre-launch online fund collection ahead of ground operations. Click totals track live portal participation toward pre-launch reserves; audited field delivery metrics will begin once physical programs launch.',
     dailyClickGoalTarget: 500,
     metrics: [
       {

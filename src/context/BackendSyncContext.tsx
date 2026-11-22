@@ -50,7 +50,18 @@ function mergeWithInitial(incoming: Partial<SiteContentState>): SiteContentState
       ...(normalizedLogo ? { logo: normalizedLogo } : {})
     },
     urgentNotice: { ...INITIAL_SITE_STATE.urgentNotice, ...(incoming.urgentNotice || {}) },
-    donationStats: { ...INITIAL_SITE_STATE.donationStats, ...(incoming.donationStats || {}) },
+    donationStats: {
+      totalSupporters: Number(incoming.donationStats?.totalSupporters) || INITIAL_SITE_STATE.donationStats.totalSupporters,
+      totalRaisedBDT: Number(incoming.donationStats?.totalRaisedBDT) || INITIAL_SITE_STATE.donationStats.totalRaisedBDT,
+      lastSupporterName:
+        typeof incoming.donationStats?.lastSupporterName === 'string'
+          ? incoming.donationStats.lastSupporterName
+          : INITIAL_SITE_STATE.donationStats.lastSupporterName,
+      lastDonationTime:
+        typeof incoming.donationStats?.lastDonationTime === 'string'
+          ? incoming.donationStats.lastDonationTime
+          : INITIAL_SITE_STATE.donationStats.lastDonationTime
+    },
     futureProject: { ...INITIAL_SITE_STATE.futureProject, ...(incoming.futureProject || {}) },
     automaticSystem: { ...INITIAL_SITE_STATE.automaticSystem, ...(incoming.automaticSystem || {}) },
     brainEngine: {
