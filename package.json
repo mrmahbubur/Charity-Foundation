@@ -1,5 +1,6 @@
 {
   "name": "mrs-charity-foundation",
+  "description": "M R S Charity Foundation (A Future Project of M R S) — Pre-launch online fund-collection portal for future healthcare, education, and essential relief.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

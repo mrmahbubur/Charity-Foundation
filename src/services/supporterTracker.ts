@@ -6,7 +6,7 @@
 
 const STORAGE_TOTAL_SUPPORTERS_KEY = 'mrs_total_supporters_count';
 const STORAGE_USER_CLICKS_KEY = 'mrs_user_clicks_count';
-const BASE_SUPPORTERS_COUNT = 18450;
+const BASE_SUPPORTERS_COUNT = 0;
 
 type SupporterListener = (data: {
   totalSupporters: number;
@@ -20,19 +20,6 @@ class SupporterTracker {
   private listeners: Set<SupporterListener> = new Set();
   private isInitialized = false;
 
-  private randomLocations = [
-    'Donamba, Uganda',
-    'Dhaka, Bangladesh',
-    'Sarvodaya, South Asia',
-    'Chattogram, Bangladesh',
-    'Sylhet, Bangladesh',
-    'London, UK',
-    'Toronto, Canada',
-    'New York, USA',
-    'Sydney, Australia',
-    'Kuala Lumpur, Malaysia'
-  ];
-
   constructor() {
     this.loadState();
   }
@@ -41,14 +28,22 @@ class SupporterTracker {
     try {
       const savedClicks = localStorage.getItem(STORAGE_USER_CLICKS_KEY);
       if (savedClicks !== null) {
-        this.userClicks = parseInt(savedClicks, 10) || 0;
+        this.userClicks = Math.max(0, parseInt(savedClicks, 10) || 0);
       }
 
       const savedTotal = localStorage.getItem(STORAGE_TOTAL_SUPPORTERS_KEY);
       if (savedTotal !== null) {
-        this.totalSupporters = Math.max(BASE_SUPPORTERS_COUNT, parseInt(savedTotal, 10) || BASE_SUPPORTERS_COUNT);
+        const parsedTotal = parseInt(savedTotal, 10) || 0;
+        // Reset legacy inflated baseline values (>= 18450 with few/no real clicks)
+        this.totalSupporters =
+          parsedTotal >= 18450 && this.userClicks < 100
+            ? this.userClicks
+            : Math.max(this.userClicks, parsedTotal);
+        if (this.totalSupporters !== parsedTotal) {
+          this.saveState();
+        }
       } else {
-        this.totalSupporters = BASE_SUPPORTERS_COUNT + this.userClicks;
+        this.totalSupporters = this.userClicks;
         this.saveState();
       }
     } catch {
@@ -67,7 +62,7 @@ class SupporterTracker {
   }
 
   /**
-   * Initializes real free-click event tracking and periodic community pulse updates.
+   * Initializes real free-click event tracking for Phase 1 online fund collection.
    */
   public init() {
     if (this.isInitialized || typeof window === 'undefined') return;
@@ -76,11 +71,6 @@ class SupporterTracker {
     window.addEventListener('mrs_free_click', () => {
       this.addSupporters(1);
     });
-
-    // Subtle background heartbeat: new supporters join periodically from active chapters
-    setInterval(() => {
-      this.simulateGlobalSupporter();
-    }, 24000);
   }
 
   public recordClick() {
@@ -92,13 +82,6 @@ class SupporterTracker {
     this.userClicks += count;
     this.saveState();
     this.notify();
-  }
-
-  private simulateGlobalSupporter() {
-    const randomLoc = this.randomLocations[Math.floor(Math.random() * this.randomLocations.length)];
-    this.totalSupporters += 1;
-    this.saveState();
-    this.notify(randomLoc);
   }
 
   public subscribe(listener: SupporterListener): () => void {

@@ -44,32 +44,32 @@ const PERSUASION_PRESETS: Record<
   { headline: string; subtext: string; cta: string; nudgeHeadline: string; nudgeBadge: string }
 > = {
   'goal-gradient': {
-    headline: 'Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal',
-    subtext: 'Zero money needed from your pocket—one quick click unlocks sponsor-funded meals and school kits for children.',
-    cta: 'Unlock Free Meal & Study Aid (1-Click)',
-    nudgeHeadline: 'Help Finish Today’s Rural School & Meal Batch',
-    nudgeBadge: 'Daily Milestone · Almost Complete'
+    headline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
+    subtext: 'Zero personal cost—clicking opens a verified sponsor partner in a new tab to support future healthcare, education, and relief reserves.',
+    cta: 'Support Now (Free)',
+    nudgeHeadline: 'Support the Upcoming Launch at $0 Cost',
+    nudgeBadge: 'Online Fund Collection'
   },
   empathy: {
-    headline: 'One Free Click Gives a Child a Warm Meal & School Notebook Today',
-    subtext: 'You spend $0—verified sponsor partners cover the full aid contribution whenever you open a partner link.',
-    cta: 'Gift a Child’s Meal for Free (1-Click)',
-    nudgeHeadline: 'Turn 2 Seconds Into a Student’s Hot Meal',
-    nudgeBadge: 'Humanity First · Zero Cost'
+    headline: 'One Free Click Supports Future Education, Healthcare & Relief Reserves',
+    subtext: 'You spend $0—verified commercial sponsors compensate page visits while we build pre-launch program funds online.',
+    cta: 'Support Future Programs (Free)',
+    nudgeHeadline: 'Build Future Community Reserves at $0 Cost',
+    nudgeBadge: 'Humanity United · Pre-Launch'
   },
   urgency: {
-    headline: 'Urgent Relief Batch Needs {remaining} More Free Community Clicks',
-    subtext: 'Emergency nutrition & clean water packs are queued for families. Help complete today’s quota immediately at $0 cost.',
-    cta: 'Send Urgent Free Relief (1-Click)',
-    nudgeHeadline: 'Rapid Response Batch Closing Soon',
-    nudgeBadge: 'Urgent Relief · Action Needed'
+    headline: 'Phase 1 Online Reserve Goal Needs {remaining} More Free Sponsor Visits',
+    subtext: 'Help build reserves ahead of launching future rural learning kits, healthcare checkups, and essential relief—at zero personal cost.',
+    cta: 'Support Online Launch (Free)',
+    nudgeHeadline: 'Phase 1 Online Collection Drive',
+    nudgeBadge: 'Pre-Launch Reserve Goal'
   },
   'social-proof': {
-    headline: 'Thousands Are Giving for Free Today — {remaining} Clicks to Next Milestone',
-    subtext: 'Join supporters across Donamba, Sarvodaya, Bangladesh, and worldwide unlocking real humanitarian funds with simple zero-cost clicks.',
-    cta: 'Join & Add Your Free Click (+1)',
-    nudgeHeadline: 'Community Momentum Is Surging Right Now',
-    nudgeBadge: 'Live Community Drive'
+    headline: 'Join Online Supporters Building M R S Launch Reserves ({remaining} clicks remaining)',
+    subtext: 'Every voluntary visit to a verified sponsor link contributes toward future education, health, and essential necessities.',
+    cta: 'Add a Free Sponsor Click (+1)',
+    nudgeHeadline: 'Join Phase 1 Online Support',
+    nudgeBadge: 'Community Mobilization'
   }
 };
 
@@ -112,8 +112,8 @@ export const BrainControlConsole: React.FC<BrainControlConsoleProps> = ({ onExit
   const [urgentDraft, setUrgentDraft] = useState(content.urgentNotice);
 
   // Custom Pulse form
-  const [pulseLocation, setPulseLocation] = useState('Dhaka');
-  const [pulseAction, setPulseAction] = useState('unlocked 1 Child Meal & Study Credit (0 cost)');
+  const [pulseLocation, setPulseLocation] = useState('Online Portal');
+  const [pulseAction, setPulseAction] = useState('completed a free sponsor visit for future program reserves');
   const [pulseImpact, setPulseImpact] = useState('+1 Free Support Click');
   const [pulseClicks, setPulseClicks] = useState(1);
 

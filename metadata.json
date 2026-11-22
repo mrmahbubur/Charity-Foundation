@@ -1,6 +1,6 @@
 {
   "name": "MRS Charity Foundation",
-  "description": "M R S Charity Foundation (A Future Project of M R S) — Online humanitarian fund-collection initiative supporting future healthcare, education, and essential necessities programs through zero-cost ad-sponsored giving.",
+  "description": "M R S Charity Foundation (A Future Project of M R S) — Pre-launch online fund-collection initiative supporting future healthcare, education, and essential relief at $0 donor cost.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

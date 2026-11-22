@@ -478,12 +478,9 @@ function scheduleNextBrainTick() {
         autoTickCounter++;
         const city = RANDOM_REGIONS[Math.floor(Math.random() * RANDOM_REGIONS.length)];
         const supporterBump = Math.floor(Math.random() * 2) + 1;
-        const mealBump = supporterBump * 2;
         const actionText = BRAIN_ACTIVITY_TEMPLATES[Math.floor(Math.random() * BRAIN_ACTIVITY_TEMPLATES.length)];
 
         currentContent.donationStats.totalSupporters += supporterBump;
-        currentContent.donationStats.mealsServed += mealBump;
-        currentContent.donationStats.cleanWaterLitres += supporterBump * 5;
         currentContent.donationStats.lastSupporterName = city;
         currentContent.donationStats.lastDonationTime = new Date().toISOString();
 
@@ -730,9 +727,7 @@ async function startServer() {
     const linkNumber = Number.isFinite(rawNum) ? Math.max(1, Math.min(100, Math.floor(rawNum))) : 1;
 
     currentContent.donationStats.totalSupporters += 1;
-    currentContent.donationStats.mealsServed += 2;
-    currentContent.donationStats.cleanWaterLitres += 5;
-    currentContent.donationStats.lastSupporterName = 'Verified Community Supporter';
+    currentContent.donationStats.lastSupporterName = 'Verified Online Supporter';
     currentContent.donationStats.lastDonationTime = new Date().toISOString();
 
     currentContent.brainEngine.todayClicks = (currentContent.brainEngine.todayClicks || 0) + 1;
@@ -926,8 +921,7 @@ async function startServer() {
     const bump = Math.floor(Math.random() * 3) + 1;
 
     currentContent.donationStats.totalSupporters += bump;
-    currentContent.donationStats.mealsServed += bump * 3;
-    currentContent.donationStats.lastSupporterName = `Supporter from ${randomRegion}`;
+    currentContent.donationStats.lastSupporterName = randomRegion;
     currentContent.donationStats.lastDonationTime = new Date().toISOString();
     currentContent.automaticSystem.lastAutoUpdate = new Date().toISOString();
     currentContent.automaticSystem.totalAutoTicks = (currentContent.automaticSystem.totalAutoTicks || 0) + 1;
@@ -1035,7 +1029,6 @@ async function startServer() {
     const addClicks = typeof bumpClicks === 'number' ? Math.max(0, Math.min(25, bumpClicks)) : 1;
 
     currentContent.donationStats.totalSupporters += addClicks;
-    currentContent.donationStats.mealsServed += addClicks * 2;
     currentContent.brainEngine.todayClicks = (currentContent.brainEngine.todayClicks || 0) + addClicks;
     if (currentContent.brainEngine.todayClicks >= currentContent.brainEngine.dailyGoalClicks) {
       currentContent.brainEngine.dailyGoalClicks += 250;
@@ -1043,8 +1036,11 @@ async function startServer() {
 
     const newActivity = {
       id: `pulse-${Date.now()}`,
-      location: (typeof location === 'string' && location.trim()) ? location.trim() : 'Dhaka',
-      actionText: (typeof actionText === 'string' && actionText.trim()) ? actionText.trim() : 'unlocked 1 Child Meal & Study Credit (0 cost)',
+      location: (typeof location === 'string' && location.trim()) ? location.trim() : 'Online Portal',
+      actionText:
+        (typeof actionText === 'string' && actionText.trim())
+          ? actionText.trim()
+          : 'completed a free sponsor visit for future program reserves',
       impactText: (typeof impactText === 'string' && impactText.trim()) ? impactText.trim() : `+${addClicks} Free Support`,
       timestamp: new Date().toISOString()
     };

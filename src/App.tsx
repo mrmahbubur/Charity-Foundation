@@ -210,14 +210,47 @@ function MainApp() {
 
   useEffect(() => {
     const baseName = SITE_CONFIG.organization.name;
+    const basePath = getAppBasePathname();
+    const origin = window.location.origin;
+
+    const upsertMeta = (attr: 'name' | 'property', key: string, contentValue: string) => {
+      let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', contentValue);
+    };
+
     const routeMeta = SITE_CONFIG.pageRoutes[currentPage] || SITE_CONFIG.pageRoutes.home;
-    const nextTitle =
-      currentPage === 'home'
+    const nextTitle = isVaultRoute
+      ? `Owner Vault | ${baseName}`
+      : currentPage === 'home'
         ? `${baseName} – ${routeMeta.titlePrefix}`
         : `${routeMeta.titlePrefix} | ${baseName}`;
+
+    const nextDescription = isVaultRoute
+      ? `${baseName} administrative configuration workspace.`
+      : routeMeta.description || SITE_CONFIG.organization.heroMission;
+
     document.title = nextTitle;
 
-    const canonicalHref = `${window.location.origin}${window.location.pathname}`;
+    const cleanSlug =
+      currentPage === 'home' || currentPage === 'not-found'
+        ? ''
+        : routeMeta.paths[0] || '';
+    const canonicalPath = cleanSlug
+      ? `${basePath.replace(/\/$/, '')}/${cleanSlug}`
+      : basePath;
+    const canonicalHref = isVaultRoute
+      ? `${origin}${window.location.pathname}`
+      : `${origin}${canonicalPath}`;
+    const resolvedLogoUrl = new URL(
+      SITE_CONFIG.organization.logoPath,
+      window.location.href
+    ).href;
+
     let canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -226,21 +259,36 @@ function MainApp() {
     }
     canonicalLink.setAttribute('href', canonicalHref);
 
-    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
-    if (ogUrl) {
-      ogUrl.setAttribute('content', canonicalHref);
-    } else {
-      const meta = document.createElement('meta');
-      meta.setAttribute('property', 'og:url');
-      meta.setAttribute('content', canonicalHref);
-      document.head.appendChild(meta);
-    }
+    upsertMeta(
+      'name',
+      'robots',
+      isVaultRoute || currentPage === 'not-found' ? 'noindex, nofollow' : 'index, follow'
+    );
+    upsertMeta('name', 'description', nextDescription);
+    upsertMeta('property', 'og:type', 'website');
+    upsertMeta('property', 'og:site_name', baseName);
+    upsertMeta('property', 'og:url', canonicalHref);
+    upsertMeta('property', 'og:title', nextTitle);
+    upsertMeta('property', 'og:description', nextDescription);
+    upsertMeta('property', 'og:image', resolvedLogoUrl);
+    upsertMeta('name', 'twitter:card', 'summary_large_image');
+    upsertMeta('name', 'twitter:title', nextTitle);
+    upsertMeta('name', 'twitter:description', nextDescription);
+    upsertMeta('name', 'twitter:image', resolvedLogoUrl);
 
-    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', nextTitle);
+    const schemaScript = document.getElementById('org-schema');
+    if (schemaScript && schemaScript.textContent) {
+      try {
+        const parsed = JSON.parse(schemaScript.textContent);
+        parsed.url = `${origin}${basePath}`;
+        parsed.logo = resolvedLogoUrl;
+        parsed.description = SITE_CONFIG.organization.heroMission;
+        schemaScript.textContent = JSON.stringify(parsed);
+      } catch {
+        // ignore JSON-LD parse error
+      }
     }
-  }, [currentPage]);
+  }, [currentPage, isVaultRoute]);
 
   useEffect(() => {
     if (isVaultRoute || !pendingSectionRef.current) return;

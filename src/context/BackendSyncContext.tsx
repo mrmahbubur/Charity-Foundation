@@ -38,14 +38,6 @@ interface BackendSyncContextValue {
 
 const BackendSyncContext = createContext<BackendSyncContextValue | undefined>(undefined);
 
-const STATIC_PULSE_CITIES = ['Donamba, Uganda', 'Dhaka, Bangladesh', 'Sarvodaya, South Asia', 'Chattogram, Bangladesh', 'Sylhet, Bangladesh', 'London, UK', 'Toronto, Canada'];
-const STATIC_PULSE_ACTIONS = [
-  'unlocked 1 Child Meal & Study Credit (0 cost)',
-  'sponsored a clean drinking water sachet via free click',
-  'contributed to today’s rural classroom kit goal',
-  'completed a free sponsor click for emergency relief'
-];
-
 function mergeWithInitial(incoming: Partial<SiteContentState>): SiteContentState {
   const rawLogo = incoming.foundationInfo?.logo;
   const normalizedLogo = rawLogo === '/logo.png' ? './logo.png' : rawLogo;
@@ -59,6 +51,7 @@ function mergeWithInitial(incoming: Partial<SiteContentState>): SiteContentState
     },
     urgentNotice: { ...INITIAL_SITE_STATE.urgentNotice, ...(incoming.urgentNotice || {}) },
     donationStats: { ...INITIAL_SITE_STATE.donationStats, ...(incoming.donationStats || {}) },
+    futureProject: { ...INITIAL_SITE_STATE.futureProject, ...(incoming.futureProject || {}) },
     automaticSystem: { ...INITIAL_SITE_STATE.automaticSystem, ...(incoming.automaticSystem || {}) },
     brainEngine: {
       ...INITIAL_SITE_STATE.brainEngine,
@@ -233,7 +226,6 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     let cancelled = false;
-    let staticPulseTimer: any = null;
 
     // Handle local immediate UI feedback when visitor clicks any 1-click free support button
     const onLocalClick = (ev: Event) => {
@@ -241,16 +233,17 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const customEv = ev as CustomEvent<{ source?: string; linkNumber?: number }>;
       const linkNum = customEv.detail?.linkNumber || 1;
       setContent((prev) => {
-        const nextClicks = (prev.brainEngine.todayClicks || 427) + 1;
-        const nextGoal = nextClicks >= prev.brainEngine.dailyGoalClicks ? prev.brainEngine.dailyGoalClicks + 250 : prev.brainEngine.dailyGoalClicks;
+        const nextClicks = (prev.brainEngine.todayClicks || 0) + 1;
+        const nextGoal =
+          nextClicks >= prev.brainEngine.dailyGoalClicks
+            ? prev.brainEngine.dailyGoalClicks + 250
+            : prev.brainEngine.dailyGoalClicks;
         return {
           ...prev,
           donationStats: {
             ...prev.donationStats,
             totalSupporters: prev.donationStats.totalSupporters + 1,
-            mealsServed: prev.donationStats.mealsServed + 2,
-            cleanWaterLitres: prev.donationStats.cleanWaterLitres + 5,
-            lastSupporterName: 'Verified Community Supporter',
+            lastSupporterName: 'Online Portal Supporter',
             lastDonationTime: new Date().toISOString()
           },
           brainEngine: {
@@ -260,8 +253,8 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
             activityStream: [
               {
                 id: `click-${Date.now()}`,
-                location: 'Verified Live Click',
-                actionText: `unlocked 1 Child Meal & Study Credit (Partner #${linkNum})`,
+                location: 'Online Portal Visit',
+                actionText: `completed a free sponsor visit (Partner #${linkNum})`,
                 impactText: '+1 Free Click',
                 timestamp: new Date().toISOString()
               },
@@ -281,50 +274,15 @@ export const BackendSyncProvider: React.FC<{ children: React.ReactNode }> = ({ c
         applyContentSnapshot(data);
         connectSSE();
       } else {
-        // Running on static host (e.g. GitHub Pages) - run cleanly without failing API polling
+        // Static host mode (e.g. GitHub Pages) - tracks genuine user clicks cleanly
         staticModeRef.current = true;
         setIsConnected(false);
-        staticPulseTimer = setInterval(() => {
-          const city = STATIC_PULSE_CITIES[Math.floor(Math.random() * STATIC_PULSE_CITIES.length)];
-          const actionText = STATIC_PULSE_ACTIONS[Math.floor(Math.random() * STATIC_PULSE_ACTIONS.length)];
-          setContent((prev) => {
-            const nextClicks = (prev.brainEngine.todayClicks || 427) + 1;
-            const nextGoal = nextClicks >= prev.brainEngine.dailyGoalClicks ? prev.brainEngine.dailyGoalClicks + 250 : prev.brainEngine.dailyGoalClicks;
-            return {
-              ...prev,
-              donationStats: {
-                ...prev.donationStats,
-                totalSupporters: prev.donationStats.totalSupporters + 1,
-                mealsServed: prev.donationStats.mealsServed + 2,
-                cleanWaterLitres: prev.donationStats.cleanWaterLitres + 5,
-                lastSupporterName: `Supporter from ${city}`,
-                lastDonationTime: new Date().toISOString()
-              },
-              brainEngine: {
-                ...prev.brainEngine,
-                todayClicks: nextClicks,
-                dailyGoalClicks: nextGoal,
-                activityStream: [
-                  {
-                    id: `act-${Date.now()}`,
-                    location: city,
-                    actionText,
-                    impactText: '+1 Free Credit',
-                    timestamp: new Date().toISOString()
-                  },
-                  ...(prev.brainEngine.activityStream || [])
-                ].slice(0, 12)
-              }
-            };
-          });
-        }, 9000);
       }
     });
 
     return () => {
       cancelled = true;
       window.removeEventListener('mrs_free_click', onLocalClick);
-      clearInterval(staticPulseTimer);
       clearTimeout(reconnectTimeoutRef.current);
       if (eventSourceRef.current) {
         eventSourceRef.current.close();

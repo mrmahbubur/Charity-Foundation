@@ -30,6 +30,7 @@ export interface PageRouteMeta {
   hash: string;
   paths: string[];
   titlePrefix: string;
+  description: string;
 }
 
 export interface HowItWorksStepConfig {
@@ -168,6 +169,8 @@ export const SITE_CONFIG = {
       hash: '#home',
       paths: ['', 'index.html', 'home'],
       titlePrefix: 'Poverty Ends With Us',
+      description:
+        'A future humanitarian project of M R S collecting funds online during Phase 1 for healthcare, education, and essential relief at $0 donor cost.',
     },
     transparency: {
       id: 'transparency',
@@ -175,6 +178,8 @@ export const SITE_CONFIG = {
       hash: '#/transparency',
       paths: ['transparency'],
       titlePrefix: 'Transparency & Governance',
+      description:
+        'Inspect M R S Charity Foundation pre-launch governance, 88% planned direct-aid reserve allocation, and 100% online overhead-free accountability.',
     },
     donate: {
       id: 'donate',
@@ -182,6 +187,8 @@ export const SITE_CONFIG = {
       hash: '#/donate',
       paths: ['donate'],
       titlePrefix: 'How Free Giving Works',
+      description:
+        'Support M R S Charity Foundation at zero personal cost through verified commercial sponsor visits building reserves for future programs.',
     },
     privacy: {
       id: 'privacy',
@@ -189,6 +196,8 @@ export const SITE_CONFIG = {
       hash: '#/privacy-policy',
       paths: ['privacy-policy', 'privacy'],
       titlePrefix: 'Privacy Policy',
+      description:
+        'Read how M R S Charity Foundation handles visitor privacy, zero financial-data collection, and digital correspondence during pre-launch.',
     },
     terms: {
       id: 'terms',
@@ -196,6 +205,8 @@ export const SITE_CONFIG = {
       hash: '#/terms',
       paths: ['terms'],
       titlePrefix: 'Terms of Use',
+      description:
+        'Review Terms of Use, sponsor link participation rules, and Phase 1 pre-launch program disclosures for M R S Charity Foundation.',
     },
     'not-found': {
       id: 'not-found',
@@ -203,6 +214,8 @@ export const SITE_CONFIG = {
       hash: '#/404',
       paths: ['404'],
       titlePrefix: 'Page Not Found',
+      description:
+        'The requested page could not be found on the M R S Charity Foundation pre-launch online portal.',
     },
   } as Record<ConfigPageKey, PageRouteMeta>,
 
