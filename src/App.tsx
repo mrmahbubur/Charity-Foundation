@@ -211,10 +211,35 @@ function MainApp() {
   useEffect(() => {
     const baseName = SITE_CONFIG.organization.name;
     const routeMeta = SITE_CONFIG.pageRoutes[currentPage] || SITE_CONFIG.pageRoutes.home;
-    document.title =
+    const nextTitle =
       currentPage === 'home'
-        ? `${baseName} | ${routeMeta.titlePrefix}`
+        ? `${baseName} – ${routeMeta.titlePrefix}`
         : `${routeMeta.titlePrefix} | ${baseName}`;
+    document.title = nextTitle;
+
+    const canonicalHref = `${window.location.origin}${window.location.pathname}`;
+    let canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', canonicalHref);
+
+    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+    if (ogUrl) {
+      ogUrl.setAttribute('content', canonicalHref);
+    } else {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:url');
+      meta.setAttribute('content', canonicalHref);
+      document.head.appendChild(meta);
+    }
+
+    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', nextTitle);
+    }
   }, [currentPage]);
 
   useEffect(() => {

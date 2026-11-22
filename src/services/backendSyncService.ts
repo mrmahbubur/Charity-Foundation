@@ -143,83 +143,64 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     parentOrg: 'A Future Project of M R S',
     motto: 'Poverty Ends With Us',
     secondaryMotto: 'Humanity United Against Poverty',
-    mission: 'Delivering life-changing projects to support vulnerable communities: providing child support, food relief, clean water access, free education, vocational empowerment, and emergency disaster relief.'
+    mission:
+      'A future humanitarian project of M R S currently collecting funds online for healthcare, education, and essential necessities through zero-cost sponsor giving.'
   },
   urgentNotice: {
-    enabled: true,
-    badge: 'Urgent Relief Alert',
-    headline: 'Flood & Riverbank Erosion Crisis Emergency Response Active',
-    description: 'Providing immediate hot food rations, purified water sachets, and child hygiene packets in northern districts.',
-    ctaText: 'Provide Free Relief (1-Click)',
-    severity: 'high'
+    enabled: false,
+    badge: 'Pre-Launch Phase',
+    headline: 'Online Fund Collection Active for Future Programs',
+    description:
+      'Operating 100% online with no physical office overhead while reserving ad-sponsored funds for future healthcare, education, and essential relief.',
+    ctaText: 'Support Online Launch (Free)',
+    severity: 'info'
   },
   announcements: [
     {
       id: 'ann-1',
       badge: 'Future Project',
       title: 'A Future Project of M R S',
-      message: 'M R S Charity Foundation is an upcoming initiative dedicated to healthcare, education & essential necessities. Support the launch 100% free!',
+      message:
+        'M R S Charity Foundation is currently collecting initial reserves online ahead of launching future healthcare, education, and essential necessities programs.',
       actionText: 'Support Future Project (Free)',
       active: true
     },
     {
       id: 'ann-2',
-      badge: 'Free Donation',
-      title: 'No Money Needed to Donate!',
-      message: 'Simply click the Donate button. Our sponsor partners cover 100% of the cost for children’s education & hot midday meals.',
-      actionText: 'Click to Donate (Free)',
-      active: true
-    },
-    {
-      id: 'ann-3',
       badge: 'Zero-Cost Giving',
-      title: 'Your Click Creates Real Aid',
-      message: 'You don’t have to spend a single cent. Every time you click "Donate", a sponsor link opens in a new tab and funds community schools in Donamba, Sarvodaya & Bangladesh.',
-      actionText: 'Click to Donate Now',
-      active: true
-    },
-    {
-      id: 'ann-4',
-      badge: '1 Click = 1 Hope',
-      title: 'Click-to-Donate Initiative',
-      message: 'No bank card or cash required from your pocket. Click the Donate button anytime to send sponsor-backed emergency relief.',
-      actionText: 'Free Donate (Opens Sponsor)',
-      active: true
-    },
-    {
-      id: 'ann-5',
-      badge: 'Unlimited Support',
-      title: 'Donate As Many Times As You Wish',
-      message: 'Each click opens a different verified sponsor link in a new tab. The more you click, the more free humanitarian aid we deliver!',
-      actionText: 'Click Again to Donate More',
+      title: 'No Personal Money Needed',
+      message:
+        'Visiting a verified commercial sponsor partner link builds our charitable reserve at zero personal cost—never requiring credit cards or cash.',
+      actionText: 'Open Verified Sponsor Link (Free)',
       active: true
     }
   ],
   impactMetrics: [
-    { id: 'm-1', label: 'Children Educated Daily', value: '4,850+', detail: 'Community classroom centers' },
-    { id: 'm-2', label: 'Youth Volunteers Active', value: '16,200+', detail: 'Grassroots action chapters' },
-    { id: 'm-3', label: 'Families Assisted with Necessities', value: '85,000+', detail: 'Healthcare, food & shelter support' },
-    { id: 'm-4', label: 'Clean Water & Hygiene Stations', value: '340+', detail: 'Pure safe drinking water access' }
+    { id: 'm-1', label: 'Current Project Stage', value: 'Phase 1', detail: 'Active online fund collection for future M R S launch' },
+    { id: 'm-2', label: 'Operations Footprint', value: '100% Online', detail: 'No physical office address or rent overhead yet' },
+    { id: 'm-3', label: 'Target Program Allocation', value: '88% Direct Aid', detail: 'Planned reserve share for education, health & essentials' },
+    { id: 'm-4', label: 'Cost to Supporters', value: '$0 / Free', detail: 'Funded exclusively by voluntary sponsor link visits' }
   ],
   donationStats: {
-    totalSupporters: 18450,
-    totalRaisedBDT: 62450000,
-    mealsServed: 320000,
-    cleanWaterLitres: 1850000,
-    lastSupporterName: 'Supporter from Dhaka',
+    totalSupporters: 0,
+    totalRaisedBDT: 0,
+    mealsServed: 0,
+    cleanWaterLitres: 0,
+    lastSupporterName: 'Online Portal Active',
     lastDonationTime: new Date().toISOString()
   },
   futureProject: {
-    status: 'Upcoming Official Flagship',
-    launchPhase: 'Phase 1 - Groundwork & Grassroots Registration',
-    targetLaunchYear: '2025-2026',
-    backer: 'M R S Group',
-    notice: 'M R S Charity Foundation is an upcoming initiative dedicated to healthcare, education & essential necessities.'
+    status: 'Pre-Registration (Online Collection Phase)',
+    launchPhase: 'Phase 1 — Online Mobilization & Reserve Building',
+    targetLaunchYear: 'Upcoming Ground Rollout',
+    backer: 'M R S',
+    notice:
+      'M R S Charity Foundation is a future humanitarian project operating wholly online without a physical office address during initial fund collection.'
   },
   automaticSystem: {
     enabled: true,
-    autoSupporterIncrement: true,
-    supporterIncrementIntervalSec: 8,
+    autoSupporterIncrement: false,
+    supporterIncrementIntervalSec: 15,
     autoTickerSync: true,
     lastAutoUpdate: new Date().toISOString(),
     totalAutoTicks: 0,
@@ -230,18 +211,18 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     enabled: true,
     persuasionMode: 'goal-gradient',
     dailyGoalClicks: 500,
-    todayClicks: 427,
-    clickImpactUnit: '1 Child Meal + 1 Study Notebook Credit',
-    activeHeadline: 'Only {remaining} Free Clicks Left to Complete Today’s Rural Aid Goal',
-    activeSubtext: 'Zero money needed from your pocket—one quick click unlocks sponsor-funded meals and school kits for children.',
-    activeCtaLabel: 'Unlock Free Meal & Study Aid (1-Click)',
+    todayClicks: 0,
+    clickImpactUnit: 'Verified Sponsor Reserve Contribution',
+    activeHeadline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
+    activeSubtext: 'Zero personal cost—clicking opens a verified sponsor partner in a new tab to support future healthcare, education, and relief reserves.',
+    activeCtaLabel: 'Support Now (Free)',
     floatingNudge: {
       enabled: true,
       delaySeconds: 6,
-      badge: 'Daily Milestone · Almost Complete',
-      headline: 'Help Finish Today’s Rural School & Meal Batch',
-      message: 'Every click opens a sponsor partner in a new tab and immediately credits a child’s meal at $0 cost to you.',
-      ctaLabel: '1-Click Free Support'
+      badge: 'Online Fund Collection',
+      headline: 'Support the Upcoming Launch at $0 Cost',
+      message: 'Every voluntary click opens a verified sponsor partner in a new tab with zero money requested from you.',
+      ctaLabel: 'Support Now (Free)'
     },
     sponsorLinks: [
       'https://uplcm.com/4/12250130',
@@ -255,29 +236,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
       'https://uplcm.com/4/12250133',
       'https://uplcm.com/4/12250136'
     ],
-    activityStream: [
-      {
-        id: 'act-1',
-        location: 'Donamba, Uganda',
-        actionText: 'unlocked 1 Child Meal & Study Credit (0 cost)',
-        impactText: '+1 Free Support Click',
-        timestamp: new Date().toISOString()
-      },
-      {
-        id: 'act-2',
-        location: 'Sarvodaya, South Asia',
-        actionText: 'sponsored a classroom reading kit via free link',
-        impactText: '+1 Study Credit',
-        timestamp: new Date(Date.now() - 25000).toISOString()
-      },
-      {
-        id: 'act-3',
-        location: 'Dhaka, Bangladesh',
-        actionText: 'sponsored clean drinking water sachet via free link',
-        impactText: '+1 Water Credit',
-        timestamp: new Date(Date.now() - 50000).toISOString()
-      }
-    ],
+    activityStream: [],
     realClickAnalytics: {
       totalRealClicks: 0,
       lastRealClickAt: '',
@@ -285,39 +244,46 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     }
   },
   knowledgeBase: {
-    missionBrief: 'M R S Charity Foundation is currently an active online-based humanitarian initiative mobilizing foundational resources at zero cost to everyday visitors. Every verified sponsor link click accumulates real support toward launching our upcoming flagship ground project by M R S.',
-    howItWorksSummary: 'Commercial brand partners pay verified sponsorship rates when visitors open our partner links. We allocate those sponsor proceeds toward rural learning hubs, daily student nutrition, clean water wells, and rapid disaster relief—so you give meaningfully without spending personal money.',
-    transparencyNote: 'All foundational funds gathered during the current online phase are transparently tracked and reserved for establishing M R S community learning centers and relief operations.',
+    missionBrief:
+      'M R S Charity Foundation is a future project of M R S currently operating 100% online in its initial fund-collection phase with no physical office address yet.',
+    howItWorksSummary:
+      'Commercial brand partners compensate verified page visits. Net sponsor proceeds accumulate toward planned rural learning kits, preventive health checkups, clean water stations, and staple relief packs—at zero personal cost to visitors.',
+    transparencyNote:
+      'Planned allocation reserves 88% for direct humanitarian programs, 8% for future field launch coordination, and 4% for online platform hosting and stewardship.',
     faqs: [
       {
         id: 'faq-1',
         category: 'Zero-Cost Giving',
-        question: 'How does clicking a button donate without using my money?',
-        answer: 'When you click any free support button, a verified sponsor partner page opens in a new tab. Our advertising & corporate sponsor partners fund that visit directly, allowing us to convert everyday web clicks into meals, school notebooks, and clean water credits at zero cost to you.',
-        ctaText: 'Try 1 Free Support Click Now',
+        question: 'How does clicking support the foundation without using my money?',
+        answer:
+          'Clicking any Support Now button opens a verified commercial sponsor destination in a new tab. Sponsors compensate publisher visits, building our pre-launch reserves at $0 cost to you.',
+        ctaText: 'Support Now (Free)',
         active: true
       },
       {
         id: 'faq-2',
         category: 'Repeat Support',
-        question: 'Can I click more than once to generate more help?',
-        answer: 'Yes! Each click automatically rotates through 10 different verified sponsor links. Clicking multiple times opens a fresh partner link each time and compounds the support credited toward today’s community milestone.',
+        question: 'Can I participate more than once?',
+        answer:
+          'Yes. Our portal rotates sequentially across 10 verified sponsor destinations so natural human clicks open fresh partner links and build additional reserves.',
         ctaText: 'Open Next Sponsor Link (Free)',
         active: true
       },
       {
         id: 'faq-3',
-        category: 'Project Roadmap',
-        question: 'Where does M R S Charity Foundation currently operate?',
-        answer: 'Right now we are in our online fund-collection and community-building phase. The resources raised online are directly preparing the upcoming major ground project by M R S—establishing free rural primary schools, clean water stations, and family relief kitchens.',
-        ctaText: 'Support the Upcoming Launch (Free)',
+        category: 'Project Stage',
+        question: 'Does the foundation currently have a physical office address?',
+        answer:
+          'No. During Phase 1 online fund collection, we maintain no physical office so resources stay dedicated to building community reserves before ground operations launch.',
+        ctaText: 'View Transparency & Governance',
         active: true
       },
       {
         id: 'faq-4',
         category: 'Trust & Safety',
-        question: 'Do I ever need to enter bank cards, passwords, or personal payment details?',
-        answer: 'Never. We never ask visitors for credit cards, mobile banking PINs, or cash transfers on this portal. Every action on this site is 100% free and powered entirely by verified sponsor clicks.',
+        question: 'Do I ever need to enter payment cards or bank details?',
+        answer:
+          'Never. This portal never requests credit cards, debit cards, mobile banking PINs, or cash transfers from general visitors.',
         ctaText: 'Give Safely at $0 Cost',
         active: true
       }
