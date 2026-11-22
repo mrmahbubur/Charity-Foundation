@@ -20,21 +20,15 @@ import { DonatePage } from './pages/DonatePage';
 import { LegalPage } from './pages/LegalPages';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Code-split private owner vault so public visitors never download its bundle
+// Code-split private owner console so public visitors never download its bundle
 const LazyVaultConsole = React.lazy(() =>
   import('./components/BrainControlConsole').then((m) => ({ default: m.BrainControlConsole }))
 );
 
 const HOME_SECTION_ANCHORS = new Set([
-  'home',
-  'about',
+  ...SITE_CONFIG.navigation.map((n) => n.id),
   'how-it-works',
-  'our-work',
-  'impact',
-  'transparency',
-  'get-involved',
   'faq',
-  'contact',
 ]);
 
 function isPrivateVaultRoute(): boolean {
@@ -47,9 +41,7 @@ function isPrivateVaultRoute(): boolean {
 function getNormalizedPathSegments(): string[] {
   if (typeof window === 'undefined') return [];
   const rawSegments = window.location.pathname.split('/').filter(Boolean);
-  // Preserve GitHub Pages project subpath roots (e.g. username.github.io/<repo-name>/)
   if (window.location.hostname.endsWith('github.io') && rawSegments.length > 0) {
-    // Strip the first segment (repo slug) when matching app routes unless it is already a known route
     const first = rawSegments[0];
     if (!['transparency', 'donate', 'privacy-policy', 'privacy', 'terms', 'mrs-vault'].includes(first)) {
       return rawSegments.slice(1);
@@ -102,7 +94,6 @@ function MainApp() {
     'Healthcare, Education & Essential Relief'
   );
 
-  // Sync URL hash / popstate routing cleanly
   useEffect(() => {
     const syncRoute = () => {
       setIsVaultRoute(isPrivateVaultRoute());
@@ -116,7 +107,6 @@ function MainApp() {
     };
   }, []);
 
-  // Update browser document title per active page
   useEffect(() => {
     const baseName = SITE_CONFIG.organization.name;
     const titles: Record<AppPageRoute, string> = {
@@ -130,13 +120,12 @@ function MainApp() {
     document.title = titles[currentPage] || titles.home;
   }, [currentPage]);
 
-  // Track active visible section on homepage for clean navigation underlines
   useEffect(() => {
     if (currentPage !== 'home' || isVaultRoute || typeof IntersectionObserver === 'undefined') {
       return;
     }
 
-    const sectionIds = ['home', 'about', 'our-work', 'impact', 'transparency', 'get-involved', 'contact'];
+    const sectionIds = SITE_CONFIG.navigation.map((item) => item.id);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -173,7 +162,7 @@ function MainApp() {
 
   if (isVaultRoute) {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-[#FAFAF8]" aria-busy="true" />}>
+      <Suspense fallback={<div className="min-h-screen bg-canvas" aria-busy="true" />}>
         <LazyVaultConsole onExit={handleExitVault} />
       </Suspense>
     );
@@ -236,10 +225,10 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAF8] text-slate-800 relative overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-canvas text-ink relative overflow-x-clip">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-[#0F3D3E] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
       >
         Skip to main content
       </a>
@@ -271,51 +260,31 @@ function MainApp() {
           <NotFoundPage onBackHome={() => navigateToSection('home')} />
         ) : (
           <>
-            {/* a) Hero */}
             <Hero
               onSupportNow={() => handleOpenDonate('General Humanitarian Reserve')}
               onLearnMore={() => navigateToSection('about')}
             />
-
-            {/* b) Mission Strip */}
             <MissionStrip />
-
-            {/* c) About Section */}
             <AboutSection />
-
-            {/* d) How It Works */}
             <HowItWorksSection
               onSupportNow={() => handleOpenDonate('Zero-Cost Sponsor Giving')}
               onOpenDonatePage={() => navigateToPage('donate')}
             />
-
-            {/* e) Our Work / Programs */}
             <ProgramsSection onOpenDonate={(cause) => handleOpenDonate(cause)} />
-
-            {/* f) Impact Section */}
             <ImpactSection />
-
-            {/* g) Transparency Section */}
             <TransparencySection
               onOpenTransparencyPage={() => navigateToPage('transparency')}
             />
-
-            {/* h) Get Involved */}
             <GetInvolvedSection
               onOpenDonatePage={() => navigateToPage('donate')}
               onJumpToContact={() => navigateToSection('contact')}
             />
-
-            {/* i) FAQ Accordion */}
             <FaqSection />
-
-            {/* j) Contact Section */}
             <ContactSection />
           </>
         )}
       </main>
 
-      {/* k) Professional Footer */}
       <Footer
         onNavigateSection={navigateToSection}
         onNavigatePage={navigateToPage}

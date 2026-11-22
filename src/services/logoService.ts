@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { SITE_LOGO } from '../data/charityData';
+import { SITE_CONFIG } from '../../site.config';
 
+const DEFAULT_LOGO = SITE_CONFIG.organization.logoPath;
 const STORAGE_KEY = 'mrs_charity_site_logo';
 const LOGO_EVENT = 'mrs_charity_logo_change';
 
@@ -8,12 +9,12 @@ export function getActiveLogo(): string {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved && saved.trim().length > 0) {
-      return saved;
+      return saved === '/logo.png' ? DEFAULT_LOGO : saved;
     }
-  } catch (e) {
+  } catch {
     // Ignore localStorage errors
   }
-  return SITE_LOGO;
+  return DEFAULT_LOGO;
 }
 
 export function setActiveLogo(newLogoDataUrl: string): void {
@@ -28,8 +29,8 @@ export function setActiveLogo(newLogoDataUrl: string): void {
 export function resetActiveLogo(): void {
   try {
     localStorage.removeItem(STORAGE_KEY);
-    window.dispatchEvent(new CustomEvent(LOGO_EVENT, { detail: SITE_LOGO }));
-  } catch (e) {
+    window.dispatchEvent(new CustomEvent(LOGO_EVENT, { detail: DEFAULT_LOGO }));
+  } catch {
     // Ignore
   }
 }

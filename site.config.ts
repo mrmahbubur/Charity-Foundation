@@ -1,14 +1,27 @@
 /**
  * M R S Charity Foundation — Master Site Configuration
  * ---------------------------------------------------------------------------
- * Owners can edit all organization info, stage/registration disclosures,
- * contact details, social URLs, impact display metrics, and fund allocation
- * ratios in this single file.
+ * Single source of truth for navigation, copy, pre-launch disclosures,
+ * digital contact details, impact status metrics, planned programs,
+ * transparency allocations (using Tailwind @theme CSS variables),
+ * FAQs, and rotating sponsor links.
  *
  * ASSET PATH RULE:
  * Use ONLY relative paths (e.g. "./logo.png", "./images/hero-education.jpg")
  * so images load properly on both GitHub Pages (subpaths) and Render (root).
  */
+
+export interface NavItemConfig {
+  id: string;
+  label: string;
+}
+
+export interface HowItWorksStepConfig {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+}
 
 export interface FundAllocationItem {
   id: string;
@@ -51,6 +64,8 @@ export const SITE_CONFIG = {
     heroHeadline: 'Poverty Ends With Us',
     heroMission:
       'A future humanitarian project of M R S currently collecting funds online for healthcare, education, and essential necessities through zero-cost sponsor giving.',
+    heroFootnote:
+      '100% free participation — powered by verified sponsor visits, never donor cash or cards.',
     logoPath: './logo.png',
     copyrightYear: '2026',
     phaseNotice:
@@ -58,9 +73,20 @@ export const SITE_CONFIG = {
   },
 
   /**
+   * TOP NAVIGATION LINKS
+   */
+  navigation: [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About Us' },
+    { id: 'our-work', label: 'Our Work' },
+    { id: 'impact', label: 'Impact' },
+    { id: 'transparency', label: 'Transparency' },
+    { id: 'get-involved', label: 'Get Involved' },
+    { id: 'contact', label: 'Contact' },
+  ] as NavItemConfig[],
+
+  /**
    * STATUS & REGISTRATION DISCLOSURE
-   * Accurately reflects the foundation's current pre-launch online collection stage
-   * with no physical office overhead. Update these fields when formal registration issues.
    */
   registration: {
     registrationNumber: 'Pre-Registration (Online Collection Phase)',
@@ -71,8 +97,7 @@ export const SITE_CONFIG = {
   },
 
   /**
-   * CONTACT & PRESENCE
-   * Clearly states there is no physical address during the online fund-collection stage.
+   * CONTACT & DIGITAL PRESENCE
    */
   contact: {
     hasPhysicalAddress: false,
@@ -81,12 +106,18 @@ export const SITE_CONFIG = {
     phone: 'Online correspondence only (no physical office helpline yet)',
     email: 'contact@mrscharity.org',
     operatingHours: 'Digital Giving Portal Active 24/7 Worldwide',
+    inquiryTopics: [
+      'General Inquiry',
+      'Organizational Partnership',
+      'Sponsor Collaboration',
+      'Volunteer Coordination',
+      'Transparency & Future Launch Question',
+    ],
   },
 
   /**
    * SOCIAL LINKS
-   * Add full https:// URLs when your official social accounts go live.
-   * Links with url: "" or "#" remain hidden on the public UI so visitors never hit dead buttons.
+   * Add full https:// URLs when official pages go live. Empty URLs stay hidden.
    */
   socialLinks: [
     { id: 'facebook', label: 'Facebook', url: '' },
@@ -112,9 +143,47 @@ export const SITE_CONFIG = {
   },
 
   /**
+   * HOW IT WORKS (4-Step Giving Flow)
+   */
+  howItWorks: {
+    eyebrow: 'How It Works',
+    heading: 'How Zero-Cost Ad-Sponsored Giving Works',
+    subheading:
+      'A straightforward, transparent four-step cycle that converts everyday web visits into reserved humanitarian funding.',
+    steps: [
+      {
+        id: 'click',
+        number: '01',
+        title: 'Click "Support Now"',
+        description:
+          'Choose any Support Now button across our portal. No account login, credit card, or personal payment is ever requested.',
+      },
+      {
+        id: 'visit',
+        number: '02',
+        title: 'Visit Verified Sponsor Link',
+        description:
+          'A partner sponsor destination opens cleanly in a new browser tab. Rotating across verified partners keeps participation reliable.',
+      },
+      {
+        id: 'sponsor',
+        number: '03',
+        title: 'Sponsor Covers the Cost',
+        description:
+          'Commercial sponsors compensate valid page visits. That revenue replaces direct cash donations from your own pocket.',
+      },
+      {
+        id: 'allocate',
+        number: '04',
+        title: 'Allocated to Program Reserves',
+        description:
+          'Net proceeds are reserved toward rural learning supplies, basic health checkups, clean water, and essential relief.',
+      },
+    ] as HowItWorksStepConfig[],
+  },
+
+  /**
    * IMPACT & PRE-LAUNCH STATUS CARDS
-   * Honest, verifiable status metrics suited for an online fund-collection future project.
-   * Owners can swap in audited ground figures here once Phase 2 begins.
    */
   impactSection: {
     disclaimer:
@@ -149,7 +218,7 @@ export const SITE_CONFIG = {
   },
 
   /**
-   * FUND ALLOCATION & TRANSPARENCY (Must total 100%)
+   * FUND ALLOCATION & TRANSPARENCY (Uses @theme CSS variable tokens)
    */
   transparency: {
     allocationNote:
@@ -161,7 +230,7 @@ export const SITE_CONFIG = {
         id: 'direct-aid',
         label: 'Direct Program Reserve (Education, Healthcare & Relief Supplies)',
         percentage: 88,
-        color: '#0F3D3E',
+        color: 'var(--color-primary)',
         description:
           'Earmarked for future classroom study kits, preventive medical outreach, safe water initiatives, and essential household relief.',
       },
@@ -169,7 +238,7 @@ export const SITE_CONFIG = {
         id: 'field-logistics',
         label: 'Future Field Launch & Community Coordination',
         percentage: 8,
-        color: '#3B6E6F',
+        color: 'var(--color-primary-muted)',
         description:
           'Reserved for initial local volunteer mobilization, supply transport, and setup when physical distribution begins.',
       },
@@ -177,7 +246,7 @@ export const SITE_CONFIG = {
         id: 'stewardship',
         label: 'Digital Portal Hosting & Stewardship Reporting',
         percentage: 4,
-        color: '#D97706',
+        color: 'var(--color-accent)',
         description:
           'Core online infrastructure, sponsor link maintenance, and transparent reporting.',
       },
@@ -273,6 +342,18 @@ export const SITE_CONFIG = {
       scopeNote: 'Planned Focus: Rapid Response',
     },
   ] as ProgramItem[],
+
+  /**
+   * GET INVOLVED VOLUNTEER FOCUS AREAS
+   */
+  getInvolved: {
+    volunteerFocusAreas: [
+      'Education & Reading Support',
+      'Primary Healthcare Outreach',
+      'Essential Food & Water Distribution',
+      'Community Awareness & Digital Advocacy',
+    ],
+  },
 
   /**
    * FAQ ITEMS (7 Clear, Honest Questions)

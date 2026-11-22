@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, ChevronUp, ChevronDown, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { SITE_CONFIG } from '../../site.config';
 import { useSupporterCount } from '../hooks/useSupporterCount';
 import { useBackendSync } from '../context/BackendSyncContext';
 import { openNextSponsorLink, getSponsorLinks } from '../services/adDonateService';
@@ -10,7 +11,10 @@ export const LiveSupporterWidget: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
 
-  const dailyGoal = Math.max(1, content.brainEngine?.dailyGoalClicks || 500);
+  const dailyGoal = Math.max(
+    1,
+    content.brainEngine?.dailyGoalClicks || SITE_CONFIG.impactSection.dailyClickGoalTarget
+  );
   const todayClicks = content.brainEngine?.todayClicks || 0;
   const progressPercent = Math.min(100, Math.max(2, Math.round((todayClicks / dailyGoal) * 100)));
   const sponsorCount = getSponsorLinks().length;
@@ -32,7 +36,7 @@ export const LiveSupporterWidget: React.FC = () => {
           onClick={() => setIsExpanded(true)}
           aria-expanded={false}
           aria-label="Open quick free support widget"
-          className="inline-flex items-center gap-2 bg-[#0F3D3E] hover:bg-[#0A2C2D] text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-md border border-white/15 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-md border border-white/15 transition-colors cursor-pointer"
         >
           <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
           <span>Quick Free Support</span>
@@ -42,8 +46,8 @@ export const LiveSupporterWidget: React.FC = () => {
           <ChevronUp className="w-3.5 h-3.5 text-slate-300" />
         </button>
       ) : (
-        <div className="w-72 bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
-          <div className="bg-[#0F3D3E] text-white px-4 py-3 flex items-center justify-between">
+        <div className="w-72 bg-surface rounded-xl border border-slate-200 shadow-lg overflow-hidden animate-modalIn">
+          <div className="bg-primary text-white px-4 py-3 flex items-center justify-between">
             <span className="text-xs font-semibold">Zero-Cost Sponsor Giving</span>
             <button
               type="button"
@@ -58,21 +62,21 @@ export const LiveSupporterWidget: React.FC = () => {
 
           <div className="p-4 space-y-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-600">Daily community clicks</span>
-              <span className="font-semibold text-[#0F3D3E] tabular-nums">
+              <span className="text-ink-muted">Daily community clicks</span>
+              <span className="font-semibold text-primary tabular-nums">
                 {todayClicks.toLocaleString()} / {dailyGoal.toLocaleString()}
               </span>
             </div>
 
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#0F3D3E] rounded-full transition-all duration-300"
+                className="h-full bg-primary rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
 
             {statusMsg && (
-              <div className="text-xs text-[#0F3D3E] bg-[#0F3D3E]/5 border border-[#0F3D3E]/20 rounded-md px-2.5 py-2 flex items-center gap-1.5">
+              <div className="text-xs text-primary bg-primary/5 border border-primary/20 rounded-md px-2.5 py-2 flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                 <span>{statusMsg}</span>
               </div>
@@ -81,7 +85,7 @@ export const LiveSupporterWidget: React.FC = () => {
             <button
               type="button"
               onClick={handleQuickSupport}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold text-xs py-2.5 px-3 rounded-lg transition-colors cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs py-2.5 px-3 rounded-lg transition-colors cursor-pointer"
             >
               <Heart className="w-3.5 h-3.5 fill-white/90" />
               <span>Support Now (Free)</span>

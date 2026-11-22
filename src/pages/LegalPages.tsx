@@ -11,13 +11,13 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
   const { organization, contact, registration } = SITE_CONFIG;
 
   return (
-    <div className="bg-[#FAFAF8] min-h-screen py-12 lg:py-20">
+    <div className="bg-canvas min-h-screen py-12 lg:py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div>
           <button
             type="button"
             onClick={onBackHome}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#0F3D3E] hover:underline underline-offset-4 cursor-pointer"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
@@ -25,9 +25,9 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
         </div>
 
         {type === 'privacy' ? (
-          <article className="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
+          <article className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
             <header className="space-y-2 border-b border-slate-200 pb-6">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#0F3D3E]">
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
                 Legal Disclosure
               </p>
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900">
@@ -38,7 +38,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </p>
             </header>
 
-            <div className="space-y-5 text-sm sm:text-base text-slate-600 leading-relaxed max-w-[70ch]">
+            <div className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
               <section className="space-y-2">
                 <h2 className="font-serif text-xl font-bold text-slate-900">
                   1. Information We Collect
@@ -65,7 +65,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
                   3. Third-Party Sponsor Links
                 </h2>
                 <p>
-                  Clicking zero-cost donate buttons opens verified commercial sponsor pages in a new browser tab (`target="_blank"` with `rel="noopener noreferrer"`). Once you navigate to a third-party sponsor destination, that external site operates under its own privacy policy and cookie notices.
+                  Clicking zero-cost donate buttons opens verified commercial sponsor pages in a new browser tab (<code>target="_blank"</code> with <code>rel="noopener noreferrer"</code>). Once you navigate to a third-party sponsor destination, that external site operates under its own privacy policy and cookie notices.
                 </p>
               </section>
 
@@ -75,7 +75,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
                 </h2>
                 <p>
                   Questions regarding privacy practices or project status ({registration.registrationNumber}) may be directed online to{' '}
-                  <a href={`mailto:${contact.email}`} className="text-[#0F3D3E] font-semibold underline">
+                  <a href={`mailto:${contact.email}`} className="text-primary font-semibold underline">
                     {contact.email}
                   </a>
                   .
@@ -84,9 +84,9 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
             </div>
           </article>
         ) : (
-          <article className="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
+          <article className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
             <header className="space-y-2 border-b border-slate-200 pb-6">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#0F3D3E]">
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
                 Legal Disclosure
               </p>
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900">
@@ -97,7 +97,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </p>
             </header>
 
-            <div className="space-y-5 text-sm sm:text-base text-slate-600 leading-relaxed max-w-[70ch]">
+            <div className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
               <section className="space-y-2">
                 <h2 className="font-serif text-xl font-bold text-slate-900">
                   1. Scope &amp; Future Project Notice

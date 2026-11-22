@@ -40,7 +40,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   const sponsorLinks = getSponsorLinks();
   const nextLinkInfo = getNextDonateLink();
-  const activeLogo = logo === '/logo.png' ? './logo.png' : logo || SITE_CONFIG.organization.logoPath;
+  const activeLogo =
+    logo === '/logo.png'
+      ? SITE_CONFIG.organization.logoPath
+      : logo || SITE_CONFIG.organization.logoPath;
 
   const handleFreeDonateClick = () => {
     const result = openNextSponsorLink('support-modal');
@@ -57,7 +60,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       aria-labelledby="donate-modal-title"
     >
       <div
-        className="bg-white rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-xl relative border border-slate-200"
+        className="bg-surface rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-xl relative border border-slate-200 animate-modalIn"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -77,7 +80,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               className="h-12 w-12 object-contain mx-auto"
               referrerPolicy="no-referrer"
             />
-            <p className="text-xs uppercase tracking-[0.16em] font-semibold text-[#0F3D3E]">
+            <p className="text-xs uppercase tracking-[0.16em] font-semibold text-primary">
               100% Free Ad-Sponsored Giving
             </p>
             <h2
@@ -86,12 +89,12 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             >
               Support at Zero Cost to You
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-ink-muted leading-relaxed">
               Focus: <strong className="text-slate-800">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—our partners fund the contribution while you spend nothing.
             </p>
           </div>
 
-          <div className="bg-[#FAFAF8] border border-slate-200 rounded-xl p-5 space-y-4 text-center">
+          <div className="bg-canvas border border-slate-200 rounded-xl p-5 space-y-4 text-center">
             <div className="text-xs text-slate-500">
               Next Partner: <strong className="text-slate-800">Link {nextLinkInfo.index + 1} of {sponsorLinks.length}</strong>
             </div>
@@ -99,7 +102,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             <button
               type="button"
               onClick={handleFreeDonateClick}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold py-3.5 px-5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold py-3.5 px-5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer"
             >
               <Heart className="w-4 h-4 fill-white/90 shrink-0" />
               <span>Support Now — Open Sponsor Link (Free)</span>
@@ -107,19 +110,19 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </button>
 
             {lastOpenedNum !== null && (
-              <div className="bg-white border border-slate-200 rounded-lg p-3 text-xs text-[#0F3D3E] flex items-center justify-center gap-2">
+              <div className="bg-surface border border-slate-200 rounded-lg p-3 text-xs text-primary flex items-center justify-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>Sponsor link #{lastOpenedNum} opened in a new tab. Thank you!</span>
               </div>
             )}
 
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-600 pt-1">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-ink-muted pt-1">
               <span>
-                Your clicks: <strong className="tabular-nums text-[#0F3D3E]">{totalClicks}</strong>
+                Your clicks: <strong className="tabular-nums text-primary">{totalClicks}</strong>
               </span>
               <span aria-hidden="true">·</span>
               <span className="inline-flex items-center gap-1">
-                <RefreshCw className="w-3.5 h-3.5 text-[#0F3D3E]" />
+                <RefreshCw className="w-3.5 h-3.5 text-primary" />
                 <span>Rotates across {sponsorLinks.length} verified partners</span>
               </span>
             </div>
@@ -134,7 +137,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   onClose();
                   onOpenDonatePage();
                 }}
-                className="font-semibold text-[#0F3D3E] hover:underline cursor-pointer"
+                className="font-semibold text-primary hover:underline cursor-pointer"
               >
                 Full Giving Guide &rarr;
               </button>

@@ -12,24 +12,22 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
   const { allocations, allocationNote, accountabilityStatement } = SITE_CONFIG.transparency;
 
   return (
-    <section id="transparency" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+    <section id="transparency" className="py-16 lg:py-24 bg-surface border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          {/* Left: Allocation Breakdown */}
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#0F3D3E]">
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
                 Financial Transparency
               </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight text-balance">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
                 How Collected Sponsor Proceeds Are Allocated
               </h2>
-              <p className="text-base text-slate-600 leading-relaxed max-w-[65ch]">
+              <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
                 {allocationNote}
               </p>
             </div>
 
-            {/* Unified Horizontal Percentage Bar */}
             <div className="space-y-2">
               <div
                 className="w-full h-4 rounded-lg overflow-hidden flex border border-slate-200"
@@ -46,7 +44,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
                   />
                 ))}
               </div>
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-600">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-ink-muted">
                 {allocations.map((item) => (
                   <span key={item.id} className="inline-flex items-center gap-2">
                     <span
@@ -59,12 +57,11 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
               </div>
             </div>
 
-            {/* Individual Allocation Rows */}
             <div className="space-y-4 pt-2">
               {allocations.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-[#FAFAF8] border border-slate-200 rounded-xl p-5 space-y-2"
+                  className="bg-canvas border border-slate-200 rounded-xl p-5 space-y-2"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2.5">
@@ -76,11 +73,11 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
                         {item.label}
                       </h3>
                     </div>
-                    <span className="font-serif text-xl font-bold text-[#0F3D3E] tabular-nums shrink-0">
+                    <span className="font-serif text-xl font-bold text-primary tabular-nums shrink-0">
                       {item.percentage}%
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -88,8 +85,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
             </div>
           </div>
 
-          {/* Right: Accountability Box */}
-          <div className="lg:col-span-5 bg-[#0F3D3E] text-white rounded-xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-5 bg-primary text-white rounded-xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5 text-amber-300" />
@@ -116,7 +112,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
               <button
                 type="button"
                 onClick={onOpenTransparencyPage}
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
               >
                 <span>Open Full Transparency Page</span>
                 <ArrowRight className="w-4 h-4" />

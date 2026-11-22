@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({
   const { content } = useBackendSync();
   const activeLogo =
     content.foundationInfo.logo === '/logo.png'
-      ? './logo.png'
+      ? SITE_CONFIG.organization.logoPath
       : content.foundationInfo.logo || SITE_CONFIG.organization.logoPath;
   const { organization, registration, contact, socialLinks } = SITE_CONFIG;
   const activeSocials = socialLinks.filter(
@@ -24,16 +24,15 @@ export const Footer: React.FC<FooterProps> = ({
   );
 
   return (
-    <footer className="bg-[#0F3D3E] text-slate-200 border-t border-[#0A2C2D]">
+    <footer className="bg-primary text-slate-200 border-t border-primary-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/15">
-          {/* Column 1: Brand & Short Mission */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
               <img
                 src={activeLogo}
                 alt={`${organization.name} Logo`}
-                className="h-11 w-11 object-contain bg-white rounded-lg p-1 shrink-0"
+                className="h-11 w-11 object-contain bg-surface rounded-lg p-1 shrink-0"
                 referrerPolicy="no-referrer"
               />
               <div>
@@ -69,7 +68,6 @@ export const Footer: React.FC<FooterProps> = ({
             )}
           </div>
 
-          {/* Column 2: Quick Links */}
           <div className="lg:col-span-3 space-y-3">
             <h3 className="font-serif text-sm font-bold text-white uppercase tracking-wider">
               Quick Links
@@ -132,7 +130,6 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Column 3: Honest Status & Online Contact */}
           <div className="lg:col-span-5 space-y-3">
             <h3 className="font-serif text-sm font-bold text-white uppercase tracking-wider">
               Project Status &amp; Online Presence
@@ -161,7 +158,6 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Bottom Copyright & Legal Links */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
           <div>
             &copy; {organization.copyrightYear} {organization.name}. {organization.projectOf}.

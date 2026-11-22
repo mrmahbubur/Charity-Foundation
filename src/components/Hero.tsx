@@ -17,9 +17,8 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
   return (
     <section
       id="home"
-      className="relative w-full min-h-[540px] lg:min-h-[620px] flex items-center bg-[#0F3D3E] text-white overflow-hidden"
+      className="relative w-full min-h-[540px] lg:min-h-[620px] flex items-center bg-primary text-white overflow-hidden"
     >
-      {/* Full-width Documentary Background Photography */}
       <img
         src={SITE_CONFIG.images.hero}
         alt="Students reading storybooks together in a rural community learning room"
@@ -27,35 +26,30 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
         referrerPolicy="no-referrer"
       />
 
-      {/* Calm Dark Contrast Overlay for Editorial Readability */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-[#092425]/92 via-[#0A292A]/78 to-[#0A292A]/50"
+        className="absolute inset-0 bg-gradient-to-r from-primary-deep/90 via-primary-dark/75 to-primary-dark/45"
         aria-hidden="true"
       />
 
       <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-        <div className="max-w-2xl space-y-6">
-          {/* Calm Editorial Eyebrow */}
+        <div className="max-w-2xl space-y-6 animate-fadeIn">
           <p className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-amber-300">
             {SITE_CONFIG.organization.name} · {projectLabel}
           </p>
 
-          {/* Strong Serif Headline */}
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight text-balance">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight">
             {SITE_CONFIG.organization.heroHeadline}
           </h1>
 
-          {/* One-sentence Honest Mission */}
           <p className="text-base sm:text-lg text-slate-100 leading-relaxed max-w-[65ch]">
             {mission}
           </p>
 
-          {/* Primary & Secondary Action Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <button
               type="button"
               onClick={onSupportNow}
-              className="inline-flex items-center justify-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold px-7 py-3.5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold px-7 py-3.5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer whitespace-nowrap"
             >
               <Heart className="w-4 h-4 fill-white/90 shrink-0" />
               <span>Support Now</span>
@@ -72,7 +66,7 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
           </div>
 
           <p className="text-xs text-slate-300 pt-2">
-            100% free participation — powered by verified sponsor visits, never donor cash or cards.
+            {SITE_CONFIG.organization.heroFootnote}
           </p>
         </div>
       </div>

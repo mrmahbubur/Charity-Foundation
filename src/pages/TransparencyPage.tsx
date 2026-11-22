@@ -15,44 +15,42 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
   const { transparency, registration, contact, organization } = SITE_CONFIG;
 
   return (
-    <div className="bg-[#FAFAF8] min-h-screen py-12 lg:py-20">
+    <div className="bg-canvas min-h-screen py-12 lg:py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div>
           <button
             type="button"
             onClick={onBackHome}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#0F3D3E] hover:underline underline-offset-4 cursor-pointer"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
           </button>
         </div>
 
-        {/* Page Title */}
         <header className="space-y-4 border-b border-slate-200 pb-8">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#0F3D3E]">
+          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
             Public Accountability &amp; Governance
           </p>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Financial Transparency &amp; Stewardship
           </h1>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-[70ch]">
+          <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[70ch]">
             {transparency.accountabilityStatement}
           </p>
         </header>
 
-        {/* Detailed Allocation Table */}
         <section className="space-y-6">
           <div className="space-y-2">
             <h2 className="font-serif text-2xl font-bold text-slate-900">
               1. Fund Utilization Model
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 max-w-[70ch]">
+            <p className="text-sm sm:text-base text-ink-muted max-w-[70ch]">
               {transparency.allocationNote}
             </p>
           </div>
 
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
             <div className="w-full h-4 rounded-lg overflow-hidden flex border border-slate-200">
               {transparency.allocations.map((item) => (
                 <div
@@ -77,9 +75,9 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
                       />
                       <h3 className="font-semibold text-base text-slate-900">{item.label}</h3>
                     </div>
-                    <p className="text-sm text-slate-600">{item.description}</p>
+                    <p className="text-sm text-ink-muted">{item.description}</p>
                   </div>
-                  <div className="font-serif text-2xl font-bold text-[#0F3D3E] tabular-nums shrink-0">
+                  <div className="font-serif text-2xl font-bold text-primary tabular-nums shrink-0">
                     {item.percentage}%
                   </div>
                 </div>
@@ -88,41 +86,39 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </div>
         </section>
 
-        {/* Ethical Safeguards */}
         <section className="space-y-5">
           <h2 className="font-serif text-2xl font-bold text-slate-900">
             2. Donor Safety &amp; Pre-Launch Accountability
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-3">
-              <div className="flex items-center gap-2.5 text-[#0F3D3E]">
+            <div className="bg-surface rounded-xl border border-slate-200 p-6 space-y-3">
+              <div className="flex items-center gap-2.5 text-primary">
                 <ShieldCheck className="w-5 h-5" />
                 <h3 className="font-serif text-lg font-bold text-slate-900">
                   Zero Personal Payments Requested
                 </h3>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-ink-muted leading-relaxed">
                 This portal never processes credit cards, debit cards, mobile banking PINs, or wire transfers from general visitors. Participation happens strictly through voluntary visits to sponsor partner links.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-3">
-              <div className="flex items-center gap-2.5 text-[#0F3D3E]">
+            <div className="bg-surface rounded-xl border border-slate-200 p-6 space-y-3">
+              <div className="flex items-center gap-2.5 text-primary">
                 <FileText className="w-5 h-5" />
                 <h3 className="font-serif text-lg font-bold text-slate-900">
                   Zero Office Rent &amp; Honest Status
                 </h3>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-ink-muted leading-relaxed">
                 Operating online without a physical office during Phase 1 keeps fixed costs minimal while initial reserves accumulate. We never display fabricated awards, partner logos, or fictitious testimonials.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Official Status & Presence Record */}
-        <section className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4">
+        <section className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4">
           <div className="border-b border-slate-200 pb-3">
             <h2 className="font-serif text-2xl font-bold text-slate-900">
               3. Status &amp; Official Disclosure
@@ -167,8 +163,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </p>
         </section>
 
-        {/* Action Strip */}
-        <div className="bg-[#0F3D3E] text-white rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="bg-primary text-white rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
             <h3 className="font-serif text-xl font-bold">Support Online Fund Collection</h3>
             <p className="text-sm text-slate-200">
@@ -179,7 +174,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
             <button
               type="button"
               onClick={() => openNextSponsorLink('transparency-page')}
-              className="inline-flex items-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
             >
               <Heart className="w-4 h-4 fill-white/90" />
               <span>Support Now (Free)</span>

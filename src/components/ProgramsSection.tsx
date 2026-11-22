@@ -9,7 +9,7 @@ interface ProgramsSectionProps {
 
 export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }) => {
   const [selectedPillar, setSelectedPillar] = useState<string>('All');
-  const pillars = ['All', 'Healthcare', 'Education', 'Essential Necessities'];
+  const pillars = ['All', ...SITE_CONFIG.missionPillars.map((p) => p.title)];
 
   const filteredPrograms =
     selectedPillar === 'All'
@@ -22,18 +22,17 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
   };
 
   return (
-    <section id="our-work" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+    <section id="our-work" className="py-16 lg:py-24 bg-surface border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header + Clean Filter Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl space-y-3">
-            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[#0F3D3E]">
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
               Our Work &amp; Program Focus
             </p>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight text-balance">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
               Core Initiatives Prepared for Community Impact
             </h2>
-            <p className="text-base text-slate-600 leading-relaxed max-w-[65ch]">
+            <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
               Each program track below outlines how sponsor-generated reserves are directed across education, primary healthcare, clean water, and essential household relief.
             </p>
           </div>
@@ -41,7 +40,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
           <div
             role="group"
             aria-label="Filter programs by humanitarian pillar"
-            className="flex flex-wrap items-center gap-1 p-1 bg-[#FAFAF8] border border-slate-200 rounded-lg shrink-0 self-start md:self-auto"
+            className="flex flex-wrap items-center gap-1 p-1 bg-canvas border border-slate-200 rounded-lg shrink-0 self-start md:self-auto"
           >
             {pillars.map((pillar) => (
               <button
@@ -50,8 +49,8 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                 onClick={() => setSelectedPillar(pillar)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                   selectedPillar === pillar
-                    ? 'bg-[#0F3D3E] text-white font-semibold shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-primary text-white font-semibold shadow-xs'
+                    : 'text-ink-muted hover:text-slate-900'
                 }`}
               >
                 {pillar}
@@ -60,12 +59,11 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
           </div>
         </div>
 
-        {/* Program Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPrograms.map((prog) => (
             <article
               key={prog.id}
-              className="bg-[#FAFAF8] rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:border-[#0F3D3E]/40 transition-colors flex flex-col"
+              className="bg-canvas rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:border-primary/40 transition-colors flex flex-col"
             >
               <div className="aspect-[4/3] w-full bg-slate-200 overflow-hidden">
                 <img
@@ -80,7 +78,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
               <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
                 <div className="space-y-3">
                   <div className="text-xs text-slate-500 font-medium flex items-center gap-2">
-                    <span className="text-[#0F3D3E] font-semibold">{prog.pillar}</span>
+                    <span className="text-primary font-semibold">{prog.pillar}</span>
                     <span aria-hidden="true">·</span>
                     <span>{prog.scopeNote}</span>
                   </div>
@@ -89,7 +87,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                     {prog.title}
                   </h3>
 
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-sm text-ink-muted leading-relaxed">
                     {prog.summary}
                   </p>
                 </div>
@@ -98,7 +96,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                   <button
                     type="button"
                     onClick={() => handleSupportProgram(prog.title)}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#D97706] hover:text-[#B45309] transition-colors cursor-pointer group"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent-hover transition-colors cursor-pointer group"
                   >
                     <span>Support This Focus Free</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
