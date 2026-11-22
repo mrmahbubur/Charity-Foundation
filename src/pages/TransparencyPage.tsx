@@ -87,7 +87,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
 
         <section id="donor-safety" className="space-y-5">
           <h2 className="font-serif text-2xl font-bold text-heading">
-            2. Donor Safety &amp; Pre-Launch Accountability
+            2. Donor Safety &amp; Phase 1 Online Fund-Collection Accountability
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -166,7 +166,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           <div className="space-y-1">
             <h3 className="font-serif text-xl font-bold">Support Phase 1 Online Fund-Collection</h3>
             <p className="text-sm text-on-primary-soft">
-              Contribute to our pre-launch charitable reserve at zero personal cost via a verified sponsor partner visit.
+              Contribute to our Phase 1 Online Fund-Collection reserve at zero personal cost via a verified sponsor partner visit.
             </p>
           </div>
           <div className="flex flex-wrap gap-3 shrink-0">

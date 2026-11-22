@@ -59,17 +59,17 @@ const PERSUASION_PRESETS: Record<
   },
   urgency: {
     headline: 'Phase 1 Online Fund-Collection Needs {remaining} More Free Sponsor Visits',
-    subtext: 'Help build reserves ahead of launching future rural learning kits, healthcare checkups, and essential relief—at zero personal cost.',
+    subtext: 'Help build reserves during Phase 1 Online Fund-Collection ahead of launching future learning kits, healthcare checkups, and essential relief—at zero cost.',
     cta: 'Support Phase 1 (Free)',
     nudgeHeadline: 'Phase 1 Online Fund-Collection Drive',
-    nudgeBadge: 'Pre-Launch Reserve Goal'
+    nudgeBadge: 'Phase 1 Online Fund-Collection'
   },
   'social-proof': {
-    headline: 'Join Online Supporters Building M R S Launch Reserves ({remaining} clicks remaining)',
+    headline: 'Join Online Supporters in Phase 1 Online Fund-Collection ({remaining} clicks left)',
     subtext: 'Every voluntary visit to a verified sponsor link contributes toward future education, health, and essential necessities.',
     cta: 'Add a Free Sponsor Click (+1)',
     nudgeHeadline: 'Join Phase 1 Online Fund-Collection',
-    nudgeBadge: 'Community Mobilization'
+    nudgeBadge: 'Phase 1 Online Fund-Collection'
   }
 };
 

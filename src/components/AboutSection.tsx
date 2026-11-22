@@ -30,7 +30,7 @@ export const AboutSection: React.FC = () => {
                 About Us · {organization.projectOf}
               </p>
               <h2 className="section-title">
-                An Online Fund-Collection Initiative Preparing Future Humanitarian Impact
+                Phase 1 Online Fund-Collection Preparing Future Humanitarian Impact
               </h2>
             </div>
 

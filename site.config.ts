@@ -281,9 +281,9 @@ export const SITE_CONFIG = {
    */
   howItWorks: {
     eyebrow: 'How It Works',
-    heading: 'How Zero-Cost Online Fund Collection Works',
+    heading: 'How Phase 1 Online Fund-Collection Works',
     subheading:
-      'A transparent four-step cycle converting everyday web visits into reserved pre-launch funding for upcoming community programs.',
+      'A transparent four-step cycle converting everyday web visits into Phase 1 Online Fund-Collection reserves for upcoming community programs.',
     steps: [
       {
         id: 'click',
@@ -309,9 +309,9 @@ export const SITE_CONFIG = {
       {
         id: 'allocate',
         number: '04',
-        title: 'Grows Pre-Launch Program Reserves',
+        title: 'Builds Phase 1 Program Reserves',
         description:
-          'Net sponsor proceeds accumulate online to fund upcoming rural learning supplies, primary health checkups, and essential relief.',
+          'Net sponsor proceeds accumulate during Phase 1 Online Fund-Collection to fund upcoming learning supplies, health checkups, and essential relief.',
       },
     ] as HowItWorksStepConfig[],
   },
@@ -328,7 +328,7 @@ export const SITE_CONFIG = {
         id: 'project-phase',
         label: 'Phase 1 Online Fund-Collection',
         value: 'Phase 1',
-        unitOrContext: 'Active pre-launch reserve building ahead of future M R S rollout',
+        unitOrContext: 'Phase 1 Online Fund-Collection stage ahead of future M R S rollout',
       },
       {
         id: 'operations-footprint',

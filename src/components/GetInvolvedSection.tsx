@@ -58,7 +58,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                 Give at Zero Cost
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
-                Open a verified sponsor partner link in one click so sponsors contribute directly to our pre-launch fund reserve—no money needed.
+                Open a verified sponsor partner link in one click so sponsors contribute directly to our Phase 1 Online Fund-Collection reserve—no money needed.
               </p>
             </div>
             <div className="space-y-2 pt-2">

@@ -218,7 +218,7 @@ const DEFAULT_CONTENT = {
     }
   ],
   impactMetrics: [
-    { id: 'm-1', label: 'Phase 1 Online Fund-Collection', value: 'Phase 1', detail: 'Active pre-launch reserve building ahead of future M R S rollout' },
+    { id: 'm-1', label: 'Phase 1 Online Fund-Collection', value: 'Phase 1', detail: 'Phase 1 Online Fund-Collection stage ahead of future M R S rollout' },
     { id: 'm-2', label: 'Operations Footprint', value: '100% Online', detail: 'No physical office address or rent overhead yet' },
     { id: 'm-3', label: 'Target Program Allocation', value: '88% Direct Aid', detail: 'Planned reserve share for education, health & essentials' },
     { id: 'm-4', label: 'Cost to Supporters', value: '$0 / Free', detail: 'Funded exclusively by voluntary sponsor link visits' }
@@ -231,11 +231,11 @@ const DEFAULT_CONTENT = {
   },
   futureProject: {
     status: 'Pre-Registration · Phase 1 Online Fund-Collection',
-    launchPhase: 'Phase 1 Online Fund-Collection & Reserve Building',
+    launchPhase: 'Phase 1 Online Fund-Collection',
     targetLaunchYear: 'Upcoming Ground Rollout',
     backer: 'M R S',
     notice:
-      'M R S Charity Foundation is in Phase 1 Online Fund-Collection, operating wholly online without a physical office address during pre-launch reserve building.'
+      'M R S Charity Foundation is in Phase 1 Online Fund-Collection, operating wholly online without a physical office address while building initial reserves.'
   },
   automaticSystem: {
     enabled: true,
@@ -250,7 +250,7 @@ const DEFAULT_CONTENT = {
         id: 'log-1',
         timestamp: new Date().toISOString(),
         action: 'SERVICE_READY',
-        details: 'Community live sync initialized in honest Phase 1 mode.',
+        details: 'Community live sync initialized in Phase 1 Online Fund-Collection mode.',
         source: 'core'
       }
     ]
@@ -260,15 +260,15 @@ const DEFAULT_CONTENT = {
     persuasionMode: 'goal-gradient' as 'goal-gradient' | 'empathy' | 'urgency' | 'social-proof',
     dailyGoalClicks: 500,
     todayClicks: 0,
-    clickImpactUnit: 'Verified Online Fund-Collection Credit',
+    clickImpactUnit: 'Phase 1 Online Fund-Collection Credit',
     activeHeadline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
-    activeSubtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab to build our pre-launch charitable fund reserve.',
+    activeSubtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab during Phase 1 Online Fund-Collection.',
     activeCtaLabel: 'Support Now (Free)',
     floatingNudge: {
       enabled: true,
       delaySeconds: 6,
       badge: 'Phase 1 Online Fund-Collection',
-      headline: 'Support Phase 1 Reserve Building at $0 Cost',
+      headline: 'Support Phase 1 Online Fund-Collection at $0 Cost',
       message: 'Every voluntary click opens a verified sponsor partner in a new tab with zero money requested from you.',
       ctaLabel: 'Support Now (Free)'
     },
@@ -310,7 +310,7 @@ const DEFAULT_CONTENT = {
         category: 'Zero-Cost Giving',
         question: 'How does clicking support the foundation without using my money?',
         answer:
-          'Clicking any Support Now button opens a verified commercial sponsor destination in a new tab. Sponsors compensate publisher visits, building our pre-launch reserves at $0 cost to you.',
+          'Clicking any Support Now button opens a verified commercial sponsor destination in a new tab. Sponsors compensate publisher visits, building our Phase 1 Online Fund-Collection reserves at $0 cost to you.',
         ctaText: 'Support Now (Free)',
         active: true
       },

@@ -48,7 +48,7 @@ export const LiveSupporterWidget: React.FC = () => {
       ) : (
         <div className="w-72 bg-surface rounded-card border border-border shadow-modal overflow-hidden animate-modalIn">
           <div className="bg-primary text-surface px-4 py-3 flex items-center justify-between">
-            <span className="text-xs font-semibold">Zero-Cost Sponsor Giving</span>
+            <span className="text-xs font-semibold">Phase 1 Online Fund-Collection</span>
             <button
               type="button"
               onClick={() => setIsExpanded(false)}
@@ -62,7 +62,7 @@ export const LiveSupporterWidget: React.FC = () => {
 
           <div className="p-4 space-y-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-ink-muted">Daily fund-collection clicks</span>
+              <span className="text-ink-muted">Phase 1 daily clicks</span>
               <span className="font-semibold text-primary tabular-nums">
                 {todayClicks.toLocaleString()} / {dailyGoal.toLocaleString()}
               </span>
