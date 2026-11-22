@@ -63,7 +63,7 @@ export const ImpactSection: React.FC = () => {
             aria-valuenow={clampedPercent}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Daily sponsor click goal completion"
+            aria-label="Daily Phase 1 Online Fund-Collection goal completion"
           >
             <div
               className="h-full bg-primary rounded-full transition-all duration-500"

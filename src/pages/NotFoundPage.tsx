@@ -26,7 +26,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onBackHome }) => {
               Page Not Found
             </h1>
             <p className="text-sm text-ink-muted leading-relaxed">
-              The page or section you requested could not be found. Return to the {SITE_CONFIG.organization.name} homepage to continue exploring.
+              The page or section you requested could not be found. Return to the {SITE_CONFIG.organization.name} Phase 1 Online Fund-Collection homepage to continue exploring.
             </p>
           </div>
           <button

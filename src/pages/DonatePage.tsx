@@ -50,7 +50,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
             How Phase 1 Online Fund-Collection Works
           </h1>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[65ch]">
-            {SITE_CONFIG.organization.name} builds charitable reserves online ahead of field launch—never asking visitors for cash or payment cards.
+            {SITE_CONFIG.organization.name} is in Phase 1 Online Fund-Collection, building charitable reserves online ahead of field launch—never asking visitors for cash or payment cards.
           </p>
         </header>
 

@@ -134,7 +134,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                 Spread the Word
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
-                Invite classmates, colleagues, or family to participate in free daily sponsor-backed giving.
+                Invite classmates, colleagues, or family to participate in free daily sponsor-backed giving during Phase 1 Online Fund-Collection.
               </p>
             </div>
             <button
@@ -184,7 +184,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                     Volunteer Interest Registration
                   </h4>
                   <p className="text-xs text-ink-subtle mt-1">
-                    Provide your display name and preferred focus area ahead of future launch coordination.
+                    Provide your display name and preferred focus area during Phase 1 Online Fund-Collection ahead of future launch coordination.
                   </p>
                 </div>
 
