@@ -1,48 +1,113 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import { Currency, ChildProfile } from './types';
+import { SITE_CONFIG } from '../site.config';
 import { BackendSyncProvider } from './context/BackendSyncContext';
-import { Navbar } from './components/Navbar';
-import { AnnouncementSlideshowBar } from './components/AnnouncementSlideshowBar';
+import { Navbar, AppPageRoute } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { QuickDonationStrip } from './components/QuickDonationStrip';
-import { SponsorChildSection } from './components/SponsorChildSection';
+import { MissionStrip } from './components/MissionStrip';
+import { AboutSection } from './components/AboutSection';
+import { HowItWorksSection } from './components/HowItWorksSection';
 import { ProgramsSection } from './components/ProgramsSection';
-import { ImpactAuditSection } from './components/ImpactAuditSection';
-import { VolunteerSection } from './components/VolunteerSection';
-import { StoriesSection } from './components/StoriesSection';
-import { LatestPostsSection } from './components/LatestPostsSection';
-import { BrainKnowledgeSection } from './components/BrainKnowledgeSection';
-import { FutureProjectSection } from './components/FutureProjectSection';
-import { DonationModal } from './components/DonationModal';
-import { SponsorChildModal } from './components/SponsorChildModal';
-import { LiveSupporterWidget } from './components/LiveSupporterWidget';
+import { ImpactSection } from './components/ImpactSection';
+import { TransparencySection } from './components/TransparencySection';
+import { GetInvolvedSection } from './components/GetInvolvedSection';
+import { FaqSection } from './components/FaqSection';
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { DonationModal } from './components/DonationModal';
+import { LiveSupporterWidget } from './components/LiveSupporterWidget';
+import { TransparencyPage } from './pages/TransparencyPage';
+import { DonatePage } from './pages/DonatePage';
+import { LegalPage } from './pages/LegalPages';
+import { NotFoundPage } from './pages/NotFoundPage';
 
-// Code-split private console so public site visitors never download its UI bundle
+// Code-split private owner vault so public visitors never download its bundle
 const LazyVaultConsole = React.lazy(() =>
   import('./components/BrainControlConsole').then((m) => ({ default: m.BrainControlConsole }))
 );
 
+const HOME_SECTION_ANCHORS = new Set([
+  'home',
+  'about',
+  'how-it-works',
+  'our-work',
+  'impact',
+  'transparency',
+  'get-involved',
+  'faq',
+  'contact',
+]);
+
 function isPrivateVaultRoute(): boolean {
   if (typeof window === 'undefined') return false;
-  const p = window.location.pathname;
+  const p = window.location.pathname.replace(/\/+$/, '') || '/';
   const h = window.location.hash;
-  return p === '/mrs-vault' || p.startsWith('/mrs-vault/') || h === '#mrs-vault';
+  return p === '/mrs-vault' || p.endsWith('/mrs-vault') || h === '#mrs-vault' || h === '#/mrs-vault';
+}
+
+function getNormalizedPathSegments(): string[] {
+  if (typeof window === 'undefined') return [];
+  const rawSegments = window.location.pathname.split('/').filter(Boolean);
+  // Preserve GitHub Pages project subpath roots (e.g. username.github.io/<repo-name>/)
+  if (window.location.hostname.endsWith('github.io') && rawSegments.length > 0) {
+    // Strip the first segment (repo slug) when matching app routes unless it is already a known route
+    const first = rawSegments[0];
+    if (!['transparency', 'donate', 'privacy-policy', 'privacy', 'terms', 'mrs-vault'].includes(first)) {
+      return rawSegments.slice(1);
+    }
+  }
+  return rawSegments;
+}
+
+function resolveRouteFromLocation(): AppPageRoute {
+  if (typeof window === 'undefined') return 'home';
+
+  const hash = window.location.hash;
+  if (hash && hash !== '#') {
+    if (hash.startsWith('#/')) {
+      const sub = hash.slice(1).replace(/\/+$/, '') || '/';
+      if (sub === '/' || sub === '/home') return 'home';
+      if (sub === '/transparency') return 'transparency';
+      if (sub === '/donate') return 'donate';
+      if (sub === '/privacy-policy' || sub === '/privacy') return 'privacy';
+      if (sub === '/terms') return 'terms';
+      return 'not-found';
+    }
+    const anchor = hash.slice(1);
+    if (HOME_SECTION_ANCHORS.has(anchor)) {
+      return 'home';
+    }
+    if (anchor === 'privacy-policy' || anchor === 'privacy') return 'privacy';
+    if (anchor === 'terms') return 'terms';
+    if (anchor === 'donate') return 'donate';
+    return 'not-found';
+  }
+
+  const segments = getNormalizedPathSegments();
+  if (segments.length === 0) return 'home';
+  const joined = segments.join('/');
+  if (joined === 'index.html') return 'home';
+  if (joined === 'transparency') return 'transparency';
+  if (joined === 'donate') return 'donate';
+  if (joined === 'privacy-policy' || joined === 'privacy') return 'privacy';
+  if (joined === 'terms') return 'terms';
+  return 'not-found';
 }
 
 function MainApp() {
   const [isVaultRoute, setIsVaultRoute] = useState<boolean>(isPrivateVaultRoute);
-  const [activeTab, setActiveTab] = useState<string>('home');
+  const [currentPage, setCurrentPage] = useState<AppPageRoute>(resolveRouteFromLocation);
+  const [activeSection, setActiveSection] = useState<string>('home');
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
-  const [selectedChild, setSelectedChild] = useState<ChildProfile | null>(null);
+  const [donateCause, setDonateCause] = useState<string>(
+    'Healthcare, Education & Essential Relief'
+  );
 
-  const [donateCause, setDonateCause] = useState<string>('General Humanitarian & Child Education Fund');
-  const [donateAmount, setDonateAmount] = useState<number>(2500);
-  const [donateCurrency, setDonateCurrency] = useState<Currency>('BDT');
-  const [donateFrequency, setDonateFrequency] = useState<'one-time' | 'monthly'>('monthly');
-
+  // Sync URL hash / popstate routing cleanly
   useEffect(() => {
-    const syncRoute = () => setIsVaultRoute(isPrivateVaultRoute());
+    const syncRoute = () => {
+      setIsVaultRoute(isPrivateVaultRoute());
+      setCurrentPage(resolveRouteFromLocation());
+    };
     window.addEventListener('hashchange', syncRoute);
     window.addEventListener('popstate', syncRoute);
     return () => {
@@ -51,10 +116,51 @@ function MainApp() {
     };
   }, []);
 
+  // Update browser document title per active page
+  useEffect(() => {
+    const baseName = SITE_CONFIG.organization.name;
+    const titles: Record<AppPageRoute, string> = {
+      home: `${baseName} | ${SITE_CONFIG.organization.tagline}`,
+      transparency: `Transparency & Governance | ${baseName}`,
+      donate: `How Free Giving Works | ${baseName}`,
+      privacy: `Privacy Policy | ${baseName}`,
+      terms: `Terms of Use | ${baseName}`,
+      'not-found': `Page Not Found | ${baseName}`,
+    };
+    document.title = titles[currentPage] || titles.home;
+  }, [currentPage]);
+
+  // Track active visible section on homepage for clean navigation underlines
+  useEffect(() => {
+    if (currentPage !== 'home' || isVaultRoute || typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
+    const sectionIds = ['home', 'about', 'our-work', 'impact', 'transparency', 'get-involved', 'contact'];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.target.id) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-25% 0px -60% 0px', threshold: 0 }
+    );
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, [currentPage, isVaultRoute]);
+
   const handleExitVault = () => {
     try {
-      if (window.location.pathname.startsWith('/mrs-vault')) {
-        window.history.pushState({}, '', '/');
+      if (window.location.pathname.endsWith('/mrs-vault')) {
+        const cleaned = window.location.pathname.replace(/\/mrs-vault\/?$/, '') || '/';
+        window.history.pushState({}, '', cleaned);
       } else {
         window.location.hash = '';
       }
@@ -62,85 +168,164 @@ function MainApp() {
       window.location.hash = '';
     }
     setIsVaultRoute(false);
+    setCurrentPage('home');
   };
 
   if (isVaultRoute) {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <Suspense fallback={<div className="min-h-screen bg-[#FAFAF8]" aria-busy="true" />}>
         <LazyVaultConsole onExit={handleExitVault} />
       </Suspense>
     );
   }
 
-  const handleOpenDonate = (
-    cause?: string,
-    defaultAmount?: number,
-    currency?: Currency,
-    frequency?: 'one-time' | 'monthly'
-  ) => {
-    if (cause) setDonateCause(cause);
-    if (defaultAmount) setDonateAmount(defaultAmount);
-    if (currency) setDonateCurrency(currency);
-    if (frequency) setDonateFrequency(frequency);
-    setIsDonateModalOpen(true);
-  };
+  const navigateToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    if (currentPage !== 'home') {
+      setCurrentPage('home');
+      try {
+        window.history.replaceState({}, '', `#${sectionId}`);
+      } catch {
+        window.location.hash = sectionId;
+      }
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 60);
+      return;
+    }
 
-  const handleSelectSponsorFromHero = () => {
-    const element = document.getElementById('sponsor');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (sectionId === 'home') {
+      try {
+        window.history.replaceState({}, '', '#home');
+      } catch {
+        window.location.hash = 'home';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const navigateToPage = (page: AppPageRoute) => {
+    setCurrentPage(page);
+    const hashMap: Record<AppPageRoute, string> = {
+      home: '#home',
+      transparency: '#/transparency',
+      donate: '#/donate',
+      privacy: '#/privacy-policy',
+      terms: '#/terms',
+      'not-found': '#/404',
+    };
+    try {
+      window.history.pushState({}, '', hashMap[page]);
+    } catch {
+      window.location.hash = hashMap[page];
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenDonate = (cause?: string) => {
+    if (cause) setDonateCause(cause);
+    setIsDonateModalOpen(true);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFCFA] text-slate-900 selection:bg-amber-100 selection:text-amber-900 relative overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-[#FAFAF8] text-slate-800 relative overflow-x-clip">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-[#0F3D3E] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
+      >
+        Skip to main content
+      </a>
+
       <Navbar
+        currentPage={currentPage}
+        activeSection={activeSection}
+        onNavigateSection={navigateToSection}
+        onNavigatePage={navigateToPage}
         onOpenDonate={() => handleOpenDonate()}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
       />
 
-      <AnnouncementSlideshowBar onDonationClick={() => {}} />
+      <main id="main-content" className="flex-1 animate-fadeIn">
+        {currentPage === 'transparency' ? (
+          <TransparencyPage
+            onBackHome={() => navigateToSection('home')}
+            onOpenDonatePage={() => navigateToPage('donate')}
+          />
+        ) : currentPage === 'donate' ? (
+          <DonatePage
+            onBackHome={() => navigateToSection('home')}
+            onOpenTransparencyPage={() => navigateToPage('transparency')}
+          />
+        ) : currentPage === 'privacy' ? (
+          <LegalPage type="privacy" onBackHome={() => navigateToSection('home')} />
+        ) : currentPage === 'terms' ? (
+          <LegalPage type="terms" onBackHome={() => navigateToSection('home')} />
+        ) : currentPage === 'not-found' ? (
+          <NotFoundPage onBackHome={() => navigateToSection('home')} />
+        ) : (
+          <>
+            {/* a) Hero */}
+            <Hero
+              onSupportNow={() => handleOpenDonate('General Humanitarian Reserve')}
+              onLearnMore={() => navigateToSection('about')}
+            />
 
-      <main className="flex-1">
-        <Hero
-          onOpenDonate={() => handleOpenDonate()}
-          onSelectSponsor={handleSelectSponsorFromHero}
-        />
+            {/* b) Mission Strip */}
+            <MissionStrip />
 
-        <QuickDonationStrip onOpenDonate={handleOpenDonate} />
+            {/* c) About Section */}
+            <AboutSection />
 
-        <SponsorChildSection onSelectChild={(child) => setSelectedChild(child)} />
+            {/* d) How It Works */}
+            <HowItWorksSection
+              onSupportNow={() => handleOpenDonate('Zero-Cost Sponsor Giving')}
+              onOpenDonatePage={() => navigateToPage('donate')}
+            />
 
-        <ProgramsSection onOpenDonate={handleOpenDonate} />
+            {/* e) Our Work / Programs */}
+            <ProgramsSection onOpenDonate={(cause) => handleOpenDonate(cause)} />
 
-        <ImpactAuditSection />
+            {/* f) Impact Section */}
+            <ImpactSection />
 
-        <VolunteerSection />
+            {/* g) Transparency Section */}
+            <TransparencySection
+              onOpenTransparencyPage={() => navigateToPage('transparency')}
+            />
 
-        <StoriesSection />
+            {/* h) Get Involved */}
+            <GetInvolvedSection
+              onOpenDonatePage={() => navigateToPage('donate')}
+              onJumpToContact={() => navigateToSection('contact')}
+            />
 
-        <LatestPostsSection onOpenDonate={() => handleOpenDonate()} />
+            {/* i) FAQ Accordion */}
+            <FaqSection />
 
-        <BrainKnowledgeSection />
-
-        <FutureProjectSection onOpenDonate={() => handleOpenDonate()} />
+            {/* j) Contact Section */}
+            <ContactSection />
+          </>
+        )}
       </main>
 
-      <Footer onOpenDonate={() => handleOpenDonate()} />
+      {/* k) Professional Footer */}
+      <Footer
+        onNavigateSection={navigateToSection}
+        onNavigatePage={navigateToPage}
+      />
 
       <DonationModal
         isOpen={isDonateModalOpen}
         onClose={() => setIsDonateModalOpen(false)}
         defaultCause={donateCause}
-        defaultAmount={donateAmount}
-        defaultCurrency={donateCurrency}
-        defaultFrequency={donateFrequency}
-      />
-
-      <SponsorChildModal
-        child={selectedChild}
-        onClose={() => setSelectedChild(null)}
+        onOpenDonatePage={() => navigateToPage('donate')}
       />
 
       <LiveSupporterWidget />

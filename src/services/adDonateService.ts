@@ -5,18 +5,9 @@
  * and syncs click telemetry to the live backend Brain Engine.
  */
 
-export const DEFAULT_SPONSOR_LINKS = [
-  'https://uplcm.com/4/12250130',
-  'https://uplcm.com/4/12250135',
-  'https://uplcm.com/4/12250137',
-  'https://uplcm.com/4/10016819',
-  'https://uplcm.com/4/12250134',
-  'https://uplcm.com/4/12250132',
-  'https://uplcm.com/4/12250138',
-  'https://uplcm.com/4/12250129',
-  'https://uplcm.com/4/12250133',
-  'https://uplcm.com/4/12250136',
-];
+import { SITE_CONFIG } from '../../site.config';
+
+export const DEFAULT_SPONSOR_LINKS = [...SITE_CONFIG.sponsorLinks];
 
 export const DONATE_SPONSOR_LINKS = [...DEFAULT_SPONSOR_LINKS];
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { SITE_CONFIG } from '../../site.config';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -19,16 +20,24 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
       return (
         <div
           role="alert"
-          className="min-h-screen flex items-center justify-center bg-[#FCFCFA] text-slate-900 p-6 text-center"
+          className="min-h-screen flex items-center justify-center bg-[#FAFAF8] text-slate-900 p-6 text-center"
         >
-          <div className="max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-            <h1 className="text-xl font-bold text-slate-900">M R S Charity Foundation</h1>
-            <p className="text-sm text-slate-600">
+          <div className="max-w-md bg-white border border-slate-200 rounded-xl p-8 shadow-sm space-y-4">
+            <img
+              src={SITE_CONFIG.organization.logoPath}
+              alt={`${SITE_CONFIG.organization.name} Logo`}
+              className="h-12 w-12 object-contain mx-auto"
+            />
+            <h1 className="font-serif text-xl font-bold text-slate-900">
+              {SITE_CONFIG.organization.name}
+            </h1>
+            <p className="text-sm text-slate-600 leading-relaxed">
               Something interrupted rendering this view. Please reload the page to continue.
             </p>
             <button
+              type="button"
               onClick={() => window.location.reload()}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold cursor-pointer transition-colors"
+              className="px-5 py-2.5 rounded-lg bg-[#0F3D3E] hover:bg-[#0A2C2D] text-white text-sm font-semibold cursor-pointer transition-colors"
             >
               Reload Page
             </button>
