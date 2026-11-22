@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Heart } from 'lucide-react';
-import { SITE_CONFIG } from '../../site.config';
+import { SITE_CONFIG, ConfigPageKey, NavItemConfig } from '../../site.config';
 import { useBackendSync } from '../context/BackendSyncContext';
 
-export type AppPageRoute = 'home' | 'transparency' | 'donate' | 'privacy' | 'terms' | 'not-found';
+export type AppPageRoute = ConfigPageKey;
 
 interface NavbarProps {
   currentPage: AppPageRoute;
   activeSection: string;
-  onNavigateSection: (sectionId: string) => void;
+  onSelectNavItem: (item: NavItemConfig) => void;
   onNavigatePage: (page: AppPageRoute) => void;
   onOpenDonate: () => void;
 }
@@ -16,7 +16,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   currentPage,
   activeSection,
-  onNavigateSection,
+  onSelectNavItem,
   onNavigatePage,
   onOpenDonate,
 }) => {
@@ -32,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const navLinks = SITE_CONFIG.navigation;
+  const homeNav = navLinks[0] || { id: 'home', label: 'Home', target: 'section' as const };
 
   const activeLogo =
     content.foundationInfo.logo === '/logo.png'
@@ -39,14 +40,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       : content.foundationInfo.logo || SITE_CONFIG.organization.logoPath;
   const orgName = content.foundationInfo.name || SITE_CONFIG.organization.name;
 
+  const isNavItemActive = (item: NavItemConfig) =>
+    (item.target === 'section' && currentPage === 'home' && activeSection === item.id) ||
+    (item.target === 'page' && item.page === currentPage) ||
+    (currentPage === 'transparency' && item.id === 'transparency');
+
   return (
-    <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4 lg:gap-8">
+    <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-border">
+      <div className="container-editorial h-16 sm:h-20 flex items-center justify-between gap-4 lg:gap-8">
         <button
           type="button"
           onClick={() => {
             setMobileMenuOpen(false);
-            onNavigateSection('home');
+            onSelectNavItem(homeNav);
           }}
           className="flex items-center gap-3 text-left shrink-0 cursor-pointer group"
         >
@@ -63,21 +69,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-6 xl:gap-7">
           {navLinks.map((item) => {
-            const isActive =
-              (currentPage === 'home' && activeSection === item.id) ||
-              (currentPage === 'transparency' && item.id === 'transparency');
+            const isActive = isNavItemActive(item);
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  onNavigateSection(item.id);
+                  onSelectNavItem(item);
                 }}
                 className={`text-sm font-medium whitespace-nowrap shrink-0 py-1.5 border-b-2 transition-colors cursor-pointer ${
                   isActive
                     ? 'border-primary text-primary font-semibold'
-                    : 'border-transparent text-ink-muted hover:text-primary hover:border-slate-300'
+                    : 'border-transparent text-ink-muted hover:text-primary hover:border-border-strong'
                 }`}
               >
                 {item.label}
@@ -93,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               setMobileMenuOpen(false);
               onOpenDonate();
             }}
-            className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-lg shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="btn-accent text-xs sm:text-sm px-4 sm:px-5 py-2.5 whitespace-nowrap shrink-0"
           >
             <Heart className="w-4 h-4 fill-white/90 shrink-0" />
             <span>Support Now</span>
@@ -102,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="lg:hidden p-2 rounded-lg text-ink hover:text-primary hover:bg-slate-100 transition-colors cursor-pointer"
+            className="lg:hidden p-2 rounded-control text-ink hover:text-primary hover:bg-surface-subtle transition-colors cursor-pointer"
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-drawer"
@@ -115,25 +119,23 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div
           id="mobile-nav-drawer"
-          className="lg:hidden bg-surface border-b border-slate-200 px-4 pt-3 pb-5 shadow-md animate-fadeIn"
+          className="lg:hidden bg-surface border-b border-border px-4 pt-3 pb-5 shadow-md animate-fadeIn"
         >
           <nav aria-label="Mobile Navigation" className="space-y-1">
             {navLinks.map((item) => {
-              const isActive =
-                (currentPage === 'home' && activeSection === item.id) ||
-                (currentPage === 'transparency' && item.id === 'transparency');
+              const isActive = isNavItemActive(item);
               return (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    onNavigateSection(item.id);
+                    onSelectNavItem(item);
                   }}
-                  className={`w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                  className={`w-full text-left px-3.5 py-2.5 rounded-control text-sm font-medium transition-colors cursor-pointer ${
                     isActive
                       ? 'bg-primary/10 text-primary font-semibold'
-                      : 'text-ink hover:bg-slate-100'
+                      : 'text-ink hover:bg-surface-subtle'
                   }`}
                 >
                   {item.label}
@@ -142,14 +144,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          <div className="mt-4 pt-4 border-t border-slate-200 flex flex-col gap-2">
+          <div className="mt-4 pt-4 border-t border-border flex flex-col gap-2">
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenDonate();
               }}
-              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-4 py-3 rounded-lg transition-colors cursor-pointer"
+              className="btn-accent w-full text-sm px-4 py-3"
             >
               <Heart className="w-4 h-4 fill-white/90" />
               <span>Support Now (Free Ad-Sponsored)</span>
@@ -160,9 +162,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onNavigatePage('transparency');
               }}
-              className="w-full text-center px-4 py-2.5 rounded-lg text-xs font-semibold text-primary border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="w-full text-center px-4 py-2.5 rounded-control text-xs font-semibold text-primary border border-border hover:bg-canvas transition-colors cursor-pointer"
             >
-              View Full Transparency Report
+              View {SITE_CONFIG.pageRoutes.transparency.label}
             </button>
           </div>
         </div>

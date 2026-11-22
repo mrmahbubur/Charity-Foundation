@@ -22,13 +22,13 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
           role="alert"
           className="min-h-screen flex items-center justify-center bg-canvas text-ink p-6 text-center"
         >
-          <div className="max-w-md bg-surface border border-slate-200 rounded-xl p-8 shadow-sm space-y-4">
+          <div className="max-w-md editorial-card p-8 space-y-4">
             <img
               src={SITE_CONFIG.organization.logoPath}
               alt={`${SITE_CONFIG.organization.name} Logo`}
               className="h-12 w-12 object-contain mx-auto"
             />
-            <h1 className="font-serif text-xl font-bold text-slate-900">
+            <h1 className="font-serif text-xl font-bold text-heading">
               {SITE_CONFIG.organization.name}
             </h1>
             <p className="text-sm text-ink-muted leading-relaxed">
@@ -37,7 +37,7 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-sm font-semibold cursor-pointer transition-colors"
+              className="btn-primary px-5 py-2.5 text-sm"
             >
               Reload Page
             </button>

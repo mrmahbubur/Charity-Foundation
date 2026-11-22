@@ -12,15 +12,13 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
   const { allocations, allocationNote, accountabilityStatement } = SITE_CONFIG.transparency;
 
   return (
-    <section id="transparency" className="py-16 lg:py-24 bg-surface border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="transparency" className="py-16 lg:py-24 bg-surface border-b border-border">
+      <div className="container-editorial">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-                Financial Transparency
-              </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+              <p className="eyebrow-heading">Financial Transparency</p>
+              <h2 className="section-title">
                 How Collected Sponsor Proceeds Are Allocated
               </h2>
               <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
@@ -30,7 +28,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
 
             <div className="space-y-2">
               <div
-                className="w-full h-4 rounded-lg overflow-hidden flex border border-slate-200"
+                className="w-full h-4 rounded-control overflow-hidden flex border border-border"
                 aria-label="Planned fund allocation breakdown bar"
               >
                 {allocations.map((item) => (
@@ -61,7 +59,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
               {allocations.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-canvas border border-slate-200 rounded-xl p-5 space-y-2"
+                  className="bg-canvas border border-border rounded-card p-5 space-y-2"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2.5">
@@ -69,7 +67,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
                         className="w-3 h-3 rounded-xs shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <h3 className="font-semibold text-sm sm:text-base text-slate-900">
+                      <h3 className="font-semibold text-sm sm:text-base text-heading">
                         {item.label}
                       </h3>
                     </div>
@@ -85,10 +83,10 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-primary text-white rounded-xl p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-5 bg-primary text-white rounded-card p-6 sm:p-8 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5 text-amber-300" />
+              <div className="w-10 h-10 rounded-control bg-white/10 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5 text-accent-highlight" />
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-white">
@@ -112,7 +110,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
               <button
                 type="button"
                 onClick={onOpenTransparencyPage}
-                className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
+                className="btn-accent w-full text-sm px-5 py-3"
               >
                 <span>Open Full Transparency Page</span>
                 <ArrowRight className="w-4 h-4" />

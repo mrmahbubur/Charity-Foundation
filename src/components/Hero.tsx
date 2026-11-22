@@ -31,9 +31,9 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+      <div className="relative z-10 container-editorial w-full py-20 lg:py-28">
         <div className="max-w-2xl space-y-6 animate-fadeIn">
-          <p className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-amber-300">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-accent-highlight">
             {SITE_CONFIG.organization.name} · {projectLabel}
           </p>
 
@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
             <button
               type="button"
               onClick={onSupportNow}
-              className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold px-7 py-3.5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer whitespace-nowrap"
+              className="btn-accent px-7 py-3.5 text-sm sm:text-base whitespace-nowrap"
             >
               <Heart className="w-4 h-4 fill-white/90 shrink-0" />
               <span>Support Now</span>
@@ -58,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
             <button
               type="button"
               onClick={onLearnMore}
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/40 font-semibold px-7 py-3.5 rounded-lg text-sm sm:text-base transition-colors cursor-pointer whitespace-nowrap backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/40 font-semibold px-7 py-3.5 rounded-control text-sm sm:text-base transition-colors cursor-pointer whitespace-nowrap backdrop-blur-sm"
             >
               <span>Learn More</span>
               <ArrowRight className="w-4 h-4 shrink-0" />

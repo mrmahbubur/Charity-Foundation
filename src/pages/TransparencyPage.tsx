@@ -28,11 +28,9 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </button>
         </div>
 
-        <header className="space-y-4 border-b border-slate-200 pb-8">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-            Public Accountability &amp; Governance
-          </p>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 leading-tight">
+        <header className="space-y-4 border-b border-border pb-8">
+          <p className="eyebrow-heading">Public Accountability &amp; Governance</p>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-heading leading-tight">
             Financial Transparency &amp; Stewardship
           </h1>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[70ch]">
@@ -42,7 +40,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
 
         <section className="space-y-6">
           <div className="space-y-2">
-            <h2 className="font-serif text-2xl font-bold text-slate-900">
+            <h2 className="font-serif text-2xl font-bold text-heading">
               1. Fund Utilization Model
             </h2>
             <p className="text-sm sm:text-base text-ink-muted max-w-[70ch]">
@@ -50,8 +48,8 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
             </p>
           </div>
 
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
-            <div className="w-full h-4 rounded-lg overflow-hidden flex border border-slate-200">
+          <div className="editorial-card p-6 sm:p-8 space-y-6">
+            <div className="w-full h-4 rounded-control overflow-hidden flex border border-border">
               {transparency.allocations.map((item) => (
                 <div
                   key={item.id}
@@ -61,7 +59,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
               ))}
             </div>
 
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-border">
               {transparency.allocations.map((item) => (
                 <div
                   key={item.id}
@@ -73,7 +71,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
                         className="w-3 h-3 rounded-xs shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <h3 className="font-semibold text-base text-slate-900">{item.label}</h3>
+                      <h3 className="font-semibold text-base text-heading">{item.label}</h3>
                     </div>
                     <p className="text-sm text-ink-muted">{item.description}</p>
                   </div>
@@ -87,15 +85,15 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
         </section>
 
         <section className="space-y-5">
-          <h2 className="font-serif text-2xl font-bold text-slate-900">
+          <h2 className="font-serif text-2xl font-bold text-heading">
             2. Donor Safety &amp; Pre-Launch Accountability
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-surface rounded-xl border border-slate-200 p-6 space-y-3">
+            <div className="editorial-card p-6 space-y-3">
               <div className="flex items-center gap-2.5 text-primary">
                 <ShieldCheck className="w-5 h-5" />
-                <h3 className="font-serif text-lg font-bold text-slate-900">
+                <h3 className="font-serif text-lg font-bold text-heading">
                   Zero Personal Payments Requested
                 </h3>
               </div>
@@ -104,10 +102,10 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
               </p>
             </div>
 
-            <div className="bg-surface rounded-xl border border-slate-200 p-6 space-y-3">
+            <div className="editorial-card p-6 space-y-3">
               <div className="flex items-center gap-2.5 text-primary">
                 <FileText className="w-5 h-5" />
-                <h3 className="font-serif text-lg font-bold text-slate-900">
+                <h3 className="font-serif text-lg font-bold text-heading">
                   Zero Office Rent &amp; Honest Status
                 </h3>
               </div>
@@ -118,52 +116,52 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </div>
         </section>
 
-        <section className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4">
-          <div className="border-b border-slate-200 pb-3">
-            <h2 className="font-serif text-2xl font-bold text-slate-900">
+        <section className="editorial-card p-6 sm:p-8 space-y-4">
+          <div className="border-b border-border pb-3">
+            <h2 className="font-serif text-2xl font-bold text-heading">
               3. Status &amp; Official Disclosure
             </h2>
           </div>
 
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
             <div>
-              <dt className="text-slate-500 font-medium">Organization Name</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">
+              <dt className="text-ink-subtle font-medium">Organization Name</dt>
+              <dd className="text-heading font-semibold mt-0.5">
                 {organization.name} ({organization.projectOf})
               </dd>
             </div>
             <div>
-              <dt className="text-slate-500 font-medium">Registration Status</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">
+              <dt className="text-ink-subtle font-medium">Registration Status</dt>
+              <dd className="text-heading font-semibold mt-0.5">
                 {registration.registrationNumber}
               </dd>
             </div>
             <div>
-              <dt className="text-slate-500 font-medium">Registering Authority</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">
+              <dt className="text-ink-subtle font-medium">Registering Authority</dt>
+              <dd className="text-heading font-semibold mt-0.5">
                 {registration.registeringAuthority}
               </dd>
             </div>
             <div>
-              <dt className="text-slate-500 font-medium">{contact.addressLabel}</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">{contact.address}</dd>
+              <dt className="text-ink-subtle font-medium">{contact.addressLabel}</dt>
+              <dd className="text-heading font-semibold mt-0.5">{contact.address}</dd>
             </div>
             <div>
-              <dt className="text-slate-500 font-medium">Official Digital Email</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">{contact.email}</dd>
+              <dt className="text-ink-subtle font-medium">Official Digital Email</dt>
+              <dd className="text-heading font-semibold mt-0.5">{contact.email}</dd>
             </div>
             <div>
-              <dt className="text-slate-500 font-medium">Portal Availability</dt>
-              <dd className="text-slate-900 font-semibold mt-0.5">{contact.operatingHours}</dd>
+              <dt className="text-ink-subtle font-medium">Portal Availability</dt>
+              <dd className="text-heading font-semibold mt-0.5">{contact.operatingHours}</dd>
             </div>
           </dl>
 
-          <p className="text-xs text-slate-500 pt-2 border-t border-slate-200">
+          <p className="text-xs text-ink-subtle pt-2 border-t border-border">
             {registration.note}
           </p>
         </section>
 
-        <div className="bg-primary text-white rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="bg-primary text-white rounded-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
             <h3 className="font-serif text-xl font-bold">Support Online Fund Collection</h3>
             <p className="text-sm text-slate-200">
@@ -174,7 +172,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
             <button
               type="button"
               onClick={() => openNextSponsorLink('transparency-page')}
-              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-5 py-3 rounded-lg transition-colors cursor-pointer"
+              className="btn-accent text-sm px-5 py-3"
             >
               <Heart className="w-4 h-4 fill-white/90" />
               <span>Support Now (Free)</span>
@@ -182,7 +180,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
             <button
               type="button"
               onClick={onOpenDonatePage}
-              className="px-5 py-3 rounded-lg border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors cursor-pointer"
+              className="px-5 py-3 rounded-control border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors cursor-pointer"
             >
               How Giving Works
             </button>

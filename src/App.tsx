@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import { SITE_CONFIG } from '../site.config';
+import { SITE_CONFIG, ConfigPageKey, NavItemConfig } from '../site.config';
 import { BackendSyncProvider } from './context/BackendSyncContext';
 import { Navbar, AppPageRoute } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -26,10 +26,14 @@ const LazyVaultConsole = React.lazy(() =>
 );
 
 const HOME_SECTION_ANCHORS = new Set([
-  ...SITE_CONFIG.navigation.map((n) => n.id),
-  'how-it-works',
-  'faq',
+  ...SITE_CONFIG.navigation.filter((n) => n.target === 'section').map((n) => n.id),
+  ...SITE_CONFIG.sectionAnchors,
 ]);
+
+const KNOWN_ROUTE_SEGMENTS = [
+  ...Object.values(SITE_CONFIG.pageRoutes).flatMap((r) => r.paths).filter(Boolean),
+  'mrs-vault',
+];
 
 function isPrivateVaultRoute(): boolean {
   if (typeof window === 'undefined') return false;
@@ -43,7 +47,7 @@ function getNormalizedPathSegments(): string[] {
   const rawSegments = window.location.pathname.split('/').filter(Boolean);
   if (window.location.hostname.endsWith('github.io') && rawSegments.length > 0) {
     const first = rawSegments[0];
-    if (!['transparency', 'donate', 'privacy-policy', 'privacy', 'terms', 'mrs-vault'].includes(first)) {
+    if (!KNOWN_ROUTE_SEGMENTS.includes(first)) {
       return rawSegments.slice(1);
     }
   }
@@ -56,33 +60,31 @@ function resolveRouteFromLocation(): AppPageRoute {
   const hash = window.location.hash;
   if (hash && hash !== '#') {
     if (hash.startsWith('#/')) {
-      const sub = hash.slice(1).replace(/\/+$/, '') || '/';
-      if (sub === '/' || sub === '/home') return 'home';
-      if (sub === '/transparency') return 'transparency';
-      if (sub === '/donate') return 'donate';
-      if (sub === '/privacy-policy' || sub === '/privacy') return 'privacy';
-      if (sub === '/terms') return 'terms';
+      const normalized = hash.replace(/\/+$/, '');
+      const matchedPage = (Object.values(SITE_CONFIG.pageRoutes) as Array<{ id: ConfigPageKey; hash: string }>).find(
+        (route) => route.hash === normalized
+      );
+      if (matchedPage) return matchedPage.id;
+      if (normalized === '#') return 'home';
       return 'not-found';
     }
     const anchor = hash.slice(1);
     if (HOME_SECTION_ANCHORS.has(anchor)) {
       return 'home';
     }
-    if (anchor === 'privacy-policy' || anchor === 'privacy') return 'privacy';
-    if (anchor === 'terms') return 'terms';
-    if (anchor === 'donate') return 'donate';
-    return 'not-found';
+    const matchedByAnchor = Object.values(SITE_CONFIG.pageRoutes).find((r) =>
+      r.paths.includes(anchor)
+    );
+    return matchedByAnchor ? matchedByAnchor.id : 'not-found';
   }
 
   const segments = getNormalizedPathSegments();
   if (segments.length === 0) return 'home';
   const joined = segments.join('/');
-  if (joined === 'index.html') return 'home';
-  if (joined === 'transparency') return 'transparency';
-  if (joined === 'donate') return 'donate';
-  if (joined === 'privacy-policy' || joined === 'privacy') return 'privacy';
-  if (joined === 'terms') return 'terms';
-  return 'not-found';
+  const matchedPath = Object.values(SITE_CONFIG.pageRoutes).find((r) =>
+    r.paths.includes(joined)
+  );
+  return matchedPath ? matchedPath.id : 'not-found';
 }
 
 function MainApp() {
@@ -109,15 +111,11 @@ function MainApp() {
 
   useEffect(() => {
     const baseName = SITE_CONFIG.organization.name;
-    const titles: Record<AppPageRoute, string> = {
-      home: `${baseName} | ${SITE_CONFIG.organization.tagline}`,
-      transparency: `Transparency & Governance | ${baseName}`,
-      donate: `How Free Giving Works | ${baseName}`,
-      privacy: `Privacy Policy | ${baseName}`,
-      terms: `Terms of Use | ${baseName}`,
-      'not-found': `Page Not Found | ${baseName}`,
-    };
-    document.title = titles[currentPage] || titles.home;
+    const routeMeta = SITE_CONFIG.pageRoutes[currentPage] || SITE_CONFIG.pageRoutes.home;
+    document.title =
+      currentPage === 'home'
+        ? `${baseName} | ${routeMeta.titlePrefix}`
+        : `${routeMeta.titlePrefix} | ${baseName}`;
   }, [currentPage]);
 
   useEffect(() => {
@@ -125,7 +123,9 @@ function MainApp() {
       return;
     }
 
-    const sectionIds = SITE_CONFIG.navigation.map((item) => item.id);
+    const sectionIds = SITE_CONFIG.navigation
+      .filter((item) => item.target === 'section')
+      .map((item) => item.id);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -203,20 +203,21 @@ function MainApp() {
 
   const navigateToPage = (page: AppPageRoute) => {
     setCurrentPage(page);
-    const hashMap: Record<AppPageRoute, string> = {
-      home: '#home',
-      transparency: '#/transparency',
-      donate: '#/donate',
-      privacy: '#/privacy-policy',
-      terms: '#/terms',
-      'not-found': '#/404',
-    };
+    const targetHash = SITE_CONFIG.pageRoutes[page]?.hash || SITE_CONFIG.pageRoutes.home.hash;
     try {
-      window.history.pushState({}, '', hashMap[page]);
+      window.history.pushState({}, '', targetHash);
     } catch {
-      window.location.hash = hashMap[page];
+      window.location.hash = targetHash;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavItemSelect = (item: NavItemConfig) => {
+    if (item.target === 'page' && item.page) {
+      navigateToPage(item.page);
+    } else {
+      navigateToSection(item.id);
+    }
   };
 
   const handleOpenDonate = (cause?: string) => {
@@ -228,7 +229,7 @@ function MainApp() {
     <div className="min-h-screen flex flex-col bg-canvas text-ink relative overflow-x-clip">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 btn-primary px-4 py-2 text-sm"
       >
         Skip to main content
       </a>
@@ -236,7 +237,7 @@ function MainApp() {
       <Navbar
         currentPage={currentPage}
         activeSection={activeSection}
-        onNavigateSection={navigateToSection}
+        onSelectNavItem={handleNavItemSelect}
         onNavigatePage={navigateToPage}
         onOpenDonate={() => handleOpenDonate()}
       />
@@ -285,10 +286,7 @@ function MainApp() {
         )}
       </main>
 
-      <Footer
-        onNavigateSection={navigateToSection}
-        onNavigatePage={navigateToPage}
-      />
+      <Footer onSelectNavItem={handleNavItemSelect} />
 
       <DonationModal
         isOpen={isDonateModalOpen}

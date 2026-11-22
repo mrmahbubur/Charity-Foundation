@@ -37,27 +37,23 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
   };
 
   return (
-    <section id="get-involved" className="py-16 lg:py-24 bg-canvas border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="get-involved" className="py-16 lg:py-24 bg-canvas border-b border-border">
+      <div className="container-editorial space-y-12">
         <div className="max-w-2xl space-y-3">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-            Get Involved
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
-            Four Meaningful Ways You Can Help Today
-          </h2>
+          <p className="eyebrow-heading">Get Involved</p>
+          <h2 className="section-title">Four Meaningful Ways You Can Help Today</h2>
           <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
             Every form of participation—whether contributing free sponsor clicks, volunteering your time, partnering as an organization, or sharing our mission—helps build long-term community capacity.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-6">
+          <div className="editorial-card p-6 flex flex-col justify-between space-y-6">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-amber-50 text-accent flex items-center justify-center">
+              <div className="w-10 h-10 rounded-control bg-accent-tint text-accent flex items-center justify-center">
                 <Heart className="w-5 h-5" />
               </div>
-              <h3 className="font-serif text-lg font-bold text-slate-900">
+              <h3 className="font-serif text-lg font-bold text-heading">
                 Give at Zero Cost
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
@@ -68,7 +64,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
               <button
                 type="button"
                 onClick={() => openNextSponsorLink('get-involved')}
-                className="w-full bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+                className="btn-accent w-full text-sm px-4 py-2.5"
               >
                 Support Now (Free)
               </button>
@@ -82,12 +78,12 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
             </div>
           </div>
 
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-6">
+          <div className="editorial-card p-6 flex flex-col justify-between space-y-6">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center">
                 <Users className="w-5 h-5" />
               </div>
-              <h3 className="font-serif text-lg font-bold text-slate-900">
+              <h3 className="font-serif text-lg font-bold text-heading">
                 Volunteer Network
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
@@ -100,18 +96,18 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                 setVolunteerRegistered(false);
                 setShowVolunteerForm((prev) => !prev);
               }}
-              className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+              className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm px-4 py-2.5 rounded-control transition-colors cursor-pointer"
             >
               {showVolunteerForm ? 'Hide Form' : 'Join Volunteer List'}
             </button>
           </div>
 
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-6">
+          <div className="editorial-card p-6 flex flex-col justify-between space-y-6">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center">
                 <Handshake className="w-5 h-5" />
               </div>
-              <h3 className="font-serif text-lg font-bold text-slate-900">
+              <h3 className="font-serif text-lg font-bold text-heading">
                 Partner With Us
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
@@ -121,19 +117,19 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
             <button
               type="button"
               onClick={onJumpToContact}
-              className="w-full border border-slate-300 text-ink hover:bg-slate-100 font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
+              className="w-full border border-border-strong text-ink hover:bg-surface-subtle font-semibold text-sm px-4 py-2.5 rounded-control transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
             >
               <span>Discuss Partnership</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-6">
+          <div className="editorial-card p-6 flex flex-col justify-between space-y-6">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center">
                 <Share2 className="w-5 h-5" />
               </div>
-              <h3 className="font-serif text-lg font-bold text-slate-900">
+              <h3 className="font-serif text-lg font-bold text-heading">
                 Spread the Word
               </h3>
               <p className="text-sm text-ink-muted leading-relaxed">
@@ -143,7 +139,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
             <button
               type="button"
               onClick={handleShareCopy}
-              className="w-full border border-slate-300 text-ink hover:bg-slate-100 font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
+              className="w-full border border-border-strong text-ink hover:bg-surface-subtle font-semibold text-sm px-4 py-2.5 rounded-control transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
             >
               {copiedLink ? (
                 <>
@@ -158,7 +154,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
         </div>
 
         {showVolunteerForm && (
-          <div className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm max-w-2xl animate-fadeIn">
+          <div className="editorial-card p-6 sm:p-8 max-w-2xl animate-fadeIn">
             {volunteerRegistered ? (
               <div className="space-y-3">
                 <h4 className="font-serif text-xl font-bold text-primary">
@@ -183,17 +179,17 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
             ) : (
               <form onSubmit={handleVolunteerSubmit} className="space-y-4">
                 <div>
-                  <h4 className="font-serif text-xl font-bold text-slate-900">
+                  <h4 className="font-serif text-xl font-bold text-heading">
                     Volunteer Interest Registration
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-ink-subtle mt-1">
                     Provide your display name and preferred focus area ahead of future launch coordination.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="gi-name" className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="gi-name" className="block text-xs font-semibold text-ink mb-1">
                       Full Name / Display Name *
                     </label>
                     <input
@@ -203,11 +199,11 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                       value={volunteerName}
                       onChange={(e) => setVolunteerName(e.target.value)}
                       placeholder="Your name"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                      className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                     />
                   </div>
                   <div>
-                    <label htmlFor="gi-region" className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="gi-region" className="block text-xs font-semibold text-ink mb-1">
                       City / Country
                     </label>
                     <input
@@ -216,20 +212,20 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                       value={volunteerRegion}
                       onChange={(e) => setVolunteerRegion(e.target.value)}
                       placeholder="e.g. Dhaka, Bangladesh"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                      className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="gi-focus" className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="gi-focus" className="block text-xs font-semibold text-ink mb-1">
                     Preferred Contribution Area
                   </label>
                   <select
                     id="gi-focus"
                     value={volunteerFocus}
                     onChange={(e) => setVolunteerFocus(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                    className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                   >
                     {focusAreas.map((area) => (
                       <option key={area} value={area}>
@@ -239,10 +235,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                   </select>
                 </div>
 
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors cursor-pointer"
-                >
+                <button type="submit" className="btn-primary text-sm px-5 py-2.5">
                   <Send className="w-4 h-4" />
                   <span>Submit Volunteer Interest</span>
                 </button>

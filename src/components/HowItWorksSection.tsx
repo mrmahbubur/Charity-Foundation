@@ -23,16 +23,12 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   return (
     <section
       id="how-it-works"
-      className="py-16 lg:py-24 bg-canvas border-b border-slate-200"
+      className="py-16 lg:py-24 bg-canvas border-b border-border"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-editorial">
         <div className="max-w-2xl space-y-3 mb-12">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-            {eyebrow}
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
-            {heading}
-          </h2>
+          <p className="eyebrow-heading">{eyebrow}</p>
+          <h2 className="section-title">{heading}</h2>
           <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
             {subheading}
           </p>
@@ -44,20 +40,20 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             return (
               <div
                 key={step.number}
-                className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-5"
+                className="editorial-card p-6 flex flex-col justify-between space-y-5"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="font-mono text-sm font-semibold text-slate-400 tabular-nums">
+                    <span className="font-mono text-sm font-semibold text-ink-subtle tabular-nums">
                       {step.number}
                     </span>
                   </div>
 
                   <div className="space-y-2">
-                    <h3 className="font-serif text-lg font-bold text-slate-900">
+                    <h3 className="font-serif text-lg font-bold text-heading">
                       {step.title}
                     </h3>
                     <p className="text-sm text-ink-muted leading-relaxed">
@@ -74,7 +70,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
           <button
             type="button"
             onClick={onSupportNow}
-            className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-6 py-3 rounded-lg shadow-sm transition-colors cursor-pointer"
+            className="btn-accent text-sm px-6 py-3"
           >
             <Heart className="w-4 h-4 fill-white/90" />
             <span>Try One Free Support Click</span>

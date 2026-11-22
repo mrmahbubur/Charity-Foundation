@@ -9,7 +9,7 @@ interface NotFoundPageProps {
 export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onBackHome }) => {
   return (
     <div className="bg-canvas min-h-[70vh] flex items-center justify-center px-4 py-20">
-      <div className="max-w-md w-full bg-surface rounded-xl border border-slate-200 p-8 text-center shadow-sm space-y-5">
+      <div className="max-w-md w-full editorial-card p-8 text-center space-y-5">
         <img
           src={SITE_CONFIG.organization.logoPath}
           alt={`${SITE_CONFIG.organization.name} Logo`}
@@ -17,10 +17,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onBackHome }) => {
           referrerPolicy="no-referrer"
         />
         <div className="space-y-2">
-          <p className="font-mono text-xs uppercase tracking-widest text-slate-400">
+          <p className="font-mono text-xs uppercase tracking-widest text-ink-subtle">
             Error 404
           </p>
-          <h1 className="font-serif text-3xl font-bold text-slate-900">
+          <h1 className="font-serif text-3xl font-bold text-heading">
             Page Not Found
           </h1>
           <p className="text-sm text-ink-muted leading-relaxed">
@@ -30,7 +30,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onBackHome }) => {
         <button
           type="button"
           onClick={onBackHome}
-          className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors cursor-pointer"
+          className="btn-primary text-sm px-6 py-3"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Return to Homepage</span>

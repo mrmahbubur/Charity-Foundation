@@ -36,17 +36,17 @@ export const LiveSupporterWidget: React.FC = () => {
           onClick={() => setIsExpanded(true)}
           aria-expanded={false}
           aria-label="Open quick free support widget"
-          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-md border border-white/15 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-xs font-semibold px-4 py-2.5 rounded-control shadow-md border border-white/15 transition-colors cursor-pointer"
         >
-          <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+          <Heart className="w-3.5 h-3.5 text-accent-highlight fill-accent-highlight" />
           <span>Quick Free Support</span>
           {userClicks > 0 && (
-            <span className="tabular-nums text-amber-300">({userClicks})</span>
+            <span className="tabular-nums text-accent-highlight">({userClicks})</span>
           )}
           <ChevronUp className="w-3.5 h-3.5 text-slate-300" />
         </button>
       ) : (
-        <div className="w-72 bg-surface rounded-xl border border-slate-200 shadow-lg overflow-hidden animate-modalIn">
+        <div className="w-72 bg-surface rounded-card border border-border shadow-modal overflow-hidden animate-modalIn">
           <div className="bg-primary text-white px-4 py-3 flex items-center justify-between">
             <span className="text-xs font-semibold">Zero-Cost Sponsor Giving</span>
             <button
@@ -68,7 +68,7 @@ export const LiveSupporterWidget: React.FC = () => {
               </span>
             </div>
 
-            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-surface-subtle rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
@@ -85,7 +85,7 @@ export const LiveSupporterWidget: React.FC = () => {
             <button
               type="button"
               onClick={handleQuickSupport}
-              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs py-2.5 px-3 rounded-lg transition-colors cursor-pointer"
+              className="btn-accent w-full text-xs py-2.5 px-3"
             >
               <Heart className="w-3.5 h-3.5 fill-white/90" />
               <span>Support Now (Free)</span>

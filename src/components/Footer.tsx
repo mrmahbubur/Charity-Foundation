@@ -1,45 +1,41 @@
 import React from 'react';
 import { Globe, Mail, Clock } from 'lucide-react';
-import { SITE_CONFIG } from '../../site.config';
-import { AppPageRoute } from './Navbar';
+import { SITE_CONFIG, NavItemConfig } from '../../site.config';
 import { useBackendSync } from '../context/BackendSyncContext';
 
 interface FooterProps {
-  onNavigateSection: (sectionId: string) => void;
-  onNavigatePage: (page: AppPageRoute) => void;
+  onSelectNavItem: (item: NavItemConfig) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({
-  onNavigateSection,
-  onNavigatePage,
-}) => {
+export const Footer: React.FC<FooterProps> = ({ onSelectNavItem }) => {
   const { content } = useBackendSync();
   const activeLogo =
     content.foundationInfo.logo === '/logo.png'
       ? SITE_CONFIG.organization.logoPath
       : content.foundationInfo.logo || SITE_CONFIG.organization.logoPath;
-  const { organization, registration, contact, socialLinks } = SITE_CONFIG;
+  const { organization, registration, contact, socialLinks, footerLinks, legalLinks } =
+    SITE_CONFIG;
   const activeSocials = socialLinks.filter(
     (s) => s.url && (s.url.startsWith('http://') || s.url.startsWith('https://'))
   );
 
   return (
     <footer className="bg-primary text-slate-200 border-t border-primary-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+      <div className="container-editorial pt-16 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/15">
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
               <img
                 src={activeLogo}
                 alt={`${organization.name} Logo`}
-                className="h-11 w-11 object-contain bg-surface rounded-lg p-1 shrink-0"
+                className="h-11 w-11 object-contain bg-surface rounded-control p-1 shrink-0"
                 referrerPolicy="no-referrer"
               />
               <div>
                 <div className="font-serif text-lg font-bold text-white leading-tight">
                   {organization.name}
                 </div>
-                <div className="text-xs text-amber-300 font-medium">
+                <div className="text-xs text-accent-highlight font-medium">
                   {organization.projectOf} · {organization.tagline}
                 </div>
               </div>
@@ -58,9 +54,9 @@ export const Footer: React.FC<FooterProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-xs text-slate-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-control bg-white/10 hover:bg-white/20 text-xs text-slate-100 transition-colors"
                   >
-                    <Globe className="w-3.5 h-3.5 text-amber-300" />
+                    <Globe className="w-3.5 h-3.5 text-accent-highlight" />
                     <span>{social.label}</span>
                   </a>
                 ))}
@@ -73,60 +69,19 @@ export const Footer: React.FC<FooterProps> = ({
               Quick Links
             </h3>
             <ul className="space-y-2 text-sm text-slate-300">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection('about')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  About Us
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection('our-work')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Planned Programs
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigatePage('transparency')}
-                  className="hover:text-white text-amber-300 font-medium transition-colors cursor-pointer"
-                >
-                  Full Transparency Report
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigatePage('donate')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  How Free Giving Works
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection('faq')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  FAQ
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection('contact')}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Contact
-                </button>
-              </li>
+              {footerLinks.map((item) => (
+                <li key={`${item.target}-${item.id}`}>
+                  <button
+                    type="button"
+                    onClick={() => onSelectNavItem(item)}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      item.highlight ? 'text-accent-highlight font-medium' : ''
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -135,21 +90,21 @@ export const Footer: React.FC<FooterProps> = ({
               Project Status &amp; Online Presence
             </h3>
 
-            <div className="bg-white/5 border border-white/15 rounded-xl p-4 space-y-2.5 text-xs sm:text-sm text-slate-200">
+            <div className="bg-white/5 border border-white/15 rounded-card p-4 space-y-2.5 text-xs sm:text-sm text-slate-200">
               <div>
                 <span className="text-slate-400">Status:</span>{' '}
                 <strong className="text-white">{registration.entityStatus}</strong>
               </div>
               <div className="flex items-start gap-2">
-                <Globe className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                <Globe className="w-4 h-4 text-accent-highlight shrink-0 mt-0.5" />
                 <span>{contact.address}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-300 shrink-0" />
+                <Clock className="w-4 h-4 text-accent-highlight shrink-0" />
                 <span>{contact.operatingHours}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-amber-300 shrink-0" />
+                <Mail className="w-4 h-4 text-accent-highlight shrink-0" />
                 <a href={`mailto:${contact.email}`} className="hover:underline">
                   {contact.email}
                 </a>
@@ -163,20 +118,16 @@ export const Footer: React.FC<FooterProps> = ({
             &copy; {organization.copyrightYear} {organization.name}. {organization.projectOf}.
           </div>
           <div className="flex items-center gap-6">
-            <button
-              type="button"
-              onClick={() => onNavigatePage('privacy')}
-              className="hover:text-white underline-offset-4 hover:underline cursor-pointer"
-            >
-              Privacy Policy
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigatePage('terms')}
-              className="hover:text-white underline-offset-4 hover:underline cursor-pointer"
-            >
-              Terms of Use
-            </button>
+            {legalLinks.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onSelectNavItem(item)}
+                className="hover:text-white underline-offset-4 hover:underline cursor-pointer"
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>

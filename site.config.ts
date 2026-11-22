@@ -1,7 +1,7 @@
 /**
  * M R S Charity Foundation — Master Site Configuration
  * ---------------------------------------------------------------------------
- * Single source of truth for navigation, copy, pre-launch disclosures,
+ * Single source of truth for navigation routes, copy, pre-launch disclosures,
  * digital contact details, impact status metrics, planned programs,
  * transparency allocations (using Tailwind @theme CSS variables),
  * FAQs, and rotating sponsor links.
@@ -11,9 +11,23 @@
  * so images load properly on both GitHub Pages (subpaths) and Render (root).
  */
 
+export type NavTargetType = 'section' | 'page';
+export type ConfigPageKey = 'home' | 'transparency' | 'donate' | 'privacy' | 'terms' | 'not-found';
+
 export interface NavItemConfig {
   id: string;
   label: string;
+  target: NavTargetType;
+  page?: ConfigPageKey;
+  highlight?: boolean;
+}
+
+export interface PageRouteMeta {
+  id: ConfigPageKey;
+  label: string;
+  hash: string;
+  paths: string[];
+  titlePrefix: string;
 }
 
 export interface HowItWorksStepConfig {
@@ -73,17 +87,90 @@ export const SITE_CONFIG = {
   },
 
   /**
-   * TOP NAVIGATION LINKS
+   * PRIMARY HEADER NAVIGATION (Single source for Header & Mobile Drawer)
    */
   navigation: [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About Us' },
-    { id: 'our-work', label: 'Our Work' },
-    { id: 'impact', label: 'Impact' },
-    { id: 'transparency', label: 'Transparency' },
-    { id: 'get-involved', label: 'Get Involved' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', target: 'section' },
+    { id: 'about', label: 'About Us', target: 'section' },
+    { id: 'our-work', label: 'Our Work', target: 'section' },
+    { id: 'impact', label: 'Impact', target: 'section' },
+    { id: 'transparency', label: 'Transparency', target: 'section' },
+    { id: 'get-involved', label: 'Get Involved', target: 'section' },
+    { id: 'contact', label: 'Contact', target: 'section' },
   ] as NavItemConfig[],
+
+  /**
+   * ADDITIONAL HOMEPAGE SECTION ANCHORS
+   */
+  sectionAnchors: ['how-it-works', 'faq'] as string[],
+
+  /**
+   * FOOTER QUICK LINKS (Single source for Footer navigation)
+   */
+  footerLinks: [
+    { id: 'about', label: 'About Us', target: 'section' },
+    { id: 'our-work', label: 'Planned Programs', target: 'section' },
+    { id: 'transparency', label: 'Full Transparency Report', target: 'page', page: 'transparency', highlight: true },
+    { id: 'donate', label: 'How Free Giving Works', target: 'page', page: 'donate' },
+    { id: 'faq', label: 'FAQ', target: 'section' },
+    { id: 'contact', label: 'Contact', target: 'section' },
+  ] as NavItemConfig[],
+
+  /**
+   * LEGAL NAVIGATION LINKS
+   */
+  legalLinks: [
+    { id: 'privacy', label: 'Privacy Policy', target: 'page', page: 'privacy' },
+    { id: 'terms', label: 'Terms of Use', target: 'page', page: 'terms' },
+  ] as NavItemConfig[],
+
+  /**
+   * APPLICATION PAGE ROUTES & DOCUMENT TITLES
+   */
+  pageRoutes: {
+    home: {
+      id: 'home',
+      label: 'Home',
+      hash: '#home',
+      paths: ['', 'index.html', 'home'],
+      titlePrefix: 'Poverty Ends With Us',
+    },
+    transparency: {
+      id: 'transparency',
+      label: 'Transparency & Governance',
+      hash: '#/transparency',
+      paths: ['transparency'],
+      titlePrefix: 'Transparency & Governance',
+    },
+    donate: {
+      id: 'donate',
+      label: 'How Free Giving Works',
+      hash: '#/donate',
+      paths: ['donate'],
+      titlePrefix: 'How Free Giving Works',
+    },
+    privacy: {
+      id: 'privacy',
+      label: 'Privacy Policy',
+      hash: '#/privacy-policy',
+      paths: ['privacy-policy', 'privacy'],
+      titlePrefix: 'Privacy Policy',
+    },
+    terms: {
+      id: 'terms',
+      label: 'Terms of Use',
+      hash: '#/terms',
+      paths: ['terms'],
+      titlePrefix: 'Terms of Use',
+    },
+    'not-found': {
+      id: 'not-found',
+      label: 'Page Not Found',
+      hash: '#/404',
+      paths: ['404'],
+      titlePrefix: 'Page Not Found',
+    },
+  } as Record<ConfigPageKey, PageRouteMeta>,
 
   /**
    * STATUS & REGISTRATION DISCLOSURE

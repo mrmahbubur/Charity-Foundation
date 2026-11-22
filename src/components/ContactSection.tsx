@@ -25,15 +25,13 @@ export const ContactSection: React.FC = () => {
   )}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`;
 
   return (
-    <section id="contact" className="py-16 lg:py-24 bg-canvas border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-16 lg:py-24 bg-canvas border-b border-border">
+      <div className="container-editorial">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-                Contact Us
-              </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+              <p className="eyebrow-heading">Contact Us</p>
+              <h2 className="section-title">
                 Get in Touch With {organization.shortName}
               </h2>
               <p className="text-base text-ink-muted leading-relaxed max-w-[60ch]">
@@ -41,11 +39,11 @@ export const ContactSection: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-surface rounded-xl border border-slate-200 p-6 shadow-sm space-y-5 text-sm">
+            <div className="editorial-card p-6 space-y-5 text-sm">
               <div className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <div className="font-semibold text-slate-900">Official Digital Email</div>
+                  <div className="font-semibold text-heading">Official Digital Email</div>
                   <a
                     href={`mailto:${contact.email}`}
                     className="text-primary hover:underline break-all"
@@ -58,7 +56,7 @@ export const ContactSection: React.FC = () => {
               <div className="flex items-start gap-3">
                 <Globe className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <div className="font-semibold text-slate-900">{contact.addressLabel}</div>
+                  <div className="font-semibold text-heading">{contact.addressLabel}</div>
                   <div className="text-ink-muted leading-relaxed">{contact.address}</div>
                 </div>
               </div>
@@ -66,13 +64,13 @@ export const ContactSection: React.FC = () => {
               <div className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <div className="font-semibold text-slate-900">Availability</div>
+                  <div className="font-semibold text-heading">Availability</div>
                   <div className="text-ink-muted">{contact.operatingHours}</div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-200">
-                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              <div className="pt-4 border-t border-border">
+                <div className="text-xs font-semibold text-ink-subtle uppercase tracking-wider mb-2">
                   Digital Presence
                 </div>
                 {activeSocials.length > 0 ? (
@@ -83,7 +81,7 @@ export const ContactSection: React.FC = () => {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:border-primary hover:text-primary transition-colors"
+                        className="px-3 py-1.5 rounded-control border border-border text-xs font-medium text-ink hover:border-primary hover:text-primary transition-colors"
                       >
                         {social.label}
                       </a>
@@ -98,14 +96,14 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+          <div className="lg:col-span-7 editorial-card p-6 sm:p-8">
             {submitted ? (
               <div className="py-8 space-y-5 animate-fadeIn">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <div className="w-12 h-12 rounded-card bg-primary/10 text-primary flex items-center justify-center">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-serif text-2xl font-bold text-slate-900">
+                  <h3 className="font-serif text-2xl font-bold text-heading">
                     Inquiry Ready to Send
                   </h3>
                   <p className="text-sm text-ink-muted leading-relaxed max-w-[60ch]">
@@ -113,10 +111,7 @@ export const ContactSection: React.FC = () => {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 pt-2">
-                  <a
-                    href={mailtoHref}
-                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
-                  >
+                  <a href={mailtoHref} className="btn-primary text-sm px-5 py-2.5">
                     <Mail className="w-4 h-4" />
                     <span>Open in Email Client</span>
                   </a>
@@ -128,7 +123,7 @@ export const ContactSection: React.FC = () => {
                       setMessage('');
                       setSubmitted(false);
                     }}
-                    className="text-sm font-semibold text-ink-muted hover:text-slate-900 cursor-pointer"
+                    className="text-sm font-semibold text-ink-muted hover:text-heading cursor-pointer"
                   >
                     Write Another Message
                   </button>
@@ -137,17 +132,17 @@ export const ContactSection: React.FC = () => {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <h3 className="font-serif text-xl font-bold text-slate-900">
+                  <h3 className="font-serif text-xl font-bold text-heading">
                     Send an Online Inquiry
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-ink-subtle mt-1">
                     All fields marked with * are required.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="contact-name" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="contact-name" className="block text-xs font-semibold text-ink mb-1.5">
                       Your Name *
                     </label>
                     <input
@@ -157,11 +152,11 @@ export const ContactSection: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Full name"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                      className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="contact-email" className="block text-xs font-semibold text-ink mb-1.5">
                       Email Address *
                     </label>
                     <input
@@ -171,20 +166,20 @@ export const ContactSection: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.org"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                      className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="contact-topic" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label htmlFor="contact-topic" className="block text-xs font-semibold text-ink mb-1.5">
                     Inquiry Topic
                   </label>
                   <select
                     id="contact-topic"
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface"
+                    className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface"
                   >
                     {contact.inquiryTopics.map((item) => (
                       <option key={item} value={item}>
@@ -195,7 +190,7 @@ export const ContactSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-message" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label htmlFor="contact-message" className="block text-xs font-semibold text-ink mb-1.5">
                     Message *
                   </label>
                   <textarea
@@ -205,14 +200,11 @@ export const ContactSection: React.FC = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Write your inquiry or partnership note..."
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-surface resize-y"
+                    className="w-full px-3.5 py-2.5 rounded-control border border-border-strong text-sm bg-surface resize-y"
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-sm px-6 py-3 rounded-lg shadow-sm transition-colors cursor-pointer"
-                >
+                <button type="submit" className="btn-accent text-sm px-6 py-3">
                   <Send className="w-4 h-4" />
                   <span>Send Message</span>
                 </button>

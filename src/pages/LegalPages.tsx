@@ -25,22 +25,20 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
         </div>
 
         {type === 'privacy' ? (
-          <article className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
-            <header className="space-y-2 border-b border-slate-200 pb-6">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-                Legal Disclosure
-              </p>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900">
+          <article className="editorial-card p-6 sm:p-10 space-y-6">
+            <header className="space-y-2 border-b border-border pb-6">
+              <p className="eyebrow-heading">Legal Disclosure</p>
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heading">
                 Privacy Policy
               </h1>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-ink-subtle">
                 Effective Year: {organization.copyrightYear} · {organization.name} ({organization.projectOf})
               </p>
             </header>
 
             <div className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   1. Information We Collect
                 </h2>
                 <p>
@@ -52,7 +50,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   2. Voluntary Forms &amp; Inquiries
                 </h2>
                 <p>
@@ -61,7 +59,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   3. Third-Party Sponsor Links
                 </h2>
                 <p>
@@ -70,7 +68,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   4. Contact for Privacy Questions
                 </h2>
                 <p>
@@ -84,22 +82,20 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
             </div>
           </article>
         ) : (
-          <article className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
-            <header className="space-y-2 border-b border-slate-200 pb-6">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-                Legal Disclosure
-              </p>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900">
+          <article className="editorial-card p-6 sm:p-10 space-y-6">
+            <header className="space-y-2 border-b border-border pb-6">
+              <p className="eyebrow-heading">Legal Disclosure</p>
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heading">
                 Terms of Use
               </h1>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-ink-subtle">
                 Effective Year: {organization.copyrightYear} · {organization.name} ({organization.projectOf})
               </p>
             </header>
 
             <div className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   1. Scope &amp; Future Project Notice
                 </h2>
                 <p>
@@ -108,7 +104,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   2. Genuine Human Participation
                 </h2>
                 <p>
@@ -117,7 +113,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   3. External Links &amp; Accuracy Notice
                 </h2>
                 <p>
@@ -126,7 +122,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
               </section>
 
               <section className="space-y-2">
-                <h2 className="font-serif text-xl font-bold text-slate-900">
+                <h2 className="font-serif text-xl font-bold text-heading">
                   4. Copyright &amp; Attribution
                 </h2>
                 <p>

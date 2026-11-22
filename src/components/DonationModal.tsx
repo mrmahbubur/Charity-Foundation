@@ -60,13 +60,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       aria-labelledby="donate-modal-title"
     >
       <div
-        className="bg-surface rounded-xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-xl relative border border-slate-200 animate-modalIn"
+        className="bg-surface rounded-card max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-modal relative border border-border animate-modalIn"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="absolute top-4 right-4 p-2 rounded-control text-ink-subtle hover:text-heading hover:bg-surface-subtle transition-colors cursor-pointer"
           aria-label="Close support dialog"
         >
           <X className="w-5 h-5" />
@@ -85,24 +85,24 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </p>
             <h2
               id="donate-modal-title"
-              className="font-serif text-2xl sm:text-3xl font-bold text-slate-900"
+              className="font-serif text-2xl sm:text-3xl font-bold text-heading"
             >
               Support at Zero Cost to You
             </h2>
             <p className="text-sm text-ink-muted leading-relaxed">
-              Focus: <strong className="text-slate-800">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—our partners fund the contribution while you spend nothing.
+              Focus: <strong className="text-ink">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—our partners fund the contribution while you spend nothing.
             </p>
           </div>
 
-          <div className="bg-canvas border border-slate-200 rounded-xl p-5 space-y-4 text-center">
-            <div className="text-xs text-slate-500">
-              Next Partner: <strong className="text-slate-800">Link {nextLinkInfo.index + 1} of {sponsorLinks.length}</strong>
+          <div className="bg-canvas border border-border rounded-card p-5 space-y-4 text-center">
+            <div className="text-xs text-ink-subtle">
+              Next Partner: <strong className="text-ink">Link {nextLinkInfo.index + 1} of {sponsorLinks.length}</strong>
             </div>
 
             <button
               type="button"
               onClick={handleFreeDonateClick}
-              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold py-3.5 px-5 rounded-lg text-sm sm:text-base shadow-sm transition-colors cursor-pointer"
+              className="btn-accent w-full py-3.5 px-5 text-sm sm:text-base"
             >
               <Heart className="w-4 h-4 fill-white/90 shrink-0" />
               <span>Support Now — Open Sponsor Link (Free)</span>
@@ -110,7 +110,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </button>
 
             {lastOpenedNum !== null && (
-              <div className="bg-surface border border-slate-200 rounded-lg p-3 text-xs text-primary flex items-center justify-center gap-2">
+              <div className="bg-surface border border-border rounded-control p-3 text-xs text-primary flex items-center justify-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>Sponsor link #{lastOpenedNum} opened in a new tab. Thank you!</span>
               </div>
@@ -128,7 +128,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-200">
+          <div className="flex items-center justify-between text-xs text-ink-subtle pt-2 border-t border-border">
             <span>Zero credit cards or personal cash needed.</span>
             {onOpenDonatePage && (
               <button

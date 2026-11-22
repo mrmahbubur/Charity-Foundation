@@ -22,14 +22,12 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
   };
 
   return (
-    <section id="our-work" className="py-16 lg:py-24 bg-surface border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="our-work" className="py-16 lg:py-24 bg-surface border-b border-border">
+      <div className="container-editorial">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl space-y-3">
-            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-              Our Work &amp; Program Focus
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+            <p className="eyebrow-heading">Our Work &amp; Program Focus</p>
+            <h2 className="section-title">
               Core Initiatives Prepared for Community Impact
             </h2>
             <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
@@ -40,7 +38,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
           <div
             role="group"
             aria-label="Filter programs by humanitarian pillar"
-            className="flex flex-wrap items-center gap-1 p-1 bg-canvas border border-slate-200 rounded-lg shrink-0 self-start md:self-auto"
+            className="flex flex-wrap items-center gap-1 p-1 bg-canvas border border-border rounded-control shrink-0 self-start md:self-auto"
           >
             {pillars.map((pillar) => (
               <button
@@ -50,7 +48,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                   selectedPillar === pillar
                     ? 'bg-primary text-white font-semibold shadow-xs'
-                    : 'text-ink-muted hover:text-slate-900'
+                    : 'text-ink-muted hover:text-heading'
                 }`}
               >
                 {pillar}
@@ -63,9 +61,9 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
           {filteredPrograms.map((prog) => (
             <article
               key={prog.id}
-              className="bg-canvas rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:border-primary/40 transition-colors flex flex-col"
+              className="bg-canvas rounded-card border border-border overflow-hidden shadow-card hover:border-primary/40 transition-colors flex flex-col"
             >
-              <div className="aspect-[4/3] w-full bg-slate-200 overflow-hidden">
+              <div className="aspect-[4/3] w-full bg-surface-subtle overflow-hidden">
                 <img
                   src={prog.image}
                   alt={prog.alt}
@@ -77,13 +75,13 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
 
               <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
                 <div className="space-y-3">
-                  <div className="text-xs text-slate-500 font-medium flex items-center gap-2">
+                  <div className="text-xs text-ink-subtle font-medium flex items-center gap-2">
                     <span className="text-primary font-semibold">{prog.pillar}</span>
                     <span aria-hidden="true">·</span>
                     <span>{prog.scopeNote}</span>
                   </div>
 
-                  <h3 className="font-serif text-xl font-bold text-slate-900 leading-snug">
+                  <h3 className="font-serif text-xl font-bold text-heading leading-snug">
                     {prog.title}
                   </h3>
 
@@ -92,7 +90,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-200">
+                <div className="pt-4 border-t border-border">
                   <button
                     type="button"
                     onClick={() => handleSupportProgram(prog.title)}

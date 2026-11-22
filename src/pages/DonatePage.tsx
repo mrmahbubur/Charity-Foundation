@@ -44,10 +44,8 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         </div>
 
         <header className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary">
-            Zero-Cost Humanitarian Giving
-          </p>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 leading-tight">
+          <p className="eyebrow-heading">Zero-Cost Humanitarian Giving</p>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-heading leading-tight">
             How Free Ad-Sponsored Giving Works
           </h1>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[65ch]">
@@ -55,10 +53,10 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           </p>
         </header>
 
-        <section className="bg-surface rounded-xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <section className="editorial-card p-6 sm:p-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
             <div>
-              <h2 className="font-serif text-2xl font-bold text-slate-900">
+              <h2 className="font-serif text-2xl font-bold text-heading">
                 Contribute With One Free Click
               </h2>
               <p className="text-sm text-ink-muted mt-1">
@@ -66,7 +64,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
               </p>
             </div>
             <div className="text-left sm:text-right">
-              <div className="text-xs text-slate-500">Your Session Clicks</div>
+              <div className="text-xs text-ink-subtle">Your Session Clicks</div>
               <div className="font-serif text-2xl font-bold text-primary tabular-nums">
                 {totalClicks}
               </div>
@@ -76,7 +74,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           <button
             type="button"
             onClick={handleDonateClick}
-            className="w-full inline-flex items-center justify-center gap-2.5 bg-accent hover:bg-accent-hover text-white font-semibold text-base px-6 py-4 rounded-lg shadow-sm transition-colors cursor-pointer"
+            className="btn-accent w-full text-base px-6 py-4"
           >
             <Heart className="w-5 h-5 fill-white/90 shrink-0" />
             <span>Support Now — Open Verified Sponsor Link (Free)</span>
@@ -84,7 +82,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           </button>
 
           {lastLinkNum !== null && (
-            <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start gap-3 text-sm text-primary">
+            <div className="bg-primary/5 border border-primary/20 rounded-control p-4 flex items-start gap-3 text-sm text-primary">
               <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
               <div>
                 <div className="font-semibold">
@@ -97,7 +95,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
             </div>
           )}
 
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-xs text-ink-subtle">
             <RefreshCw className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>
               Links automatically rotate across {sponsorLinks.length} sponsor partner URLs without asking for passwords, bank cards, or personal funds.
@@ -106,7 +104,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         </section>
 
         <section className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
-          <h2 className="font-serif text-2xl font-bold text-slate-900">
+          <h2 className="font-serif text-2xl font-bold text-heading">
             What Happens Behind the Scenes?
           </h2>
           <p>
