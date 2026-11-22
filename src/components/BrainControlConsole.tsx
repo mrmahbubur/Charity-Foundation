@@ -47,7 +47,7 @@ const PERSUASION_PRESETS: Record<
     headline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
     subtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab during Phase 1 Online Fund-Collection.',
     cta: 'Support Now (Free)',
-    nudgeHeadline: 'Support Phase 1 Reserve Building at $0 Cost',
+    nudgeHeadline: 'Support Phase 1 Online Fund-Collection at $0 Cost',
     nudgeBadge: 'Phase 1 Online Fund-Collection'
   },
   empathy: {

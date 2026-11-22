@@ -90,7 +90,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               Build Future Aid Reserves at $0 Cost
             </h2>
             <p className="text-sm text-ink-muted leading-relaxed">
-              Target Focus: <strong className="text-ink">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—sponsors fund our pre-launch reserve while you spend nothing.
+              Target Focus: <strong className="text-ink">{defaultCause}</strong>. Clicking below opens a verified commercial sponsor partner in a new tab—sponsors fund our Phase 1 Online Fund-Collection reserve while you spend nothing.
             </p>
           </div>
 

@@ -62,7 +62,7 @@ export const LiveSupporterWidget: React.FC = () => {
 
           <div className="p-4 space-y-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-ink-muted">Phase 1 daily clicks</span>
+              <span className="text-ink-muted">Phase 1 fund-collection clicks</span>
               <span className="font-semibold text-primary tabular-nums">
                 {todayClicks.toLocaleString()} / {dailyGoal.toLocaleString()}
               </span>
