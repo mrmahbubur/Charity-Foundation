@@ -108,19 +108,29 @@ export const SITE_CONFIG = {
   ] as NavItemConfig[],
 
   /**
-   * MOBILE DRAWER FEATURED PAGE SHORTCUT
+   * MOBILE DRAWER FEATURED PAGE SHORTCUTS
    */
-  mobileFeaturedAction: {
-    id: 'transparency-report',
-    label: 'View Transparency & Governance',
-    target: 'page',
-    page: 'transparency',
-  } as NavItemConfig,
+  mobileFeaturedActions: [
+    {
+      id: 'transparency-report',
+      label: 'Transparency & Governance',
+      target: 'page',
+      page: 'transparency',
+      activeOnPages: ['transparency'],
+    },
+    {
+      id: 'how-free-giving-works',
+      label: 'How Free Giving Works',
+      target: 'page',
+      page: 'donate',
+      activeOnPages: ['donate'],
+    },
+  ] as NavItemConfig[],
 
   /**
    * ADDITIONAL HOMEPAGE SECTION ANCHORS
    */
-  sectionAnchors: ['how-it-works', 'faq'] as string[],
+  sectionAnchors: ['how-it-works', 'faq', 'footer'] as string[],
 
   /**
    * FOOTER QUICK LINKS (Single source for Footer navigation)

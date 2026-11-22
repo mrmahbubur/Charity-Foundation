@@ -54,7 +54,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           </p>
         </header>
 
-        <section className="editorial-card p-6 sm:p-8 space-y-6">
+        <section id="free-donate-action" className="editorial-card p-6 sm:p-8 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
             <div>
               <h2 className="font-serif text-2xl font-bold text-heading">
@@ -104,7 +104,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
           </div>
         </section>
 
-        <section className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
+        <section id="how-giving-works" className="space-y-5 text-sm sm:text-base text-ink-muted leading-relaxed max-w-[70ch]">
           <h2 className="font-serif text-2xl font-bold text-heading">
             What Happens Behind the Scenes?
           </h2>

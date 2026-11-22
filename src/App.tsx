@@ -33,7 +33,7 @@ const ALL_CONFIGURED_NAV_ITEMS: NavItemConfig[] = [
   ...SITE_CONFIG.navigation,
   ...SITE_CONFIG.footerLinks,
   ...SITE_CONFIG.legalLinks,
-  SITE_CONFIG.mobileFeaturedAction,
+  ...(SITE_CONFIG.mobileFeaturedActions || []),
 ];
 
 const HOME_SECTION_ANCHORS = new Set<string>([
@@ -85,15 +85,44 @@ function getAppBasePathname(): string {
   return '/';
 }
 
+function findPageByPathSegments(joined: string): AppPageRoute | null {
+  if (!joined) return 'home';
+  const matchedPath = Object.values(SITE_CONFIG.pageRoutes).find((route) =>
+    route.paths.includes(joined)
+  );
+  return matchedPath ? matchedPath.id : null;
+}
+
+function getQuerySectionParam(): string | null {
+  if (typeof window === 'undefined' || !window.location.search) return null;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const val = params.get('section')?.trim();
+    return val || null;
+  } catch {
+    return null;
+  }
+}
+
 function resolveRouteFromLocation(): ResolvedLocation {
   if (typeof window === 'undefined') return { page: 'home', sectionId: null };
+
+  const segments = getNormalizedPathSegments();
+  const joinedPath = segments.join('/');
+  const pathMatchedPage = findPageByPathSegments(joinedPath);
+  const querySection = getQuerySectionParam();
 
   const hash = window.location.hash;
   if (hash && hash !== '#') {
     if (hash.startsWith('#/')) {
       const normalized = hash.replace(/\/+$/, '');
-      const [routePart, anchorPart] = normalized.split('#').filter(Boolean);
+      const [rawRouteWithQuery, explicitAnchor] = normalized.split('#').filter(Boolean);
+      const [routePart, hashQuery] = (rawRouteWithQuery || '').split('?');
       const cleanRouteHash = routePart ? `#${routePart}` : '#';
+      const hashSectionParam = hashQuery
+        ? new URLSearchParams(hashQuery).get('section')?.trim() || null
+        : null;
+      const targetSection = explicitAnchor || hashSectionParam || querySection || null;
 
       const matchedPage = (Object.values(SITE_CONFIG.pageRoutes) as Array<{
         id: ConfigPageKey;
@@ -101,15 +130,21 @@ function resolveRouteFromLocation(): ResolvedLocation {
       }>).find((route) => route.hash === cleanRouteHash);
 
       if (matchedPage) {
-        return { page: matchedPage.id, sectionId: anchorPart || null };
+        return { page: matchedPage.id, sectionId: targetSection };
       }
       if (cleanRouteHash === '#') {
-        return { page: 'home', sectionId: anchorPart || null };
+        return { page: 'home', sectionId: targetSection };
       }
       return { page: 'not-found', sectionId: null };
     }
 
     const anchor = hash.slice(1);
+
+    // If URL pathname already points to a dedicated sub-page (e.g. /transparency#fund-allocation)
+    if (pathMatchedPage && pathMatchedPage !== 'home') {
+      return { page: pathMatchedPage, sectionId: anchor };
+    }
+
     if (HOME_SECTION_ANCHORS.has(anchor)) {
       return { page: 'home', sectionId: anchor };
     }
@@ -118,19 +153,14 @@ function resolveRouteFromLocation(): ResolvedLocation {
       route.paths.includes(anchor)
     );
     return matchedByAnchor
-      ? { page: matchedByAnchor.id, sectionId: null }
+      ? { page: matchedByAnchor.id, sectionId: querySection }
       : { page: 'not-found', sectionId: null };
   }
 
-  const segments = getNormalizedPathSegments();
-  if (segments.length === 0) return { page: 'home', sectionId: null };
-  const joined = segments.join('/');
-  const matchedPath = Object.values(SITE_CONFIG.pageRoutes).find((route) =>
-    route.paths.includes(joined)
-  );
-  return matchedPath
-    ? { page: matchedPath.id, sectionId: null }
-    : { page: 'not-found', sectionId: null };
+  if (pathMatchedPage) {
+    return { page: pathMatchedPage, sectionId: querySection };
+  }
+  return { page: 'not-found', sectionId: null };
 }
 
 function scrollToTargetSection(sectionId: string) {
@@ -266,15 +296,27 @@ function MainApp() {
   };
 
   const navigateToPage = (page: AppPageRoute, sectionId?: string) => {
-    pendingSectionRef.current = sectionId || null;
-    setCurrentPage(page);
     const routeHash = SITE_CONFIG.pageRoutes[page]?.hash || SITE_CONFIG.pageRoutes.home.hash;
     const nextUrl = `${getAppBasePathname()}${routeHash}${sectionId ? `#${sectionId}` : ''}`;
+
     try {
       window.history.pushState({}, '', nextUrl);
     } catch {
       window.location.hash = sectionId ? `${routeHash}#${sectionId}` : routeHash;
     }
+
+    if (page === currentPage) {
+      pendingSectionRef.current = null;
+      if (sectionId) {
+        scrollToTargetSection(sectionId);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    pendingSectionRef.current = sectionId || null;
+    setCurrentPage(page);
     if (!sectionId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

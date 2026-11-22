@@ -39,7 +39,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </p>
         </header>
 
-        <section className="space-y-6">
+        <section id="fund-allocation" className="space-y-6">
           <div className="space-y-2">
             <h2 className="font-serif text-2xl font-bold text-heading">
               1. Fund Utilization Model
@@ -85,7 +85,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </div>
         </section>
 
-        <section className="space-y-5">
+        <section id="donor-safety" className="space-y-5">
           <h2 className="font-serif text-2xl font-bold text-heading">
             2. Donor Safety &amp; Pre-Launch Accountability
           </h2>
@@ -117,7 +117,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </div>
         </section>
 
-        <section className="editorial-card p-6 sm:p-8 space-y-4">
+        <section id="official-disclosure" className="editorial-card p-6 sm:p-8 space-y-4">
           <div className="border-b border-border pb-3">
             <h2 className="font-serif text-2xl font-bold text-heading">
               3. Status &amp; Official Disclosure

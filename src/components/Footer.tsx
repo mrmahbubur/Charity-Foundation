@@ -21,7 +21,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectNavItem }) => {
   );
 
   return (
-    <footer className="bg-primary text-on-primary-soft border-t border-primary-dark">
+    <footer id="footer" className="bg-primary text-on-primary-soft border-t border-primary-dark">
       <EditorialContainer className="pt-16 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-on-primary/15">
           <div className="lg:col-span-4 space-y-4">
