@@ -130,7 +130,7 @@ export const SITE_CONFIG = {
   /**
    * ADDITIONAL HOMEPAGE SECTION ANCHORS
    */
-  sectionAnchors: ['how-it-works', 'faq', 'footer'] as string[],
+  sectionAnchors: ['mission', 'how-it-works', 'faq', 'footer'] as string[],
 
   /**
    * FOOTER QUICK LINKS (Single source for Footer navigation)

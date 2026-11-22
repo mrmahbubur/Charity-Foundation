@@ -12,6 +12,7 @@ const PILLAR_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 export const MissionStrip: React.FC = () => {
   return (
     <section
+      id="mission"
       aria-label="Core Humanitarian Pillars"
       className="bg-canvas border-b border-border py-14 lg:py-16"
     >
