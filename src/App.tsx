@@ -33,6 +33,7 @@ const ALL_CONFIGURED_NAV_ITEMS: NavItemConfig[] = [
   ...SITE_CONFIG.navigation,
   ...SITE_CONFIG.footerLinks,
   ...SITE_CONFIG.legalLinks,
+  SITE_CONFIG.mobileFeaturedAction,
 ];
 
 const HOME_SECTION_ANCHORS = new Set<string>([
@@ -268,11 +269,11 @@ function MainApp() {
     pendingSectionRef.current = sectionId || null;
     setCurrentPage(page);
     const routeHash = SITE_CONFIG.pageRoutes[page]?.hash || SITE_CONFIG.pageRoutes.home.hash;
-    const nextUrl = `${getAppBasePathname()}${routeHash}`;
+    const nextUrl = `${getAppBasePathname()}${routeHash}${sectionId ? `#${sectionId}` : ''}`;
     try {
       window.history.pushState({}, '', nextUrl);
     } catch {
-      window.location.hash = routeHash;
+      window.location.hash = sectionId ? `${routeHash}#${sectionId}` : routeHash;
     }
     if (!sectionId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });

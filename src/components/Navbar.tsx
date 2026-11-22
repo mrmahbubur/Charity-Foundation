@@ -160,16 +160,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Heart className="w-4 h-4 fill-surface/90" />
               <span>Support Now (Free Ad-Sponsored)</span>
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onSelectNavItem(featuredMobileNav);
-              }}
-              className="w-full text-center px-4 py-2.5 rounded-control text-xs font-semibold text-primary border border-border hover:bg-canvas transition-colors cursor-pointer"
-            >
-              {featuredMobileNav.label}
-            </button>
+            {featuredMobileNav && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onSelectNavItem(featuredMobileNav);
+                }}
+                className={`w-full text-center px-4 py-2.5 rounded-control text-xs font-semibold border transition-colors cursor-pointer ${
+                  isNavItemActive(featuredMobileNav)
+                    ? 'bg-primary/10 text-primary border-primary/30'
+                    : 'text-primary border-border hover:bg-canvas'
+                }`}
+              >
+                {featuredMobileNav.label}
+              </button>
+            )}
           </div>
         </div>
       )}
