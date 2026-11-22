@@ -32,7 +32,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
               Core Initiatives Prepared for Community Impact
             </h2>
             <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
-              Each program track below outlines how sponsor-generated reserves are directed across education, primary healthcare, clean water, and essential household relief.
+              Each program track below outlines how Phase 1 Online Fund-Collection reserves are directed across education, primary healthcare, clean water, and essential household relief.
             </p>
           </div>
 

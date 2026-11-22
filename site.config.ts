@@ -309,7 +309,7 @@ export const SITE_CONFIG = {
       {
         id: 'allocate',
         number: '04',
-        title: 'Builds Phase 1 Program Reserves',
+        title: 'Builds Phase 1 Online Fund-Collection Reserves',
         description:
           'Net sponsor proceeds accumulate during Phase 1 Online Fund-Collection to fund upcoming learning supplies, health checkups, and essential relief.',
       },
