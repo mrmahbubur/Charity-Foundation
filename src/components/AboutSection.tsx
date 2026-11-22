@@ -41,7 +41,7 @@ export const AboutSection: React.FC = () => {
                 education, and everyday essential necessities for families facing poverty.
               </p>
               <p>
-                Right now, we are in our <strong>active online fund-collection phase</strong> and
+                Right now, we are in <strong>Phase 1 Online Fund-Collection</strong> and
                 operate wholly on the web with <strong>no physical office address yet</strong>. Staying
                 online keeps overhead close to zero so collected reserves go toward our future launch
                 instead of office rent.

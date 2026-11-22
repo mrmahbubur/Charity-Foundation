@@ -142,15 +142,15 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     motto: 'Poverty Ends With Us',
     secondaryMotto: 'Humanity United Against Poverty',
     mission:
-      'A future humanitarian project of M R S currently collecting funds online for healthcare, education, and essential necessities through zero-cost sponsor giving.'
+      'A future humanitarian project of M R S in Phase 1 Online Fund-Collection, building reserves for healthcare, education, and essential necessities through zero-cost sponsor giving.'
   },
   urgentNotice: {
     enabled: false,
-    badge: 'Pre-Launch Phase',
-    headline: 'Online Fund Collection Active for Future Programs',
+    badge: 'Phase 1 Online Fund-Collection',
+    headline: 'Phase 1 Online Fund-Collection Active for Future Programs',
     description:
-      'Operating 100% online with no physical office overhead while reserving ad-sponsored funds for future healthcare, education, and essential relief.',
-    ctaText: 'Support Online Launch (Free)',
+      'Operating 100% online with no physical office overhead while building pre-launch reserves for future healthcare, education, and essential relief.',
+    ctaText: 'Support Phase 1 (Free)',
     severity: 'info'
   },
   announcements: [
@@ -174,7 +174,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     }
   ],
   impactMetrics: [
-    { id: 'm-1', label: 'Current Project Stage', value: 'Phase 1', detail: 'Active online fund collection for future M R S launch' },
+    { id: 'm-1', label: 'Phase 1 Online Fund-Collection', value: 'Phase 1', detail: 'Active pre-launch reserve building ahead of future M R S rollout' },
     { id: 'm-2', label: 'Operations Footprint', value: '100% Online', detail: 'No physical office address or rent overhead yet' },
     { id: 'm-3', label: 'Target Program Allocation', value: '88% Direct Aid', detail: 'Planned reserve share for education, health & essentials' },
     { id: 'm-4', label: 'Cost to Supporters', value: '$0 / Free', detail: 'Funded exclusively by voluntary sponsor link visits' }
@@ -182,16 +182,16 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   donationStats: {
     totalSupporters: 0,
     totalRaisedBDT: 0,
-    lastSupporterName: 'Online Fund-Collection Active',
+    lastSupporterName: 'Phase 1 Online Fund-Collection Active',
     lastDonationTime: new Date().toISOString()
   },
   futureProject: {
-    status: 'Pre-Registration (Online Collection Phase)',
-    launchPhase: 'Phase 1 — Online Mobilization & Reserve Building',
+    status: 'Pre-Registration · Phase 1 Online Fund-Collection',
+    launchPhase: 'Phase 1 Online Fund-Collection & Reserve Building',
     targetLaunchYear: 'Upcoming Ground Rollout',
     backer: 'M R S',
     notice:
-      'M R S Charity Foundation is a future humanitarian project operating wholly online without a physical office address during initial fund collection.'
+      'M R S Charity Foundation is in Phase 1 Online Fund-Collection, operating wholly online without a physical office address during pre-launch reserve building.'
   },
   automaticSystem: {
     enabled: true,
@@ -215,8 +215,8 @@ export const INITIAL_SITE_STATE: SiteContentState = {
     floatingNudge: {
       enabled: true,
       delaySeconds: 6,
-      badge: 'Online Fund Collection',
-      headline: 'Support the Upcoming Launch at $0 Cost',
+      badge: 'Phase 1 Online Fund-Collection',
+      headline: 'Support Phase 1 Reserve Building at $0 Cost',
       message: 'Every voluntary click opens a verified sponsor partner in a new tab with zero money requested from you.',
       ctaLabel: 'Support Now (Free)'
     },
@@ -241,7 +241,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
   },
   knowledgeBase: {
     missionBrief:
-      'M R S Charity Foundation is a future project of M R S currently operating 100% online in its initial fund-collection phase with no physical office address yet.',
+      'M R S Charity Foundation is a future project of M R S currently in Phase 1 Online Fund-Collection, operating 100% online with no physical office address yet.',
     howItWorksSummary:
       'Commercial brand partners compensate verified page visits. Net sponsor proceeds accumulate toward planned rural learning kits, preventive health checkups, clean water stations, and staple relief packs—at zero personal cost to visitors.',
     transparencyNote:
@@ -270,7 +270,7 @@ export const INITIAL_SITE_STATE: SiteContentState = {
         category: 'Project Stage',
         question: 'Does the foundation currently have a physical office address?',
         answer:
-          'No. During Phase 1 online fund collection, we maintain no physical office so resources stay dedicated to building community reserves before ground operations launch.',
+          'No. During Phase 1 Online Fund-Collection, we maintain no physical office so resources stay dedicated to building community reserves before ground operations launch.',
         ctaText: 'View Transparency & Governance',
         active: true
       },

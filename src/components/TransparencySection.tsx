@@ -103,7 +103,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
 
             <ul className="space-y-2.5 text-xs sm:text-sm text-on-primary-soft border-t border-on-primary/15 pt-5">
               <li>• No personal bank cards, wallets, or money requested</li>
-              <li>• Online-only pre-launch operations with no physical office overhead</li>
+              <li>• Phase 1 Online Fund-Collection with no physical office overhead</li>
               <li>• Honest status disclosures with zero fabricated badges or awards</li>
             </ul>
 

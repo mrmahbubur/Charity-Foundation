@@ -45,30 +45,30 @@ const PERSUASION_PRESETS: Record<
 > = {
   'goal-gradient': {
     headline: 'Help Build Reserves for Our Future Community Launch ({remaining} clicks to daily milestone)',
-    subtext: 'Zero personal cost—clicking opens a verified sponsor partner in a new tab to support future healthcare, education, and relief reserves.',
+    subtext: 'Zero personal cost—every click opens a verified sponsor partner in a new tab during Phase 1 Online Fund-Collection.',
     cta: 'Support Now (Free)',
-    nudgeHeadline: 'Support the Upcoming Launch at $0 Cost',
-    nudgeBadge: 'Online Fund Collection'
+    nudgeHeadline: 'Support Phase 1 Reserve Building at $0 Cost',
+    nudgeBadge: 'Phase 1 Online Fund-Collection'
   },
   empathy: {
     headline: 'One Free Click Supports Future Education, Healthcare & Relief Reserves',
-    subtext: 'You spend $0—verified commercial sponsors compensate page visits while we build pre-launch program funds online.',
+    subtext: 'You spend $0—verified commercial sponsors compensate page visits during Phase 1 Online Fund-Collection.',
     cta: 'Support Future Programs (Free)',
     nudgeHeadline: 'Build Future Community Reserves at $0 Cost',
-    nudgeBadge: 'Humanity United · Pre-Launch'
+    nudgeBadge: 'Phase 1 Online Fund-Collection'
   },
   urgency: {
-    headline: 'Phase 1 Online Reserve Goal Needs {remaining} More Free Sponsor Visits',
+    headline: 'Phase 1 Online Fund-Collection Needs {remaining} More Free Sponsor Visits',
     subtext: 'Help build reserves ahead of launching future rural learning kits, healthcare checkups, and essential relief—at zero personal cost.',
-    cta: 'Support Online Launch (Free)',
-    nudgeHeadline: 'Phase 1 Online Collection Drive',
+    cta: 'Support Phase 1 (Free)',
+    nudgeHeadline: 'Phase 1 Online Fund-Collection Drive',
     nudgeBadge: 'Pre-Launch Reserve Goal'
   },
   'social-proof': {
     headline: 'Join Online Supporters Building M R S Launch Reserves ({remaining} clicks remaining)',
     subtext: 'Every voluntary visit to a verified sponsor link contributes toward future education, health, and essential necessities.',
     cta: 'Add a Free Sponsor Click (+1)',
-    nudgeHeadline: 'Join Phase 1 Online Support',
+    nudgeHeadline: 'Join Phase 1 Online Fund-Collection',
     nudgeBadge: 'Community Mobilization'
   }
 };

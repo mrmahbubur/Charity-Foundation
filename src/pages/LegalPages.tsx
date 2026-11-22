@@ -43,7 +43,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
                   1. Information We Collect
                 </h2>
                 <p>
-                  This website operates as an online-only informational and free ad-sponsored support portal during our pre-launch fund-collection phase. We do <strong>not</strong> collect credit card numbers, banking credentials, or financial payment records from visitors.
+                  This website operates as an online-only informational and free ad-sponsored support portal during Phase 1 Online Fund-Collection. We do <strong>not</strong> collect credit card numbers, banking credentials, or financial payment records from visitors.
                 </p>
                 <p>
                   When you click support buttons, your browser stores simple non-identifying counters in local storage (such as your current sponsor-link rotation index and click tally) purely to rotate sponsor links smoothly across clicks.
@@ -100,7 +100,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
                   1. Scope &amp; Future Project Notice
                 </h2>
                 <p>
-                  {organization.name} ({organization.projectOf}) provides this portal during its active online fund-collection stage ahead of establishing future ground operations in healthcare, education, and essential necessities. The organization currently maintains no physical office address.
+                  {organization.name} ({organization.projectOf}) provides this portal during Phase 1 Online Fund-Collection ahead of establishing future ground operations in healthcare, education, and essential necessities. The organization currently maintains no physical office address.
                 </p>
               </section>
 
@@ -118,7 +118,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
                   3. External Links &amp; Accuracy Notice
                 </h2>
                 <p>
-                  Program outlines and allocation ratios represent our current pre-launch plan and will be updated with verified field records as ground operations open. External websites linked via sponsor buttons are operated independently.
+                  Program outlines and allocation ratios reflect our Phase 1 Online Fund-Collection pre-launch plan and will be updated with verified field records as ground operations open. External websites linked via sponsor buttons are operated independently.
                 </p>
               </section>
 

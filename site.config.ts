@@ -80,13 +80,13 @@ export const SITE_CONFIG = {
     secondaryTagline: 'Humanity United Against Poverty',
     heroHeadline: 'Poverty Ends With Us',
     heroMission:
-      'A future humanitarian project of M R S currently collecting funds online for healthcare, education, and essential necessities through zero-cost sponsor giving.',
+      'A future humanitarian project of M R S in Phase 1 Online Fund-Collection, building reserves for healthcare, education, and essential necessities through zero-cost sponsor giving.',
     heroFootnote:
-      '100% free participation — powered by verified sponsor visits, never donor cash or cards.',
+      '100% free participation — powered by verified sponsor visits during Phase 1 Online Fund-Collection, never donor cash or cards.',
     logoPath: './logo.png',
     copyrightYear: '2026',
     phaseNotice:
-      'Active Online Fund-Collection Phase — building community reserves online ahead of launching future physical ground programs.',
+      'Phase 1 Online Fund-Collection — building charitable reserves online ahead of launching future physical ground programs.',
   },
 
   /**
@@ -170,7 +170,7 @@ export const SITE_CONFIG = {
       paths: ['', 'index.html', 'home'],
       titlePrefix: 'Poverty Ends With Us',
       description:
-        'Pre-launch online fund-collection portal for M R S Charity Foundation (A Future Project of M R S) building reserves for future aid at $0 cost.',
+        'Phase 1 Online Fund-Collection portal for M R S Charity Foundation (A Future Project of M R S), building reserves for future aid at $0 cost.',
     },
     transparency: {
       id: 'transparency',
@@ -179,7 +179,7 @@ export const SITE_CONFIG = {
       paths: ['transparency'],
       titlePrefix: 'Transparency & Governance',
       description:
-        'Review M R S Charity Foundation pre-launch governance, 88% planned direct-aid reserve allocation, and 100% online fund-collection accountability.',
+        'Review M R S Charity Foundation Phase 1 Online Fund-Collection governance, 88% planned aid reserve allocation, and overhead-free reporting.',
     },
     donate: {
       id: 'donate',
@@ -188,7 +188,7 @@ export const SITE_CONFIG = {
       paths: ['donate'],
       titlePrefix: 'How Free Giving Works',
       description:
-        'Support Phase 1 pre-launch fund collection at $0 personal cost through verified sponsor visits building reserves for future M R S programs.',
+        'Join Phase 1 Online Fund-Collection at $0 personal cost through verified sponsor visits building charitable reserves for future M R S programs.',
     },
     privacy: {
       id: 'privacy',
@@ -197,7 +197,7 @@ export const SITE_CONFIG = {
       paths: ['privacy-policy', 'privacy'],
       titlePrefix: 'Privacy Policy',
       description:
-        'Read how M R S Charity Foundation protects visitor privacy with zero financial data collection during Phase 1 pre-launch online operations.',
+        'Learn how M R S Charity Foundation protects visitor privacy with zero financial-data collection during Phase 1 Online Fund-Collection.',
     },
     terms: {
       id: 'terms',
@@ -206,7 +206,7 @@ export const SITE_CONFIG = {
       paths: ['terms'],
       titlePrefix: 'Terms of Use',
       description:
-        'Review Terms of Use, sponsor link participation rules, and Phase 1 pre-launch fund-collection disclosures for M R S Charity Foundation.',
+        'Review Terms of Use, sponsor link participation rules, and Phase 1 Online Fund-Collection disclosures for M R S Charity Foundation.',
     },
     'not-found': {
       id: 'not-found',
@@ -215,7 +215,7 @@ export const SITE_CONFIG = {
       paths: ['404'],
       titlePrefix: 'Page Not Found',
       description:
-        'Requested page not found on the M R S Charity Foundation pre-launch online fund-collection portal.',
+        'Requested page not found on the M R S Charity Foundation Phase 1 Online Fund-Collection portal.',
     },
   } as Record<ConfigPageKey, PageRouteMeta>,
 
@@ -223,11 +223,11 @@ export const SITE_CONFIG = {
    * STATUS & REGISTRATION DISCLOSURE
    */
   registration: {
-    registrationNumber: 'Pre-Registration (Online Collection Phase)',
+    registrationNumber: 'Pre-Registration · Phase 1 Online Fund-Collection',
     registeringAuthority: 'To be published upon formal field launch',
-    registeredYear: 'Future Project · Mobilizing Online',
-    entityStatus: 'Future Project of M R S · 100% Online Mobilization',
-    note: 'M R S Charity Foundation is a future humanitarian project currently focused on collecting initial funds online. Keeping operations digital means zero physical office overhead right now; formal registration numbers and field locations will be posted here as ground operations launch.',
+    registeredYear: 'Future Project · Phase 1 Online Fund-Collection',
+    entityStatus: 'Future Project of M R S · Phase 1 Online Fund-Collection',
+    note: 'M R S Charity Foundation is currently in Phase 1 Online Fund-Collection ahead of launching physical community operations. Operating 100% online keeps office overhead at zero; formal registration numbers and field locations will be posted here upon ground rollout.',
   },
 
   /**
@@ -321,14 +321,14 @@ export const SITE_CONFIG = {
    */
   impactSection: {
     disclaimer:
-      'M R S Charity Foundation is in Phase 1 pre-launch online fund collection ahead of ground operations. Click totals track live portal participation toward pre-launch reserves; audited field delivery metrics will begin once physical programs launch.',
+      'M R S Charity Foundation is in Phase 1 Online Fund-Collection ahead of ground operations. Click totals track live portal participation toward pre-launch reserves; audited field delivery metrics will begin once physical programs launch.',
     dailyClickGoalTarget: 500,
     metrics: [
       {
         id: 'project-phase',
-        label: 'Current Project Stage',
+        label: 'Phase 1 Online Fund-Collection',
         value: 'Phase 1',
-        unitOrContext: 'Active online fund collection for future M R S launch',
+        unitOrContext: 'Active pre-launch reserve building ahead of future M R S rollout',
       },
       {
         id: 'operations-footprint',
@@ -356,9 +356,9 @@ export const SITE_CONFIG = {
    */
   transparency: {
     allocationNote:
-      'Planned allocation model for net sponsor proceeds collected during our active online fundraising phase toward M R S Charity Foundation’s upcoming community programs.',
+      'Planned allocation model for net sponsor proceeds collected during Phase 1 Online Fund-Collection toward M R S Charity Foundation’s upcoming community programs.',
     accountabilityStatement:
-      'Because M R S Charity Foundation is a future project currently collecting funds online without a physical office, operating overhead stays minimal. We never request credit cards, bank transfers, or personal payments from visitors—all support comes strictly from voluntary visits to verified commercial sponsor partners.',
+      'Because M R S Charity Foundation is in Phase 1 Online Fund-Collection without a physical office, operating overhead stays minimal. We never request credit cards, bank transfers, or personal payments from visitors—all support comes strictly from voluntary visits to verified commercial sponsor partners.',
     allocations: [
       {
         id: 'direct-aid',
@@ -497,13 +497,13 @@ export const SITE_CONFIG = {
       id: 'faq-1',
       question: 'What stage is M R S Charity Foundation currently in?',
       answer:
-        'M R S Charity Foundation is a future project of M R S currently operating 100% online in its initial fund-collection phase. Every visit helps build the core reserve required before opening physical community operations.',
+        'M R S Charity Foundation is a future project of M R S currently in Phase 1 Online Fund-Collection. Every visit helps build the pre-launch reserve required before opening physical community operations.',
     },
     {
       id: 'faq-2',
       question: 'Does the foundation have a physical office address right now?',
       answer:
-        'No. Because we are currently in our online fund-collection phase ahead of our formal launch, the foundation has no physical office address yet. Operating digitally avoids office rent overhead so collected funds stay dedicated to future community programs.',
+        'No. During Phase 1 Online Fund-Collection ahead of our formal launch, the foundation maintains no physical office address. Operating digitally avoids office rent overhead so collected reserves stay dedicated to future community programs.',
     },
     {
       id: 'faq-3',

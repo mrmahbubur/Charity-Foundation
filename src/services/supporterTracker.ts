@@ -62,7 +62,7 @@ class SupporterTracker {
   }
 
   /**
-   * Initializes real free-click event tracking for Phase 1 online fund collection.
+   * Initializes real free-click event tracking for Phase 1 Online Fund-Collection.
    */
   public init() {
     if (this.isInitialized || typeof window === 'undefined') return;

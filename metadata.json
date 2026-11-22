@@ -1,6 +1,6 @@
 {
   "name": "MRS Charity Foundation",
-  "description": "M R S Charity Foundation (A Future Project of M R S) — Phase 1 pre-launch online fund-collection portal building charitable reserves for future healthcare, education, and essential relief at $0 donor cost.",
+  "description": "M R S Charity Foundation (A Future Project of M R S) — Phase 1 Online Fund-Collection portal building charitable reserves for future healthcare, education, and essential relief at $0 donor cost.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

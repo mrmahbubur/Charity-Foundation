@@ -45,9 +45,9 @@ export const DonatePage: React.FC<DonatePageProps> = ({
         </div>
 
         <header className="space-y-4">
-          <p className="eyebrow-heading">Phase 1 · Zero-Cost Online Fund Collection</p>
+          <p className="eyebrow-heading">Phase 1 Online Fund-Collection</p>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-heading leading-tight">
-            How Free Pre-Launch Fund Collection Works
+            How Phase 1 Online Fund-Collection Works
           </h1>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-[65ch]">
             {SITE_CONFIG.organization.name} builds charitable reserves online ahead of field launch—never asking visitors for cash or payment cards.
@@ -90,7 +90,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
                   Sponsor link #{lastLinkNum} opened in a new browser tab.
                 </div>
                 <p className="text-xs text-ink-muted mt-1">
-                  Thank you for building our Phase 1 reserve at zero personal cost. You may click again anytime to visit the next rotating sponsor partner.
+                  Thank you for building our Phase 1 Online Fund-Collection reserve at zero personal cost. You may click again anytime to visit the next rotating sponsor partner.
                 </p>
               </div>
             </div>
@@ -115,7 +115,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
             2. <strong>Sponsor networks pay publisher rates:</strong> Advertising and commercial partners compensate qualified web visits under their standard publisher agreements.
           </p>
           <p>
-            3. <strong>Reserves grow for our future launch:</strong> Because we are currently in our online fund-collection phase with no physical office overhead, net sponsor proceeds are earmarked directly for upcoming educational kits, clean water maintenance, preventive health outreach, and staple relief packs.
+            3. <strong>Reserves grow for our future launch:</strong> Because we are currently in Phase 1 Online Fund-Collection with no physical office overhead, net sponsor proceeds are earmarked directly for upcoming educational kits, clean water maintenance, preventive health outreach, and staple relief packs.
           </p>
 
           <div className="pt-2">

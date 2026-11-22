@@ -19,12 +19,12 @@ export const ImpactSection: React.FC = () => {
     <section id="impact" className="section-editorial bg-canvas border-b border-border">
       <EditorialContainer className="space-y-12">
         <div className="max-w-2xl space-y-3">
-          <p className="eyebrow-heading">Fund-Collection Progress &amp; Stage</p>
+          <p className="eyebrow-heading">Phase 1 Online Fund-Collection</p>
           <h2 className="section-title">
             Transparent Online Fund-Collection Milestones
           </h2>
           <p className="text-base text-ink-muted leading-relaxed max-w-[65ch]">
-            Every figure below reflects our honest Phase 1 pre-launch status as an online fund-collection initiative of M R S—with no inflated delivery metrics.
+            Every figure below reflects our honest Phase 1 Online Fund-Collection status as a pre-launch initiative of M R S—with no inflated delivery metrics.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export const ImpactSection: React.FC = () => {
                 Daily Online Fund-Collection Goal
               </h3>
               <p className="text-sm text-ink-muted mt-1">
-                Tracks cumulative voluntary sponsor visits building our charitable reserve during Phase 1 online fund collection.
+                Tracks cumulative voluntary sponsor visits building our charitable reserve during Phase 1 Online Fund-Collection.
               </p>
             </div>
             <div className="text-sm font-semibold text-primary tabular-nums shrink-0">

@@ -111,7 +111,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
                 </h3>
               </div>
               <p className="text-sm text-ink-muted leading-relaxed">
-                Operating online without a physical office during Phase 1 keeps fixed costs minimal while initial reserves accumulate. We never display fabricated awards, partner logos, or fictitious testimonials.
+                Operating online without a physical office during Phase 1 Online Fund-Collection keeps fixed costs minimal while initial reserves accumulate. We never display fabricated awards, partner logos, or fictitious testimonials.
               </p>
             </div>
           </div>
@@ -164,9 +164,9 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
 
         <div className="bg-primary text-surface rounded-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
-            <h3 className="font-serif text-xl font-bold">Support Online Fund Collection</h3>
+            <h3 className="font-serif text-xl font-bold">Support Phase 1 Online Fund-Collection</h3>
             <p className="text-sm text-on-primary-soft">
-              Contribute at zero personal cost via a verified sponsor partner visit.
+              Contribute to our pre-launch charitable reserve at zero personal cost via a verified sponsor partner visit.
             </p>
           </div>
           <div className="flex flex-wrap gap-3 shrink-0">

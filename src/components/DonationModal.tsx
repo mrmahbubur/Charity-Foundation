@@ -81,7 +81,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               referrerPolicy="no-referrer"
             />
             <p className="text-xs uppercase tracking-[0.16em] font-semibold text-primary">
-              Phase 1 · Zero-Cost Online Fund Collection
+              Phase 1 Online Fund-Collection · $0 Cost
             </p>
             <h2
               id="donate-modal-title"

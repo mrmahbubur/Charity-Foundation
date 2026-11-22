@@ -36,7 +36,7 @@ export const ContactSection: React.FC = () => {
                 Get in Touch With {organization.shortName}
               </h2>
               <p className="text-base text-ink-muted leading-relaxed max-w-[60ch]">
-                Have questions about our online fund-collection phase, free ad-sponsored giving, or partnership ahead of launch? Reach out online anytime.
+                Have questions about Phase 1 Online Fund-Collection, free ad-sponsored giving, or partnership ahead of launch? Reach out online anytime.
               </p>
             </div>
 
@@ -90,7 +90,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 ) : (
                   <p className="text-xs text-ink-muted leading-relaxed">
-                    Official correspondence is handled via this web portal and email during Phase 1 online fund collection.
+                    Official correspondence is handled via this web portal and email during Phase 1 Online Fund-Collection.
                   </p>
                 )}
               </div>
