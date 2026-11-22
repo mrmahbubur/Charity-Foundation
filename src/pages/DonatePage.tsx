@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Heart, ExternalLink, CheckCircle2, RefreshCw } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from '../components/EditorialContainer';
 import {
   openNextSponsorLink,
   getNextDonateLink,
@@ -31,7 +32,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
 
   return (
     <div className="bg-canvas min-h-screen py-12 lg:py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <EditorialContainer size="prose" className="space-y-10">
         <div>
           <button
             type="button"
@@ -76,7 +77,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
             onClick={handleDonateClick}
             className="btn-accent w-full text-base px-6 py-4"
           >
-            <Heart className="w-5 h-5 fill-white/90 shrink-0" />
+            <Heart className="w-5 h-5 fill-surface/90 shrink-0" />
             <span>Support Now — Open Verified Sponsor Link (Free)</span>
             <ExternalLink className="w-4 h-4 shrink-0" />
           </button>
@@ -127,7 +128,7 @@ export const DonatePage: React.FC<DonatePageProps> = ({
             </button>
           </div>
         </section>
-      </div>
+      </EditorialContainer>
     </div>
   );
 };

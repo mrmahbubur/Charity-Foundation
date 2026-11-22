@@ -1,6 +1,7 @@
 import React from 'react';
 import { MousePointerClick, ExternalLink, Landmark, HeartHandshake, Heart } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 interface HowItWorksSectionProps {
   onSupportNow: () => void;
@@ -23,9 +24,9 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
   return (
     <section
       id="how-it-works"
-      className="py-16 lg:py-24 bg-canvas border-b border-border"
+      className="section-editorial bg-canvas border-b border-border"
     >
-      <div className="container-editorial">
+      <EditorialContainer>
         <div className="max-w-2xl space-y-3 mb-12">
           <p className="eyebrow-heading">{eyebrow}</p>
           <h2 className="section-title">{heading}</h2>
@@ -72,7 +73,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             onClick={onSupportNow}
             className="btn-accent text-sm px-6 py-3"
           >
-            <Heart className="w-4 h-4 fill-white/90" />
+            <Heart className="w-4 h-4 fill-surface/90" />
             <span>Try One Free Support Click</span>
           </button>
 
@@ -84,7 +85,7 @@ export const HowItWorksSection: React.FC<HowItWorksSectionProps> = ({
             Read the full Giving Guide &rarr;
           </button>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Globe, Clock, Send, CheckCircle2 } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 export const ContactSection: React.FC = () => {
   const { contact, socialLinks, organization } = SITE_CONFIG;
@@ -25,8 +26,8 @@ export const ContactSection: React.FC = () => {
   )}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`;
 
   return (
-    <section id="contact" className="py-16 lg:py-24 bg-canvas border-b border-border">
-      <div className="container-editorial">
+    <section id="contact" className="section-editorial bg-canvas border-b border-border">
+      <EditorialContainer>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-3">
@@ -212,7 +213,7 @@ export const ContactSection: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

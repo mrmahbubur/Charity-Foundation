@@ -53,7 +53,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/65 backdrop-blur-xs animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-scrim/65 backdrop-blur-xs animate-fadeIn"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -104,7 +104,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               onClick={handleFreeDonateClick}
               className="btn-accent w-full py-3.5 px-5 text-sm sm:text-base"
             >
-              <Heart className="w-4 h-4 fill-white/90 shrink-0" />
+              <Heart className="w-4 h-4 fill-surface/90 shrink-0" />
               <span>Support Now — Open Sponsor Link (Free)</span>
               <ExternalLink className="w-4 h-4 shrink-0" />
             </button>

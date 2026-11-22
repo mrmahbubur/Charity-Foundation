@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 interface TransparencySectionProps {
   onOpenTransparencyPage: () => void;
@@ -12,8 +13,8 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
   const { allocations, allocationNote, accountabilityStatement } = SITE_CONFIG.transparency;
 
   return (
-    <section id="transparency" className="py-16 lg:py-24 bg-surface border-b border-border">
-      <div className="container-editorial">
+    <section id="transparency" className="section-editorial bg-surface border-b border-border">
+      <EditorialContainer>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
@@ -83,24 +84,24 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-primary text-white rounded-card p-6 sm:p-8 space-y-6">
+          <div className="lg:col-span-5 bg-primary text-surface rounded-card p-6 sm:p-8 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-control bg-white/10 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-control bg-surface/10 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5 text-accent-highlight" />
               </div>
               <div>
-                <h3 className="font-serif text-xl font-bold text-white">
+                <h3 className="font-serif text-xl font-bold text-surface">
                   Accountability Commitment
                 </h3>
-                <p className="text-xs text-slate-300">Zero donor financial risk</p>
+                <p className="text-xs text-on-primary-muted">Zero donor financial risk</p>
               </div>
             </div>
 
-            <p className="text-sm text-slate-200 leading-relaxed">
+            <p className="text-sm text-on-primary-soft leading-relaxed">
               {accountabilityStatement}
             </p>
 
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-200 border-t border-white/15 pt-5">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-on-primary-soft border-t border-on-primary/15 pt-5">
               <li>• No personal bank cards, wallets, or money requested</li>
               <li>• Online-only pre-launch operations with no physical office overhead</li>
               <li>• Honest status disclosures with zero fabricated badges or awards</li>
@@ -118,7 +119,7 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

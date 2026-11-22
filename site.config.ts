@@ -18,7 +18,9 @@ export interface NavItemConfig {
   id: string;
   label: string;
   target: NavTargetType;
+  sectionId?: string;
   page?: ConfigPageKey;
+  activeOnPages?: ConfigPageKey[];
   highlight?: boolean;
 }
 
@@ -90,14 +92,30 @@ export const SITE_CONFIG = {
    * PRIMARY HEADER NAVIGATION (Single source for Header & Mobile Drawer)
    */
   navigation: [
-    { id: 'home', label: 'Home', target: 'section' },
-    { id: 'about', label: 'About Us', target: 'section' },
-    { id: 'our-work', label: 'Our Work', target: 'section' },
-    { id: 'impact', label: 'Impact', target: 'section' },
-    { id: 'transparency', label: 'Transparency', target: 'section' },
-    { id: 'get-involved', label: 'Get Involved', target: 'section' },
-    { id: 'contact', label: 'Contact', target: 'section' },
+    { id: 'home', label: 'Home', target: 'section', sectionId: 'home' },
+    { id: 'about', label: 'About Us', target: 'section', sectionId: 'about' },
+    { id: 'our-work', label: 'Our Work', target: 'section', sectionId: 'our-work' },
+    { id: 'impact', label: 'Impact', target: 'section', sectionId: 'impact' },
+    {
+      id: 'transparency',
+      label: 'Transparency',
+      target: 'section',
+      sectionId: 'transparency',
+      activeOnPages: ['transparency'],
+    },
+    { id: 'get-involved', label: 'Get Involved', target: 'section', sectionId: 'get-involved' },
+    { id: 'contact', label: 'Contact', target: 'section', sectionId: 'contact' },
   ] as NavItemConfig[],
+
+  /**
+   * MOBILE DRAWER FEATURED PAGE SHORTCUT
+   */
+  mobileFeaturedAction: {
+    id: 'transparency-report',
+    label: 'View Transparency & Governance',
+    target: 'page',
+    page: 'transparency',
+  } as NavItemConfig,
 
   /**
    * ADDITIONAL HOMEPAGE SECTION ANCHORS
@@ -108,12 +126,18 @@ export const SITE_CONFIG = {
    * FOOTER QUICK LINKS (Single source for Footer navigation)
    */
   footerLinks: [
-    { id: 'about', label: 'About Us', target: 'section' },
-    { id: 'our-work', label: 'Planned Programs', target: 'section' },
-    { id: 'transparency', label: 'Full Transparency Report', target: 'page', page: 'transparency', highlight: true },
+    { id: 'about', label: 'About Us', target: 'section', sectionId: 'about' },
+    { id: 'our-work', label: 'Planned Programs', target: 'section', sectionId: 'our-work' },
+    {
+      id: 'transparency',
+      label: 'Full Transparency Report',
+      target: 'page',
+      page: 'transparency',
+      highlight: true,
+    },
     { id: 'donate', label: 'How Free Giving Works', target: 'page', page: 'donate' },
-    { id: 'faq', label: 'FAQ', target: 'section' },
-    { id: 'contact', label: 'Contact', target: 'section' },
+    { id: 'faq', label: 'FAQ', target: 'section', sectionId: 'faq' },
+    { id: 'contact', label: 'Contact', target: 'section', sectionId: 'contact' },
   ] as NavItemConfig[],
 
   /**

@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, ShieldCheck, FileText, Heart } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
 import { openNextSponsorLink } from '../services/adDonateService';
+import { EditorialContainer } from '../components/EditorialContainer';
 
 interface TransparencyPageProps {
   onBackHome: () => void;
@@ -16,7 +17,7 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
 
   return (
     <div className="bg-canvas min-h-screen py-12 lg:py-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <EditorialContainer size="narrow" className="space-y-12">
         <div>
           <button
             type="button"
@@ -161,10 +162,10 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
           </p>
         </section>
 
-        <div className="bg-primary text-white rounded-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="bg-primary text-surface rounded-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
             <h3 className="font-serif text-xl font-bold">Support Online Fund Collection</h3>
-            <p className="text-sm text-slate-200">
+            <p className="text-sm text-on-primary-soft">
               Contribute at zero personal cost via a verified sponsor partner visit.
             </p>
           </div>
@@ -174,19 +175,19 @@ export const TransparencyPage: React.FC<TransparencyPageProps> = ({
               onClick={() => openNextSponsorLink('transparency-page')}
               className="btn-accent text-sm px-5 py-3"
             >
-              <Heart className="w-4 h-4 fill-white/90" />
+              <Heart className="w-4 h-4 fill-surface/90" />
               <span>Support Now (Free)</span>
             </button>
             <button
               type="button"
               onClick={onOpenDonatePage}
-              className="px-5 py-3 rounded-control border border-white/30 text-sm font-semibold hover:bg-white/10 transition-colors cursor-pointer"
+              className="px-5 py-3 rounded-control border border-surface/30 text-sm font-semibold hover:bg-surface/10 transition-colors cursor-pointer"
             >
               How Giving Works
             </button>
           </div>
         </div>
-      </div>
+      </EditorialContainer>
     </div>
   );
 };

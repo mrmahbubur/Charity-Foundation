@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Heart } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
 import { useBackendSync } from '../context/BackendSyncContext';
+import { EditorialContainer } from './EditorialContainer';
 
 interface HeroProps {
   onSupportNow: () => void;
@@ -17,7 +18,7 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
   return (
     <section
       id="home"
-      className="relative w-full min-h-[540px] lg:min-h-[620px] flex items-center bg-primary text-white overflow-hidden"
+      className="relative w-full min-h-[540px] lg:min-h-[620px] flex items-center bg-primary text-surface overflow-hidden"
     >
       <img
         src={SITE_CONFIG.images.hero}
@@ -31,17 +32,17 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 container-editorial w-full py-20 lg:py-28">
+      <EditorialContainer className="relative z-10 py-20 lg:py-28">
         <div className="max-w-2xl space-y-6 animate-fadeIn">
           <p className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-accent-highlight">
             {SITE_CONFIG.organization.name} · {projectLabel}
           </p>
 
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-surface leading-[1.1] tracking-tight">
             {SITE_CONFIG.organization.heroHeadline}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-100 leading-relaxed max-w-[65ch]">
+          <p className="text-base sm:text-lg text-on-primary leading-relaxed max-w-[65ch]">
             {mission}
           </p>
 
@@ -51,25 +52,25 @@ export const Hero: React.FC<HeroProps> = ({ onSupportNow, onLearnMore }) => {
               onClick={onSupportNow}
               className="btn-accent px-7 py-3.5 text-sm sm:text-base whitespace-nowrap"
             >
-              <Heart className="w-4 h-4 fill-white/90 shrink-0" />
+              <Heart className="w-4 h-4 fill-surface/90 shrink-0" />
               <span>Support Now</span>
             </button>
 
             <button
               type="button"
               onClick={onLearnMore}
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/40 font-semibold px-7 py-3.5 rounded-control text-sm sm:text-base transition-colors cursor-pointer whitespace-nowrap backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-2 bg-surface/10 hover:bg-surface/20 text-surface border border-surface/40 font-semibold px-7 py-3.5 rounded-control text-sm sm:text-base transition-colors cursor-pointer whitespace-nowrap backdrop-blur-sm"
             >
               <span>Learn More</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
           </div>
 
-          <p className="text-xs text-slate-300 pt-2">
+          <p className="text-xs text-on-primary-muted pt-2">
             {SITE_CONFIG.organization.heroFootnote}
           </p>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

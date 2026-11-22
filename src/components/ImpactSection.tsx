@@ -2,6 +2,7 @@ import React from 'react';
 import { SITE_CONFIG } from '../../site.config';
 import { useBackendSync } from '../context/BackendSyncContext';
 import { useSupporterCount } from '../hooks/useSupporterCount';
+import { EditorialContainer } from './EditorialContainer';
 
 export const ImpactSection: React.FC = () => {
   const { content } = useBackendSync();
@@ -15,8 +16,8 @@ export const ImpactSection: React.FC = () => {
   const clampedPercent = Math.min(100, Math.max(2, Math.round((todayClicks / dailyGoal) * 100)));
 
   return (
-    <section id="impact" className="py-16 lg:py-24 bg-canvas border-b border-border">
-      <div className="container-editorial space-y-12">
+    <section id="impact" className="section-editorial bg-canvas border-b border-border">
+      <EditorialContainer className="space-y-12">
         <div className="max-w-2xl space-y-3">
           <p className="eyebrow-heading">Progress &amp; Mobilization Status</p>
           <h2 className="section-title">
@@ -79,7 +80,7 @@ export const ImpactSection: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

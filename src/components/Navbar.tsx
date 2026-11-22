@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Heart } from 'lucide-react';
 import { SITE_CONFIG, ConfigPageKey, NavItemConfig } from '../../site.config';
 import { useBackendSync } from '../context/BackendSyncContext';
+import { EditorialContainer } from './EditorialContainer';
 
 export type AppPageRoute = ConfigPageKey;
 
@@ -9,7 +10,6 @@ interface NavbarProps {
   currentPage: AppPageRoute;
   activeSection: string;
   onSelectNavItem: (item: NavItemConfig) => void;
-  onNavigatePage: (page: AppPageRoute) => void;
   onOpenDonate: () => void;
 }
 
@@ -17,7 +17,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentPage,
   activeSection,
   onSelectNavItem,
-  onNavigatePage,
   onOpenDonate,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks = SITE_CONFIG.navigation;
   const homeNav = navLinks[0] || { id: 'home', label: 'Home', target: 'section' as const };
+  const featuredMobileNav = SITE_CONFIG.mobileFeaturedAction;
 
   const activeLogo =
     content.foundationInfo.logo === '/logo.png'
@@ -40,14 +40,18 @@ export const Navbar: React.FC<NavbarProps> = ({
       : content.foundationInfo.logo || SITE_CONFIG.organization.logoPath;
   const orgName = content.foundationInfo.name || SITE_CONFIG.organization.name;
 
-  const isNavItemActive = (item: NavItemConfig) =>
-    (item.target === 'section' && currentPage === 'home' && activeSection === item.id) ||
-    (item.target === 'page' && item.page === currentPage) ||
-    (currentPage === 'transparency' && item.id === 'transparency');
+  const isNavItemActive = (item: NavItemConfig) => {
+    const targetSection = item.sectionId || item.id;
+    return (
+      (item.target === 'section' && currentPage === 'home' && activeSection === targetSection) ||
+      (item.target === 'page' && item.page === currentPage) ||
+      Boolean(item.activeOnPages?.includes(currentPage))
+    );
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-border">
-      <div className="container-editorial h-16 sm:h-20 flex items-center justify-between gap-4 lg:gap-8">
+      <EditorialContainer className="h-16 sm:h-20 flex items-center justify-between gap-4 lg:gap-8">
         <button
           type="button"
           onClick={() => {
@@ -99,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="btn-accent text-xs sm:text-sm px-4 sm:px-5 py-2.5 whitespace-nowrap shrink-0"
           >
-            <Heart className="w-4 h-4 fill-white/90 shrink-0" />
+            <Heart className="w-4 h-4 fill-surface/90 shrink-0" />
             <span>Support Now</span>
           </button>
 
@@ -114,12 +118,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-      </div>
+      </EditorialContainer>
 
       {mobileMenuOpen && (
         <div
           id="mobile-nav-drawer"
-          className="lg:hidden bg-surface border-b border-border px-4 pt-3 pb-5 shadow-md animate-fadeIn"
+          className="lg:hidden bg-surface border-b border-border px-4 pt-3 pb-5 shadow-card animate-fadeIn"
         >
           <nav aria-label="Mobile Navigation" className="space-y-1">
             {navLinks.map((item) => {
@@ -153,18 +157,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="btn-accent w-full text-sm px-4 py-3"
             >
-              <Heart className="w-4 h-4 fill-white/90" />
+              <Heart className="w-4 h-4 fill-surface/90" />
               <span>Support Now (Free Ad-Sponsored)</span>
             </button>
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onNavigatePage('transparency');
+                onSelectNavItem(featuredMobileNav);
               }}
               className="w-full text-center px-4 py-2.5 rounded-control text-xs font-semibold text-primary border border-border hover:bg-canvas transition-colors cursor-pointer"
             >
-              View {SITE_CONFIG.pageRoutes.transparency.label}
+              {featuredMobileNav.label}
             </button>
           </div>
         </div>

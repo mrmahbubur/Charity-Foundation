@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from '../components/EditorialContainer';
 
 interface LegalPageProps {
   type: 'privacy' | 'terms';
@@ -12,7 +13,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
 
   return (
     <div className="bg-canvas min-h-screen py-12 lg:py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <EditorialContainer size="prose" className="space-y-10">
         <div>
           <button
             type="button"
@@ -132,7 +133,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onBackHome }) => {
             </div>
           </article>
         )}
-      </div>
+      </EditorialContainer>
     </div>
   );
 };

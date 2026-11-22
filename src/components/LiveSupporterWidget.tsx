@@ -36,25 +36,25 @@ export const LiveSupporterWidget: React.FC = () => {
           onClick={() => setIsExpanded(true)}
           aria-expanded={false}
           aria-label="Open quick free support widget"
-          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-xs font-semibold px-4 py-2.5 rounded-control shadow-md border border-white/15 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-surface text-xs font-semibold px-4 py-2.5 rounded-control shadow-md border border-surface/15 transition-colors cursor-pointer"
         >
           <Heart className="w-3.5 h-3.5 text-accent-highlight fill-accent-highlight" />
           <span>Quick Free Support</span>
           {userClicks > 0 && (
             <span className="tabular-nums text-accent-highlight">({userClicks})</span>
           )}
-          <ChevronUp className="w-3.5 h-3.5 text-slate-300" />
+          <ChevronUp className="w-3.5 h-3.5 text-on-primary-muted" />
         </button>
       ) : (
         <div className="w-72 bg-surface rounded-card border border-border shadow-modal overflow-hidden animate-modalIn">
-          <div className="bg-primary text-white px-4 py-3 flex items-center justify-between">
+          <div className="bg-primary text-surface px-4 py-3 flex items-center justify-between">
             <span className="text-xs font-semibold">Zero-Cost Sponsor Giving</span>
             <button
               type="button"
               onClick={() => setIsExpanded(false)}
               aria-expanded={true}
               aria-label="Minimize quick free support widget"
-              className="p-1 rounded hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-1 rounded hover:bg-surface/10 transition-colors cursor-pointer"
             >
               <ChevronDown className="w-4 h-4" />
             </button>
@@ -87,7 +87,7 @@ export const LiveSupporterWidget: React.FC = () => {
               onClick={handleQuickSupport}
               className="btn-accent w-full text-xs py-2.5 px-3"
             >
-              <Heart className="w-3.5 h-3.5 fill-white/90" />
+              <Heart className="w-3.5 h-3.5 fill-surface/90" />
               <span>Support Now (Free)</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </button>

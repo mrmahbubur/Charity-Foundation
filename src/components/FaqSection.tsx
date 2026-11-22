@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 export const FaqSection: React.FC = () => {
   const [openId, setOpenId] = useState<string>(SITE_CONFIG.faqs[0]?.id || 'faq-1');
 
   return (
-    <section id="faq" className="py-16 lg:py-24 bg-surface border-b border-border">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="faq" className="section-editorial bg-surface border-b border-border">
+      <EditorialContainer size="narrow" className="space-y-10">
         <div className="space-y-3 text-center">
           <p className="eyebrow-heading">Frequently Asked Questions</p>
           <h2 className="section-title">
@@ -53,7 +54,7 @@ export const FaqSection: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

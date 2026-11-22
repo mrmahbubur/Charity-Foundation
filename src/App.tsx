@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { SITE_CONFIG, ConfigPageKey, NavItemConfig } from '../site.config';
 import { BackendSyncProvider } from './context/BackendSyncContext';
 import { Navbar, AppPageRoute } from './components/Navbar';
@@ -25,15 +25,32 @@ const LazyVaultConsole = React.lazy(() =>
   import('./components/BrainControlConsole').then((m) => ({ default: m.BrainControlConsole }))
 );
 
-const HOME_SECTION_ANCHORS = new Set([
-  ...SITE_CONFIG.navigation.filter((n) => n.target === 'section').map((n) => n.id),
+function getSectionTargetId(item: NavItemConfig): string {
+  return item.sectionId || item.id;
+}
+
+const ALL_CONFIGURED_NAV_ITEMS: NavItemConfig[] = [
+  ...SITE_CONFIG.navigation,
+  ...SITE_CONFIG.footerLinks,
+  ...SITE_CONFIG.legalLinks,
+];
+
+const HOME_SECTION_ANCHORS = new Set<string>([
+  ...ALL_CONFIGURED_NAV_ITEMS.filter((item) => item.target === 'section').map(getSectionTargetId),
   ...SITE_CONFIG.sectionAnchors,
 ]);
 
-const KNOWN_ROUTE_SEGMENTS = [
-  ...Object.values(SITE_CONFIG.pageRoutes).flatMap((r) => r.paths).filter(Boolean),
+const KNOWN_ROUTE_SEGMENTS = new Set<string>([
+  ...Object.values(SITE_CONFIG.pageRoutes)
+    .flatMap((route) => route.paths)
+    .filter(Boolean),
   'mrs-vault',
-];
+]);
+
+interface ResolvedLocation {
+  page: AppPageRoute;
+  sectionId: string | null;
+}
 
 function isPrivateVaultRoute(): boolean {
   if (typeof window === 'undefined') return false;
@@ -47,50 +64,96 @@ function getNormalizedPathSegments(): string[] {
   const rawSegments = window.location.pathname.split('/').filter(Boolean);
   if (window.location.hostname.endsWith('github.io') && rawSegments.length > 0) {
     const first = rawSegments[0];
-    if (!KNOWN_ROUTE_SEGMENTS.includes(first)) {
+    if (!KNOWN_ROUTE_SEGMENTS.has(first)) {
       return rawSegments.slice(1);
     }
   }
   return rawSegments;
 }
 
-function resolveRouteFromLocation(): AppPageRoute {
-  if (typeof window === 'undefined') return 'home';
+function getAppBasePathname(): string {
+  if (typeof window === 'undefined') return '/';
+  const rawSegments = window.location.pathname.split('/').filter(Boolean);
+  if (
+    window.location.hostname.endsWith('github.io') &&
+    rawSegments.length > 0 &&
+    !KNOWN_ROUTE_SEGMENTS.has(rawSegments[0])
+  ) {
+    return `/${rawSegments[0]}/`;
+  }
+  return '/';
+}
+
+function resolveRouteFromLocation(): ResolvedLocation {
+  if (typeof window === 'undefined') return { page: 'home', sectionId: null };
 
   const hash = window.location.hash;
   if (hash && hash !== '#') {
     if (hash.startsWith('#/')) {
       const normalized = hash.replace(/\/+$/, '');
-      const matchedPage = (Object.values(SITE_CONFIG.pageRoutes) as Array<{ id: ConfigPageKey; hash: string }>).find(
-        (route) => route.hash === normalized
-      );
-      if (matchedPage) return matchedPage.id;
-      if (normalized === '#') return 'home';
-      return 'not-found';
+      const [routePart, anchorPart] = normalized.split('#').filter(Boolean);
+      const cleanRouteHash = routePart ? `#${routePart}` : '#';
+
+      const matchedPage = (Object.values(SITE_CONFIG.pageRoutes) as Array<{
+        id: ConfigPageKey;
+        hash: string;
+      }>).find((route) => route.hash === cleanRouteHash);
+
+      if (matchedPage) {
+        return { page: matchedPage.id, sectionId: anchorPart || null };
+      }
+      if (cleanRouteHash === '#') {
+        return { page: 'home', sectionId: anchorPart || null };
+      }
+      return { page: 'not-found', sectionId: null };
     }
+
     const anchor = hash.slice(1);
     if (HOME_SECTION_ANCHORS.has(anchor)) {
-      return 'home';
+      return { page: 'home', sectionId: anchor };
     }
-    const matchedByAnchor = Object.values(SITE_CONFIG.pageRoutes).find((r) =>
-      r.paths.includes(anchor)
+
+    const matchedByAnchor = Object.values(SITE_CONFIG.pageRoutes).find((route) =>
+      route.paths.includes(anchor)
     );
-    return matchedByAnchor ? matchedByAnchor.id : 'not-found';
+    return matchedByAnchor
+      ? { page: matchedByAnchor.id, sectionId: null }
+      : { page: 'not-found', sectionId: null };
   }
 
   const segments = getNormalizedPathSegments();
-  if (segments.length === 0) return 'home';
+  if (segments.length === 0) return { page: 'home', sectionId: null };
   const joined = segments.join('/');
-  const matchedPath = Object.values(SITE_CONFIG.pageRoutes).find((r) =>
-    r.paths.includes(joined)
+  const matchedPath = Object.values(SITE_CONFIG.pageRoutes).find((route) =>
+    route.paths.includes(joined)
   );
-  return matchedPath ? matchedPath.id : 'not-found';
+  return matchedPath
+    ? { page: matchedPath.id, sectionId: null }
+    : { page: 'not-found', sectionId: null };
+}
+
+function scrollToTargetSection(sectionId: string) {
+  if (sectionId === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const el = document.getElementById(sectionId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function MainApp() {
+  const initialLocation = useRef<ResolvedLocation>(resolveRouteFromLocation());
+  const pendingSectionRef = useRef<string | null>(initialLocation.current.sectionId);
+
   const [isVaultRoute, setIsVaultRoute] = useState<boolean>(isPrivateVaultRoute);
-  const [currentPage, setCurrentPage] = useState<AppPageRoute>(resolveRouteFromLocation);
-  const [activeSection, setActiveSection] = useState<string>('home');
+  const [currentPage, setCurrentPage] = useState<AppPageRoute>(initialLocation.current.page);
+  const [activeSection, setActiveSection] = useState<string>(
+    initialLocation.current.sectionId || 'home'
+  );
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
   const [donateCause, setDonateCause] = useState<string>(
     'Healthcare, Education & Essential Relief'
@@ -99,7 +162,12 @@ function MainApp() {
   useEffect(() => {
     const syncRoute = () => {
       setIsVaultRoute(isPrivateVaultRoute());
-      setCurrentPage(resolveRouteFromLocation());
+      const resolved = resolveRouteFromLocation();
+      pendingSectionRef.current = resolved.sectionId;
+      setCurrentPage(resolved.page);
+      if (resolved.sectionId && resolved.page === 'home') {
+        setActiveSection(resolved.sectionId);
+      }
     };
     window.addEventListener('hashchange', syncRoute);
     window.addEventListener('popstate', syncRoute);
@@ -119,13 +187,21 @@ function MainApp() {
   }, [currentPage]);
 
   useEffect(() => {
+    if (isVaultRoute || !pendingSectionRef.current) return;
+    const targetSection = pendingSectionRef.current;
+    const rafId = window.requestAnimationFrame(() => {
+      scrollToTargetSection(targetSection);
+      pendingSectionRef.current = null;
+    });
+    return () => window.cancelAnimationFrame(rafId);
+  }, [currentPage, isVaultRoute]);
+
+  useEffect(() => {
     if (currentPage !== 'home' || isVaultRoute || typeof IntersectionObserver === 'undefined') {
       return;
     }
 
-    const sectionIds = SITE_CONFIG.navigation
-      .filter((item) => item.target === 'section')
-      .map((item) => item.id);
+    const sectionIds = Array.from(HOME_SECTION_ANCHORS);
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -147,17 +223,14 @@ function MainApp() {
 
   const handleExitVault = () => {
     try {
-      if (window.location.pathname.endsWith('/mrs-vault')) {
-        const cleaned = window.location.pathname.replace(/\/mrs-vault\/?$/, '') || '/';
-        window.history.pushState({}, '', cleaned);
-      } else {
-        window.location.hash = '';
-      }
+      const basePath = getAppBasePathname();
+      window.history.pushState({}, '', basePath);
     } catch {
       window.location.hash = '';
     }
     setIsVaultRoute(false);
     setCurrentPage('home');
+    setActiveSection('home');
   };
 
   if (isVaultRoute) {
@@ -170,53 +243,47 @@ function MainApp() {
 
   const navigateToSection = (sectionId: string) => {
     setActiveSection(sectionId);
+    const nextUrl = `${getAppBasePathname()}#${sectionId}`;
+
     if (currentPage !== 'home') {
+      pendingSectionRef.current = sectionId;
       setCurrentPage('home');
       try {
-        window.history.replaceState({}, '', `#${sectionId}`);
+        window.history.pushState({}, '', nextUrl);
       } catch {
         window.location.hash = sectionId;
       }
-      setTimeout(() => {
-        const el = document.getElementById(sectionId);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-        else window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 60);
       return;
     }
 
-    if (sectionId === 'home') {
-      try {
-        window.history.replaceState({}, '', '#home');
-      } catch {
-        window.location.hash = 'home';
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
+    try {
+      window.history.replaceState({}, '', nextUrl);
+    } catch {
+      window.location.hash = sectionId;
     }
-
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToTargetSection(sectionId);
   };
 
-  const navigateToPage = (page: AppPageRoute) => {
+  const navigateToPage = (page: AppPageRoute, sectionId?: string) => {
+    pendingSectionRef.current = sectionId || null;
     setCurrentPage(page);
-    const targetHash = SITE_CONFIG.pageRoutes[page]?.hash || SITE_CONFIG.pageRoutes.home.hash;
+    const routeHash = SITE_CONFIG.pageRoutes[page]?.hash || SITE_CONFIG.pageRoutes.home.hash;
+    const nextUrl = `${getAppBasePathname()}${routeHash}`;
     try {
-      window.history.pushState({}, '', targetHash);
+      window.history.pushState({}, '', nextUrl);
     } catch {
-      window.location.hash = targetHash;
+      window.location.hash = routeHash;
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!sectionId) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleNavItemSelect = (item: NavItemConfig) => {
     if (item.target === 'page' && item.page) {
-      navigateToPage(item.page);
+      navigateToPage(item.page, item.sectionId);
     } else {
-      navigateToSection(item.id);
+      navigateToSection(getSectionTargetId(item));
     }
   };
 
@@ -238,7 +305,6 @@ function MainApp() {
         currentPage={currentPage}
         activeSection={activeSection}
         onSelectNavItem={handleNavItemSelect}
-        onNavigatePage={navigateToPage}
         onOpenDonate={() => handleOpenDonate()}
       />
 

@@ -7,6 +7,11 @@
   --color-primary-deep: #092425;
   --color-primary-muted: #3B6E6F;
 
+  --color-on-primary: #F8FAFC;
+  --color-on-primary-soft: #E2E8F0;
+  --color-on-primary-muted: #CBD5E1;
+  --color-on-primary-subtle: #94A3B8;
+
   --color-accent: #D97706;
   --color-accent-hover: #B45309;
   --color-accent-highlight: #FCD34D;
@@ -23,6 +28,15 @@
 
   --color-border: #E2E8F0;
   --color-border-strong: #CBD5E1;
+
+  --color-scrim: #020617;
+  --color-selection-bg: #FEF3C7;
+  --color-selection-text: #78350F;
+
+  /* Editorial container width tokens */
+  --width-editorial-wide: 80rem;
+  --width-editorial-narrow: 56rem;
+  --width-editorial-prose: 48rem;
 
   /* Typography tokens */
   --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
@@ -83,21 +97,47 @@
 }
 
 @layer components {
-  .container-editorial {
-    max-width: 80rem;
+  .container-editorial,
+  .container-editorial-narrow,
+  .container-editorial-prose {
+    width: 100%;
     margin-inline: auto;
     padding-inline: 1rem;
   }
 
+  .container-editorial {
+    max-width: var(--width-editorial-wide);
+  }
+
+  .container-editorial-narrow {
+    max-width: var(--width-editorial-narrow);
+  }
+
+  .container-editorial-prose {
+    max-width: var(--width-editorial-prose);
+  }
+
+  .section-editorial {
+    padding-block: 4rem;
+  }
+
   @media (min-width: 640px) {
-    .container-editorial {
+    .container-editorial,
+    .container-editorial-narrow,
+    .container-editorial-prose {
       padding-inline: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
-    .container-editorial {
+    .container-editorial,
+    .container-editorial-narrow,
+    .container-editorial-prose {
       padding-inline: 2rem;
+    }
+
+    .section-editorial {
+      padding-block: 6rem;
     }
   }
 
@@ -138,7 +178,7 @@
     justify-content: center;
     gap: 0.5rem;
     background-color: var(--color-accent);
-    color: #ffffff;
+    color: var(--color-surface);
     font-weight: 600;
     border-radius: var(--radius-control);
     box-shadow: var(--shadow-card);
@@ -156,7 +196,7 @@
     justify-content: center;
     gap: 0.5rem;
     background-color: var(--color-primary);
-    color: #ffffff;
+    color: var(--color-surface);
     font-weight: 600;
     border-radius: var(--radius-control);
     box-shadow: var(--shadow-card);

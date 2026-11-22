@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stethoscope, BookOpen, Package } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 const PILLAR_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   healthcare: Stethoscope,
@@ -14,7 +15,7 @@ export const MissionStrip: React.FC = () => {
       aria-label="Core Humanitarian Pillars"
       className="bg-canvas border-b border-border py-14 lg:py-16"
     >
-      <div className="container-editorial">
+      <EditorialContainer>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {SITE_CONFIG.missionPillars.map((pillar) => {
             const Icon = PILLAR_ICONS[pillar.id] || BookOpen;
@@ -38,7 +39,7 @@ export const MissionStrip: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
 import { openNextSponsorLink } from '../services/adDonateService';
+import { EditorialContainer } from './EditorialContainer';
 
 interface ProgramsSectionProps {
   onOpenDonate: (cause?: string) => void;
@@ -22,8 +23,8 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
   };
 
   return (
-    <section id="our-work" className="py-16 lg:py-24 bg-surface border-b border-border">
-      <div className="container-editorial">
+    <section id="our-work" className="section-editorial bg-surface border-b border-border">
+      <EditorialContainer>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-2xl space-y-3">
             <p className="eyebrow-heading">Our Work &amp; Program Focus</p>
@@ -47,7 +48,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
                 onClick={() => setSelectedPillar(pillar)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                   selectedPillar === pillar
-                    ? 'bg-primary text-white font-semibold shadow-xs'
+                    ? 'bg-primary text-surface font-semibold shadow-xs'
                     : 'text-ink-muted hover:text-heading'
                 }`}
               >
@@ -104,7 +105,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ onOpenDonate }
             </article>
           ))}
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

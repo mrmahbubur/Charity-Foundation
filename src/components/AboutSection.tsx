@@ -1,12 +1,13 @@
 import React from 'react';
 import { SITE_CONFIG } from '../../site.config';
+import { EditorialContainer } from './EditorialContainer';
 
 export const AboutSection: React.FC = () => {
   const { organization, registration, contact } = SITE_CONFIG;
 
   return (
-    <section id="about" className="py-16 lg:py-24 bg-surface border-b border-border">
-      <div className="container-editorial">
+    <section id="about" className="section-editorial bg-surface border-b border-border">
+      <EditorialContainer>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
           <div className="lg:col-span-6 flex flex-col">
             <div className="relative flex-1 min-h-[320px] lg:min-h-[460px] rounded-card overflow-hidden bg-surface-subtle border border-border">
@@ -89,7 +90,7 @@ export const AboutSection: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </EditorialContainer>
     </section>
   );
 };

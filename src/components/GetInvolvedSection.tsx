@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Heart, Users, Handshake, Share2, Check, ArrowRight, Send } from 'lucide-react';
 import { SITE_CONFIG } from '../../site.config';
 import { openNextSponsorLink } from '../services/adDonateService';
+import { EditorialContainer } from './EditorialContainer';
 
 interface GetInvolvedSectionProps {
   onOpenDonatePage: () => void;
@@ -37,8 +38,8 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
   };
 
   return (
-    <section id="get-involved" className="py-16 lg:py-24 bg-canvas border-b border-border">
-      <div className="container-editorial space-y-12">
+    <section id="get-involved" className="section-editorial bg-canvas border-b border-border">
+      <EditorialContainer className="space-y-12">
         <div className="max-w-2xl space-y-3">
           <p className="eyebrow-heading">Get Involved</p>
           <h2 className="section-title">Four Meaningful Ways You Can Help Today</h2>
@@ -96,7 +97,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
                 setVolunteerRegistered(false);
                 setShowVolunteerForm((prev) => !prev);
               }}
-              className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-semibold text-sm px-4 py-2.5 rounded-control transition-colors cursor-pointer"
+              className="w-full border border-primary text-primary hover:bg-primary hover:text-surface font-semibold text-sm px-4 py-2.5 rounded-control transition-colors cursor-pointer"
             >
               {showVolunteerForm ? 'Hide Form' : 'Join Volunteer List'}
             </button>
@@ -243,7 +244,7 @@ export const GetInvolvedSection: React.FC<GetInvolvedSectionProps> = ({
             )}
           </div>
         )}
-      </div>
+      </EditorialContainer>
     </section>
   );
 };
