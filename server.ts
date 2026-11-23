@@ -1064,7 +1064,7 @@ async function startServer() {
       actionText:
         (typeof actionText === 'string' && actionText.trim())
           ? actionText.trim()
-          : 'completed a free sponsor visit for future program reserves',
+          : 'completed a free sponsor visit for Phase 1 Online Fund-Collection reserves',
       impactText: (typeof impactText === 'string' && impactText.trim()) ? impactText.trim() : `+${addClicks} Free Support`,
       timestamp: new Date().toISOString()
     };
@@ -1140,7 +1140,29 @@ async function startServer() {
   } else {
     const distPath = path.resolve(__dirname, 'dist');
     const staticProdDir = fs.existsSync(path.join(distPath, 'index.html')) ? distPath : __dirname;
+
+    // Normalize trailing slash on page routes (e.g. /transparency/ -> /transparency)
+    // so relative ./assets/ and ./images/ paths resolve cleanly on Render.
+    app.use((req, res, next) => {
+      if (
+        (req.method === 'GET' || req.method === 'HEAD') &&
+        req.path.length > 1 &&
+        req.path.endsWith('/') &&
+        !req.path.startsWith('/api/')
+      ) {
+        const query = req.url.slice(req.path.length);
+        return res.redirect(301, req.path.slice(0, -1) + query);
+      }
+      next();
+    });
+
     app.use(express.static(staticProdDir));
+
+    // Never serve index.html for missing static asset files
+    app.get('/assets/*', (_req, res) => {
+      res.status(404).end();
+    });
+
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(staticProdDir, 'index.html'));
     });
